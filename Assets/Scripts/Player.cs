@@ -2,219 +2,176 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+namespace MyGame
 {
-    public static Player instance;
-    public float moveForce;
-    public List<Enemy> enemiesInRange = new List<Enemy>();
-    public List<CharacterBody> CharacterBodies => characterBodies;
-
-    public CharacterStatsData statsData;
-    public Dictionary<CharacterInfo.CharTraits, TraitData> traitEnumToData = new Dictionary<CharacterInfo.CharTraits, TraitData>();
-    public TraitData quickTraitData;
-    public TraitData preciseTraitData;
-    public TraitData toughTraitData;
-    public TraitData brutalTraitData;
-    public TraitData smartTraitData;
-
-    [SerializeField]
-    // character bodies (to be filled in with character info)
-    private List<CharacterBody> characterBodies;
-
-    // backend info about the characters
-    private List<CharacterInfo> characters = new List<CharacterInfo>();
-    private List<WeaponData> ownedWeapons = new List<WeaponData>();
-    private int characterIndex = 0;
-    private CharacterBody controlledCharacter;
-    private Rigidbody2D rb;
-    private GameManager gameManager;
-    
-    private void Awake()
+    public class Player : MonoBehaviour
     {
-        instance = this;
+        public static Player instance;
+        public float moveForce;
+        public List<Enemy> enemiesInRange = new List<Enemy>();
+        public List<CharacterBody> CharacterBodies => characterBodies;
 
-        traitEnumToData[CharacterInfo.CharTraits.Quick] = quickTraitData;
-        traitEnumToData[CharacterInfo.CharTraits.Precise] = preciseTraitData;
-        traitEnumToData[CharacterInfo.CharTraits.Tough] = toughTraitData;
-        traitEnumToData[CharacterInfo.CharTraits.Brutal] = brutalTraitData;
-        traitEnumToData[CharacterInfo.CharTraits.Smart] = smartTraitData;
-    }
+        public CharacterStatsData statsData;
+        public Dictionary<CharacterInfo.CharTraits, TraitData> traitEnumToData = new Dictionary<CharacterInfo.CharTraits, TraitData>();
+        public TraitData quickTraitData;
+        public TraitData preciseTraitData;
+        public TraitData toughTraitData;
+        public TraitData brutalTraitData;
+        public TraitData smartTraitData;
 
-    private void Start()
-    {
-        gameManager = GameManager.instance;
-        rb = GetComponent<Rigidbody2D>();
-        gameManager.OnGameStart.AddListener(HandleGameStart);
+        [SerializeField]
+        // character bodies (to be filled in with character info)
+        private List<CharacterBody> characterBodies;
 
-        ownedWeapons.Add(gameManager.weapons[0]);
-        HandleGameStart();
-    }
+        // backend info about the characters
+        private List<CharacterInfo> characters = new List<CharacterInfo>();
+        private List<WeaponData> ownedWeapons = new List<WeaponData>();
+        //private int characterIndex = 0;
+        private CharacterBody controlledCharacter;
+        private Rigidbody2D rb;
+        private GameManager gameManager;
 
-    private void OnDestroy()
-    {
-        gameManager.OnGameStart.RemoveListener(HandleGameStart);
-    }
-
-    //private void OnEnable()
-    //{
-    //}
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Tab) || controlledCharacter.isDead)
+        private void Awake()
         {
-            SwitchCharacters(characterIndex + 1);
-        }
-    }
+            instance = this;
 
-    private void FixedUpdate()
-    {
-        if (!gameManager.inMenu)
-        {
-            UpdateMovement();
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == "Enemy")
-        {
-            enemiesInRange.Add(collision.GetComponent<Enemy>());
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.tag == "Enemy")
-        {
-            enemiesInRange.Remove(collision.GetComponent<Enemy>());
-        }
-    }
-
-    public Enemy GetEnemy()
-    {
-        if (enemiesInRange.Count == 0)
-        {
-            return null;
+            traitEnumToData[CharacterInfo.CharTraits.Quick] = quickTraitData;
+            traitEnumToData[CharacterInfo.CharTraits.Precise] = preciseTraitData;
+            traitEnumToData[CharacterInfo.CharTraits.Tough] = toughTraitData;
+            traitEnumToData[CharacterInfo.CharTraits.Brutal] = brutalTraitData;
+            traitEnumToData[CharacterInfo.CharTraits.Smart] = smartTraitData;
         }
 
-        int randomIndex = Random.Range(0, enemiesInRange.Count);
-        return enemiesInRange[randomIndex];
-    }
+        private void Start()
+        {
+            gameManager = GameManager.instance;
+            rb = GetComponent<Rigidbody2D>();
+            gameManager.OnGameStart.AddListener(HandleGameStart);
 
-    private void SwitchCharacters(int newIndex)
-    {
-        if (newIndex > characterBodies.Count-1)
-        {
-            characterIndex = 0;
-        }
-        else
-        {
-            characterIndex = newIndex;
+            ownedWeapons.Add(gameManager.weapons[0]);
+            HandleGameStart();
         }
 
-        if (controlledCharacter != null)
+        private void OnDestroy()
         {
-            //controlledCharacter.GetComponent<SpriteRenderer>().color = Color.white;
-            controlledCharacter.isPlayerControlled = false;
+            gameManager.OnGameStart.RemoveListener(HandleGameStart);
         }
 
-        int iterations = 0;
-        while (characterBodies[characterIndex].isDead)
+        private void Update()
         {
-            characterIndex++;
-            iterations++;
-            if (characterIndex > characterBodies.Count)
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                characterIndex = 0;
-            }
-
-            // this would mean everyone is dead
-            if (iterations >= characterBodies.Count-1)
-            {
-                gameManager.GameOver();
-                return;
+                CharacterBody.ManualAimEnabled = !CharacterBody.ManualAimEnabled;
             }
         }
 
-        controlledCharacter = characterBodies[characterIndex];
-        controlledCharacter.isPlayerControlled = true;
-        //controlledCharacter.GetComponent<SpriteRenderer>().color = Color.green;
-
-        gameManager.UpdateCharacterUI(controlledCharacter);
-    }
-
-    private void HandleGameStart()
-    {
-        for (int i = 0; i < characterBodies.Count; i++)
+        private void FixedUpdate()
         {
-            characterBodies[i].Reset();
+            if (!gameManager.inMenu)
+            {
+                UpdateMovement();
+            }
         }
 
-        characters.Clear();
-        for (int i = 0; i < 4; i++)
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            CharacterInfo charInfo = new CharacterInfo(statsData);
-            characters.Add(charInfo);
-
-            AssignCharacterInfoToBody(charInfo, characterBodies[i]);
+            if (collision.tag == "Enemy")
+            {
+                enemiesInRange.Add(collision.GetComponent<Enemy>());
+            }
         }
 
-        SwitchCharacters(0);
-
-        transform.position = Vector2.zero;
-
-        // remove all weapons but the initial one
-        ownedWeapons.RemoveRange(1, ownedWeapons.Count - 1);
-    }
-
-    private void AssignCharacterInfoToBody(CharacterInfo charInfo, CharacterBody body)
-    {
-        body.SetCharacter(charInfo);
-    }
-
-    private void UpdateMovement()
-    {
-        Vector2 direction = Vector2.zero;
-        if (Input.GetKey(KeyCode.W))
+        private void OnTriggerExit2D(Collider2D collision)
         {
-            direction += (Vector2.up);
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            direction += (-Vector2.up);
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            direction += (Vector2.right);
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            direction += (-Vector2.right);
+            if (collision.tag == "Enemy")
+            {
+                enemiesInRange.Remove(collision.GetComponent<Enemy>());
+            }
         }
 
-        rb.AddForce(direction * moveForce);
-        //rb.velocity = newVelocity * moveForce;
-    }
-
-    /// <summary>
-    /// Update the charbodies with new values from charinfo (like after level up)
-    /// </summary>
-    public void UpdateCharBodies()
-    {
-        foreach (CharacterBody body in characterBodies)
+        public Enemy GetEnemy()
         {
-            body.SetCharacter(body.CharInfo);
+            if (enemiesInRange.Count == 0)
+            {
+                return null;
+            }
+
+            int randomIndex = Random.Range(0, enemiesInRange.Count);
+            return enemiesInRange[randomIndex];
         }
-    }
 
-    public void PickupWeapon(WeaponData weapon)
-    {
-        ownedWeapons.Add(weapon);
+        private void HandleGameStart()
+        {
+            for (int i = 0; i < characterBodies.Count; i++)
+            {
+                characterBodies[i].Reset();
+            }
 
-        controlledCharacter.SetWeapon(weapon);
-        controlledCharacter.CharInfo.weaponData = weapon;
+            characters.Clear();
+            for (int i = 0; i < 9; i++)
+            {
+                CharacterInfo charInfo = new CharacterInfo(statsData);
+                characters.Add(charInfo);
 
-        gameManager.UpdateCharacterUI(controlledCharacter);
+                AssignCharacterInfoToBody(charInfo, characterBodies[i]);
+            }
+
+            //SwitchCharacters(0);
+
+            transform.position = Vector2.zero;
+
+            // remove all weapons but the initial one
+            ownedWeapons.RemoveRange(1, ownedWeapons.Count - 1);
+        }
+
+        private void AssignCharacterInfoToBody(CharacterInfo charInfo, CharacterBody body)
+        {
+            body.SetCharacter(charInfo);
+        }
+
+        private void UpdateMovement()
+        {
+            Vector2 direction = Vector2.zero;
+            if (Input.GetKey(KeyCode.W))
+            {
+                direction += (Vector2.up);
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                direction += (-Vector2.up);
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                direction += (Vector2.right);
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                direction += (-Vector2.right);
+            }
+
+            rb.AddForce(direction * moveForce);
+            //rb.velocity = newVelocity * moveForce;
+        }
+
+        /// <summary>
+        /// Update the charbodies with new values from charinfo (like after level up)
+        /// </summary>
+        public void UpdateCharBodies()
+        {
+            foreach (CharacterBody body in characterBodies)
+            {
+                body.SetCharacter(body.CharInfo);
+            }
+        }
+
+        public void PickupWeapon(WeaponData weapon)
+        {
+            ownedWeapons.Add(weapon);
+
+            controlledCharacter.SetWeapon(weapon);
+            controlledCharacter.CharInfo.weaponData = weapon;
+
+            //gameManager.UpdateCharacterUI(controlledCharacter);
+        }
     }
 }

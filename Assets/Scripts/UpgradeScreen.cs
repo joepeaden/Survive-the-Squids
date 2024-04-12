@@ -3,30 +3,65 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class UpgradeScreen : MonoBehaviour
+namespace MyGame
 {
-    public GameObject characterPanelPrefab;
-    public Player player;
-
-    private void OnEnable()
+    public class UpgradeScreen : MonoBehaviour
     {
-        if (player == null)
+        public static UpgradeScreen Instance;
+
+        public GameObject characterPanelPrefab;
+        public GameObject upgradeItemPanelPrefab;
+        public Player player;
+
+        [SerializeField]
+        Transform itemParent;
+        [SerializeField]
+        Transform charParent;
+
+        public List<UpgradeItemData> upgradeItems = new List<UpgradeItemData>();
+
+        UpgradeItemData currentUpgradeItem;
+
+        void Awake()
         {
-            player = Player.instance;
+            if (Instance == null)
+            {
+                Instance = this;
+            }
         }
 
-        // DESTROY THE CHILDREN!
-        for (int i = 0; i < transform.childCount; i++)
+        void OnEnable()
         {
-            Transform child = transform.GetChild(i);
-            Destroy(child.gameObject);
+            if (player == null)
+            {
+                player = Player.instance;
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                int randomIndex = Random.Range(0, upgradeItems.Count);
+                ItemPanel itemPanel = Instantiate(upgradeItemPanelPrefab, itemParent).GetComponent<ItemPanel>();
+                itemPanel.SetItem(upgradeItems[randomIndex]);
+            }
+
+            // DESTROY THE CHILDREN!
+            //for (int i = 0; i < transform.childCount; i++)
+            //{
+            //    Transform child = transform.GetChild(i);
+            //    Destroy(child.gameObject);
+            //}
+
+            foreach (CharacterBody charBody in player.CharacterBodies)
+            {
+                CharacterPanel charPanel = Instantiate(characterPanelPrefab, charParent).GetComponent<CharacterPanel>();
+                charPanel.SetCharacter(charBody.CharInfo);
+            }
         }
 
-        foreach (CharacterBody charBody in player.CharacterBodies)
+        public void SetCurrentUpgradeItem(UpgradeItemData theItem)
         {
-            CharacterPanel charPanel = Instantiate(characterPanelPrefab, transform).GetComponent<CharacterPanel>();
-            charPanel.SetCharacter(charBody.CharInfo);
+            currentUpgradeItem = theItem;
         }
+
     }
-
 }

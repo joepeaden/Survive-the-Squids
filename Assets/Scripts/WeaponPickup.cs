@@ -2,32 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponPickup : MonoBehaviour
+namespace MyGame
 {
-    
-    //private List<WeaponData> possibleWeapons;
-    private WeaponData weapon;
 
-    private Player player;
-    private GameManager gameManager;
-
-    private void Start()
+    public class WeaponPickup : MonoBehaviour
     {
-        player = Player.instance;
-        gameManager = GameManager.instance;
 
-        // 1 so we don't just give them another pistol
-        weapon = gameManager.weapons[Random.Range(1, gameManager.weapons.Count)];
-    }
+        //private List<WeaponData> possibleWeapons;
+        private WeaponData weapon;
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.GetComponent<CharacterBody>())
+        private Player player;
+        private GameManager gameManager;
+
+        private void Start()
         {
-            player.PickupWeapon(weapon);
+            player = Player.instance;
+            gameManager = GameManager.instance;
 
-            // maybe no need for object pooling cause it's not like there's gonna be a lot
-            Destroy(gameObject);
+            // 1 so we don't just give them another pistol
+            weapon = gameManager.weapons[Random.Range(1, gameManager.weapons.Count)];
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.GetComponent<CharacterBody>())
+            {
+                player.PickupWeapon(weapon);
+
+                // maybe no need for object pooling cause it's not like there's gonna be a lot
+                Destroy(gameObject);
+            }
         }
     }
 }

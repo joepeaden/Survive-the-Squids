@@ -5,120 +5,124 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
 
-public class GameManager : MonoBehaviour
+namespace MyGame
 {
-    // Singleton
-    public static GameManager instance => _instance;
-    private static GameManager _instance;
 
-    // Events
-    public UnityEvent OnGameStart = new UnityEvent();
-    public UnityEvent OnNewRound = new UnityEvent();
-
-    // Other Stuff
-    public int upperBoundary;
-    public int lowerBoundary;
-    public int leftBoundary;
-    public int rightBoundary;
-    public int enemiesKilled;
-    private int enemiesKilledThisRound;
-    public bool inMenu = true;
-    public int level = 1;
-    public int baseEnemyAmountToSpawn;
-    public List<WeaponData> weapons = new List<WeaponData>();
-
-    [Header("UI")]
-    public GameObject startUI;
-    public Button startButton;
-    public GameObject betweenRoundsUI;
-    public Button startRoundButton;
-    public TMP_Text enemiesKilledText;
-    public TMP_Text characterName;
-    public TMP_Text currentWeapon;
-
-    private void Awake()
+    public class GameManager : MonoBehaviour
     {
-        _instance = this;
-    }
+        // Singleton
+        public static GameManager instance => _instance;
+        private static GameManager _instance;
 
-    private void Start()
-    {
-        startButton.onClick.AddListener(StartGame);
-        startRoundButton.onClick.AddListener(StartNewRound);
-    }
+        // Events
+        public UnityEvent OnGameStart = new UnityEvent();
+        public UnityEvent OnNewRound = new UnityEvent();
 
-    private void OnDestroy()
-    {
-        startButton.onClick.RemoveListener(StartGame);
-        startRoundButton.onClick.RemoveListener(StartNewRound);
-    }
+        // Other Stuff
+        public int upperBoundary;
+        public int lowerBoundary;
+        public int leftBoundary;
+        public int rightBoundary;
+        public int enemiesKilled;
+        private int enemiesKilledThisRound;
+        public bool inMenu = true;
+        public int level = 1;
+        public int baseEnemyAmountToSpawn;
+        public List<WeaponData> weapons = new List<WeaponData>();
 
-    public void GameOver()
-    {
-        startUI.SetActive(true);
-        inMenu = true;
-    }
+        [Header("UI")]
+        public GameObject startUI;
+        public Button startButton;
+        public GameObject betweenRoundsUI;
+        public Button startRoundButton;
+        public TMP_Text enemiesKilledText;
+        //public TMP_Text characterName;
+        //public TMP_Text currentWeapon;
 
-    public void RoundEnd()
-    {
-        betweenRoundsUI.SetActive(true);
-        inMenu = true;
-    }
-
-    private void StartNewRound()
-    {
-        OnNewRound.Invoke();
-        betweenRoundsUI.SetActive(false);
-        enemiesKilledThisRound = 0;
-        inMenu = false;
-        level++;
-    }
-
-    private void StartGame()
-    {
-        OnGameStart.Invoke();
-        startUI.SetActive(false);
-        enemiesKilled = 0;
-        enemiesKilledThisRound = 0;
-        inMenu = false;
-        level = 1;
-        enemiesKilledText.text = enemiesKilled.ToString();
-    }
-
-    public void EnemyKilled()
-    {
-        enemiesKilled++;
-        enemiesKilledThisRound++;
-
-        if (enemiesKilledThisRound >= GetEnemyCountToSpawnThisRound())
+        private void Awake()
         {
-            RoundEnd();
+            _instance = this;
         }
 
-        enemiesKilledText.text = enemiesKilled.ToString();
-    }
-
-    public int GetEnemyCountToSpawnThisRound()
-    {
-        return baseEnemyAmountToSpawn * level;
-    }
-
-    public bool WithinBounds(Vector2 position)
-    {
-        if (position.y > lowerBoundary
-            && position.y < upperBoundary
-            && position.x < rightBoundary
-            && position.x > leftBoundary)
+        private void Start()
         {
-            return true;
+            startButton.onClick.AddListener(StartGame);
+            startRoundButton.onClick.AddListener(StartNewRound);
         }
 
-        return false;
-    }
+        private void OnDestroy()
+        {
+            startButton.onClick.RemoveListener(StartGame);
+            startRoundButton.onClick.RemoveListener(StartNewRound);
+        }
 
-    public void UpdateCharacterUI(CharacterBody controlledCharacter)
-    {
-        characterName.text = controlledCharacter.charName;
-        currentWeapon.text = controlledCharacter.CurrentWeapon.weaponName;
+        public void GameOver()
+        {
+            startUI.SetActive(true);
+            inMenu = true;
+        }
+
+        public void RoundEnd()
+        {
+            betweenRoundsUI.SetActive(true);
+            inMenu = true;
+        }
+
+        private void StartNewRound()
+        {
+            OnNewRound.Invoke();
+            betweenRoundsUI.SetActive(false);
+            enemiesKilledThisRound = 0;
+            inMenu = false;
+            level++;
+        }
+
+        private void StartGame()
+        {
+            OnGameStart.Invoke();
+            startUI.SetActive(false);
+            enemiesKilled = 0;
+            enemiesKilledThisRound = 0;
+            inMenu = false;
+            level = 1;
+            enemiesKilledText.text = enemiesKilled.ToString();
+        }
+
+        public void EnemyKilled()
+        {
+            enemiesKilled++;
+            enemiesKilledThisRound++;
+
+            if (enemiesKilledThisRound >= GetEnemyCountToSpawnThisRound())
+            {
+                RoundEnd();
+            }
+
+            enemiesKilledText.text = enemiesKilled.ToString();
+        }
+
+        public int GetEnemyCountToSpawnThisRound()
+        {
+            return baseEnemyAmountToSpawn * level;
+        }
+
+        public bool WithinBounds(Vector2 position)
+        {
+            if (position.y > lowerBoundary
+                && position.y < upperBoundary
+                && position.x < rightBoundary
+                && position.x > leftBoundary)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        //public void UpdateCharacterUI(CharacterBody controlledCharacter)
+        //{
+        //    characterName.text = controlledCharacter.charName;
+        //    currentWeapon.text = controlledCharacter.CurrentWeapon.weaponName;
+        //}
     }
 }

@@ -3,128 +3,132 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 
-public class Enemy : MonoBehaviour
+namespace MyGame
 {
-    public bool isDead;
-    public EnemyData data;
 
-    private int remainingHitPoints;
-    private float attackTimer;
-    private Player player;
-    private CharacterBody targetCharacter;
-    private AIPath pathfinder;
-    private Rigidbody2D rb;
-    private float stunTime;
-
-    private void Start()
+    public class Enemy : MonoBehaviour
     {
-        pathfinder = GetComponent<AIPath>();
-        GameManager.instance.OnGameStart.AddListener(Reset);
-        rb = GetComponent<Rigidbody2D>();
-    }
+        public bool isDead;
+        public EnemyData data;
 
-    private void OnEnable()
-    {
-        player = Player.instance;
-        isDead = false;
-        PickTarget();
-        remainingHitPoints = data.hitPoints;
-        if (pathfinder == null)
+        private int remainingHitPoints;
+        private float attackTimer;
+        private Player player;
+        private CharacterBody targetCharacter;
+        private AIPath pathfinder;
+        private Rigidbody2D rb;
+        private float stunTime;
+
+        private void Start()
         {
             pathfinder = GetComponent<AIPath>();
+            GameManager.instance.OnGameStart.AddListener(Reset);
+            rb = GetComponent<Rigidbody2D>();
         }
-        pathfinder.maxSpeed = data.moveSpeed;
-    }
 
-    private void Update()
-    {
-        attackTimer -= Time.deltaTime;
-        stunTime -= Time.deltaTime;
-
-        if (stunTime > 0)
+        private void OnEnable()
         {
-            pathfinder.canMove = false;
-        }
-        else
-        {
-            pathfinder.canMove = true;
-
-            if (targetCharacter != null)
+            player = Player.instance;
+            isDead = false;
+            PickTarget();
+            remainingHitPoints = data.hitPoints;
+            if (pathfinder == null)
             {
-                pathfinder.destination = targetCharacter.transform.position;
+                pathfinder = GetComponent<AIPath>();
+            }
+            pathfinder.maxSpeed = data.moveSpeed;
+        }
 
-                if (pathfinder.reachedDestination && attackTimer <= 0)
+        private void Update()
+        {
+            attackTimer -= Time.deltaTime;
+            stunTime -= Time.deltaTime;
+
+            if (stunTime > 0)
+            {
+                pathfinder.canMove = false;
+            }
+            else
+            {
+                pathfinder.canMove = true;
+
+                if (targetCharacter != null)
                 {
-                    targetCharacter.GetHit(data.damage);
-                    attackTimer = data.attackInterval;
+                    pathfinder.destination = targetCharacter.transform.position;
 
-                    if (targetCharacter.isDead)
+                    if (pathfinder.reachedDestination && attackTimer <= 0)
                     {
-                        PickTarget();
+                        targetCharacter.GetHit(data.damage);
+                        attackTimer = data.attackInterval;
+
+                        if (targetCharacter.isDead)
+                        {
+                            PickTarget();
+                        }
                     }
                 }
             }
         }
-    }
 
-    private void OnDestroy()
-    {
-        GameManager.instance.OnGameStart.RemoveListener(Reset);
-    }
-
-    private void Reset()
-    {
-        gameObject.SetActive(false);
-        remainingHitPoints = data.hitPoints;
-    }
-
-    private void PickTarget()
-    {
-        float smallestDist = float.MaxValue;
-        for (int i = 0; i < player.CharacterBodies.Count; i++)
+        private void OnDestroy()
         {
-            if (player.CharacterBodies[i].isDead)
+            GameManager.instance.OnGameStart.RemoveListener(Reset);
+        }
+
+        private void Reset()
+        {
+            gameObject.SetActive(false);
+            remainingHitPoints = data.hitPoints;
+        }
+
+        private void PickTarget()
+        {
+            float smallestDist = float.MaxValue;
+            for (int i = 0; i < player.CharacterBodies.Count; i++)
             {
-                continue;
+                if (player.CharacterBodies[i].isDead)
+                {
+                    continue;
+                }
+
+                float dist = (transform.position - player.CharacterBodies[i].transform.position).magnitude;
+                if (dist < smallestDist)
+                {
+                    smallestDist = dist;
+                    targetCharacter = player.CharacterBodies[i];
+                }
+            }
+        }
+
+        public void GetHit(WeaponData hitWeaponData, Vector2 forceDirection)
+        {
+            remainingHitPoints -= hitWeaponData.damage;
+
+            // set stunTime, but only change it if the new value is greater than the old.
+            if (stunTime < hitWeaponData.stunTime)
+            {
+                stunTime = hitWeaponData.stunTime;
             }
 
-            float dist = (transform.position - player.CharacterBodies[i].transform.position).magnitude;
-            if (dist < smallestDist)
+            // apply knockback
+            rb.AddForce(forceDirection.normalized * hitWeaponData.knockBack);
+
+            if (remainingHitPoints <= 0)
             {
-                smallestDist = dist;
-                targetCharacter = player.CharacterBodies[i];
+                Die();
             }
         }
-    }
 
-    public void GetHit(WeaponData hitWeaponData, Vector2 forceDirection)
-    {
-        remainingHitPoints -= hitWeaponData.damage;
-
-        // set stunTime, but only change it if the new value is greater than the old.
-        if (stunTime < hitWeaponData.stunTime)
+        public void Die()
         {
-            stunTime = hitWeaponData.stunTime;
+            if (player.enemiesInRange.Contains(this))
+            {
+                player.enemiesInRange.Remove(this);
+            }
+
+            isDead = true;
+            GameManager.instance.EnemyKilled();
+            gameObject.SetActive(false);
         }
-
-        // apply knockback
-        rb.AddForce(forceDirection.normalized * hitWeaponData.knockBack);
-
-        if (remainingHitPoints <= 0)
-        {
-            Die();
-        }
-    }
-
-    public void Die()
-    {
-        if (player.enemiesInRange.Contains(this))
-        {
-            player.enemiesInRange.Remove(this);
-        }
-
-        isDead = true;
-        GameManager.instance.EnemyKilled();
-        gameObject.SetActive(false);
     }
 }

@@ -2,29 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShellCasing : MonoBehaviour
+namespace MyGame
 {
-    SpriteRenderer rend;
-    Rigidbody2D rb;
-    private float spawnTime;
-
-    void Start()
+    public class ShellCasing : MonoBehaviour
     {
-        spawnTime = Time.time;
-        rend = GetComponent<SpriteRenderer>();
-        rb = GetComponent<Rigidbody2D>();
-    }
+        SpriteRenderer rend;
+        Rigidbody2D rb;
+        private float spawnTime;
 
-    private void Update()
-    {
-        if (Time.time - spawnTime > .2f)
+        void Start()
         {
-            rend.sortingOrder = 13;
+            spawnTime = Time.time;
+            rend = GetComponent<SpriteRenderer>();
+            rb = GetComponent<Rigidbody2D>();
         }
 
-        if (Time.time - spawnTime > 2f)
+        private void Update()
         {
-            rb.isKinematic = true;
+            if (Time.time - spawnTime > .2f)
+            {
+                rend.sortingOrder = 13;
+            }
+
+            if (Time.time - spawnTime > 2f)
+            {
+                rb.isKinematic = true;
+            }
         }
     }
 }

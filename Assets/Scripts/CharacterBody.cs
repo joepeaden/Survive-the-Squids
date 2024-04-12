@@ -2,187 +2,195 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterBody : MonoBehaviour
+namespace MyGame
 {
-    public bool isPlayerControlled;
-    public bool canAttack = true;
-    public bool isDead;
-    [SerializeField]
-    private SpriteRenderer weaponSprite;
 
-    [SerializeField]
-    private WeaponSprite weaponSpriteScript;
-
-    public WeaponData CurrentWeapon => weaponData;
-    [HideInInspector]
-    public string charName;
-
-    private Player player;
-    private GameManager gameManager;
-    private Enemy currentTarget;
-    private float attackTimer;
-    private WeaponData weaponData;
-    private float reflexSpeed;
-
-    public CharacterInfo CharInfo => charInfo;
-    private CharacterInfo charInfo;
-
-    private int hitPoints;
-
-    private void Start()
+    public class CharacterBody : MonoBehaviour
     {
-        player = Player.instance;
-        gameManager = GameManager.instance;
-    }
+        /// <summary>
+        /// Whether or not player is manually aiming
+        /// </summary>
+        public static bool ManualAimEnabled;
 
-    private void Update()
-    {
-        attackTimer -= Time.deltaTime;
+        public bool canAttack = true;
+        public bool isDead;
+        [SerializeField]
+        private SpriteRenderer weaponSprite;
 
-        if (!gameManager.inMenu)
+        [SerializeField]
+        private WeaponSprite weaponSpriteScript;
+
+        public WeaponData CurrentWeapon => weaponData;
+        [HideInInspector]
+        public string charName;
+
+        private Player player;
+        private GameManager gameManager;
+        private Enemy currentTarget;
+        private float attackTimer;
+        private WeaponData weaponData;
+        private float reflexSpeed;
+
+        public CharacterInfo CharInfo => charInfo;
+        private CharacterInfo charInfo;
+
+        private int hitPoints;
+
+        private void Start()
         {
-            if (isPlayerControlled)
-            {
-                UpdateRotation();
+            player = Player.instance;
+            gameManager = GameManager.instance;
+        }
 
-                if (Input.GetMouseButtonDown(0))
-                {
-                    Attack();
-                }
-            }
-            else
-            {
-                if (currentTarget == null || currentTarget.isDead)
-                {
-                    currentTarget = player.GetEnemy();
-                }
+        private void Update()
+        {
+            attackTimer -= Time.deltaTime;
 
-                if (currentTarget != null)
+            if (!gameManager.inMenu)
+            {
+                if (ManualAimEnabled)
                 {
                     UpdateRotation();
 
-                    if (canAttack && attackTimer <= 0)
+                    if (Input.GetMouseButtonDown(0))
                     {
                         Attack();
                     }
                 }
-            }
-        }
-    }
-
-    private void UpdateRotation()
-    {
-        Vector3 targetDir = GetTargetDirection();
-        Quaternion newRotation = Quaternion.LookRotation(Vector3.forward, upwards: targetDir);
-        transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * reflexSpeed);
-    }
-
-    private void Attack()
-    {
-        float angle = -weaponData.projSpreadAngle / 2;
-        Quaternion projectileRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z + angle);
-
-        for (int i = 0; i < weaponData.projPerShot; i++)
-        {
-            GameObject projectileGO = ObjectPool.instance.GetProjectile();
-            projectileGO.SetActive(true);
-            projectileGO.transform.position = transform.position;
-            projectileGO.transform.rotation = projectileRotation;
-
-            Projectile projectile = projectileGO.GetComponent<Projectile>();
-            projectile.firedFromPlayer = true;
-            projectile.lifeSpan = 10f;
-            projectile.SetData(weaponData);
-
-            if (!weaponData.useProjPhys)
-            {
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, projectile.transform.up, 100f, ~LayerMask.GetMask("Projectiles", "Boundary", "Characters"));
-                if (hit && hit.transform.GetComponent<Enemy>() != null)
+                else
                 {
-                    Enemy enemy = hit.transform.GetComponent<Enemy>();
-
-                    // add proj damage and character damage buff (from trait)
-                    int damage = projectile.damage + charInfo.DamageBuff;
-
-                    // roll for crit, if so then 3x damage
-                    float critRoll = Random.Range(0f, 1f);
-                    if (critRoll < charInfo.CritChance)
+                    if (currentTarget == null || currentTarget.isDead)
                     {
-                        damage *= 3;                         
+                        currentTarget = player.GetEnemy();
                     }
 
-                    enemy.GetHit(weaponData, (enemy.transform.position - transform.position).normalized);
-                    projectile.lifeSpan = Mathf.Abs((transform.position - hit.transform.position).magnitude) / projectile.projectileVelocity;
-
-                    if (enemy.isDead)
+                    if (currentTarget != null)
                     {
-                        charInfo.AddXP(enemy.data.xpReward);
-                    }
+                        UpdateRotation();
 
+                        if (canAttack && attackTimer <= 0)
+                        {
+                            Attack();
+                        }
+                    }
                 }
             }
-
-            angle += weaponData.projSpreadAngle / weaponData.projPerShot;
         }
 
-        attackTimer = weaponData.attackInterval;
-
-        weaponSpriteScript.PlayFireAnim();
-    }
-
-    private Vector3 GetTargetDirection()
-    {
-        if (isPlayerControlled)
+        private void UpdateRotation()
         {
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            return (mousePos - transform.position).normalized;
+            Vector3 targetDir = GetTargetDirection();
+            Quaternion newRotation = Quaternion.LookRotation(Vector3.forward, upwards: targetDir);
+            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * reflexSpeed);
         }
-        else
+
+        private void Attack()
         {
-            return (currentTarget.transform.position - transform.position).normalized;
+            float angle = -weaponData.projSpreadAngle / 2;
+            Quaternion projectileRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z + angle);
+
+            for (int i = 0; i < weaponData.projPerShot; i++)
+            {
+                GameObject projectileGO = ObjectPool.instance.GetProjectile();
+                projectileGO.SetActive(true);
+                projectileGO.transform.position = transform.position;
+                projectileGO.transform.rotation = projectileRotation;
+
+                Projectile projectile = projectileGO.GetComponent<Projectile>();
+                projectile.firedFromPlayer = true;
+                projectile.lifeSpan = 10f;
+                projectile.SetData(weaponData);
+
+                if (!weaponData.useProjPhys)
+                {
+                    RaycastHit2D hit = Physics2D.Raycast(transform.position, projectile.transform.up, 100f, ~LayerMask.GetMask("Projectiles", "Boundary", "Characters"));
+                    if (hit && hit.transform.GetComponent<Enemy>() != null)
+                    {
+                        Enemy enemy = hit.transform.GetComponent<Enemy>();
+
+                        // add proj damage and character damage buff (from trait)
+                        int damage = projectile.damage + charInfo.DamageBuff;
+
+                        // roll for crit, if so then 3x damage
+                        float critRoll = Random.Range(0f, 1f);
+                        if (critRoll < charInfo.CritChance)
+                        {
+                            damage *= 3;
+                        }
+
+                        enemy.GetHit(weaponData, (enemy.transform.position - transform.position).normalized);
+                        projectile.lifeSpan = Mathf.Abs((transform.position - hit.transform.position).magnitude) / projectile.projectileVelocity;
+
+                        if (enemy.isDead)
+                        {
+                            charInfo.AddXP(enemy.data.xpReward);
+                        }
+
+                    }
+                }
+
+                angle += weaponData.projSpreadAngle / weaponData.projPerShot;
+            }
+
+            attackTimer = weaponData.attackInterval;
+
+            weaponSpriteScript.PlayFireAnim();
         }
-    }
 
-    public void GetHit(int damage)
-    {
-        hitPoints -= damage;
-
-        if (hitPoints <= 0)
+        private Vector3 GetTargetDirection()
         {
-            Die();
+            if (ManualAimEnabled)
+            {
+                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                return (mousePos - transform.position).normalized;
+            }
+            else
+            {
+                return (currentTarget.transform.position - transform.position).normalized;
+            }
         }
-    }
 
-    public void Die()
-    {
-        isDead = true;
-        currentTarget = null;
-        gameObject.SetActive(false);
-    }
-
-    public void Reset()
-    {
-        isDead = false;
-        gameObject.SetActive(true);
-
-        if (gameManager == null)
+        public void GetHit(int damage)
         {
-            gameManager = GameManager.instance;
+            hitPoints -= damage;
+
+            if (hitPoints <= 0)
+            {
+                Die();
+            }
         }
-    }
 
-    public void SetCharacter(CharacterInfo info)
-    {
-        charInfo = info;
+        public void Die()
+        {
+            isDead = true;
+            currentTarget = null;
+            gameObject.SetActive(false);
+        }
 
-        weaponData = charInfo.weaponData;
-        charName = charInfo.charName;
-        reflexSpeed = charInfo.ReflexSpeed;
-        hitPoints = charInfo.TotalHitPoints;
-    }
+        public void Reset()
+        {
+            isDead = false;
+            gameObject.SetActive(true);
 
-    public void SetWeapon(WeaponData newWeapon)
-    {
-        weaponData = newWeapon;
+            if (gameManager == null)
+            {
+                gameManager = GameManager.instance;
+            }
+        }
+
+        public void SetCharacter(CharacterInfo info)
+        {
+            charInfo = info;
+
+            weaponData = charInfo.weaponData;
+            charName = charInfo.charName;
+            reflexSpeed = charInfo.ReflexSpeed;
+            hitPoints = charInfo.TotalHitPoints;
+        }
+
+        public void SetWeapon(WeaponData newWeapon)
+        {
+            weaponData = newWeapon;
+        }
     }
 }

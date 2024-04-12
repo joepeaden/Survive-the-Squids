@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 732d5e66f6fd2492bbe005969b18f35a, type: 3}
   m_Name: CharacterStatsData
   m_EditorClassIdentifier: 
-  reflexSpeed: 5
+  reflexSpeed: 20
   critChance: 0.1
   totalHitPoints: 5

@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2794bd9a678304bf4bb8b44a08efb237, type: 3}
-  m_Name: Rifle
+  m_Name: Shotgun
   m_EditorClassIdentifier: 
-  weaponName: Assault Rifle
+  weaponName: Shotgun
   attackInterval: 0.1
   damage: 1
   useProjPhys: 0
   projectileVelocity: 500
-  projSpreadAngle: 0
-  projPerShot: 1
+  projSpreadAngle: 3
+  projPerShot: 5
   stunTime: 0
   knockBack: 0
-  projSprite: {fileID: 21300000, guid: 485b52fa17bfd4bbb9c2a5ade452f846, type: 3}
+  projSprite: {fileID: 21300000, guid: 984dfd5a121e146c8bbc395ba11b1f8d, type: 3}
