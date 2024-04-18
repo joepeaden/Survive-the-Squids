@@ -22,6 +22,8 @@ namespace MyGame
         public bool playerHasRifle;
 
         public UpgradeItemData penetratorUpgrade;
+        public UpgradeItemData slamUpgrade;
+        public UpgradeItemData stunUpgrade;
         public List<UpgradeItemData> shopItems = new List<UpgradeItemData>();
 
         public UpgradeItemData CurrentUpgradeItem => currentUpgradeItem;
@@ -84,6 +86,8 @@ namespace MyGame
             if (playerHasRifle)
             {
                 items.Add(penetratorUpgrade);
+                items.Add(slamUpgrade);
+                items.Add(stunUpgrade);
             }
 
             for (int i = 0; i < itemPanels.Count; i++)

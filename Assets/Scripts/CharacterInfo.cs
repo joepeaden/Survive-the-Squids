@@ -74,6 +74,8 @@ namespace MyGame
         private int hitPointsBuff;
 
         public bool hasPenetratorRounds;
+        public bool hasStunRounds;
+        public bool hasSlamRounds;
 
         public CharacterInfo(CharacterStatsData newStatsData)
         {
@@ -182,10 +184,18 @@ namespace MyGame
 
         public void AddWeaponUpgrade(WeaponUpgradeData weaponUpgrade)
         {
-            //if (weaponUpgrade.name == )
-
-            //for now, assume it's just penetrator rounds.
-            hasPenetratorRounds = true;
+            if (weaponUpgrade.id == "penetrator")
+            {
+                hasPenetratorRounds = true;
+            }
+            else if (weaponUpgrade.id == "stun")
+            {
+                hasStunRounds = true;
+            }
+            else if (weaponUpgrade.id == "slam")
+            {
+                hasSlamRounds = true;
+            }
         }
 
         private void AssignRandomName()

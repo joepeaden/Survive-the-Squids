@@ -109,13 +109,21 @@ namespace MyGame
                 projectile.SetData(weaponData);
 
                 // projectile doesn't account for it, it's only implemented for Raycast for now!
-                projectile.penetration = charInfo.hasPenetratorRounds ? 1 : 0;
+                //projectile.penetration = charInfo.hasPenetratorRounds ? 1 : 0;
 
                 if (charInfo.hasPenetratorRounds)
                 {
                     projectile.spriteRenderer.color = Color.red;
-                    Debug.Log("firing penerator rounds");
                 }
+                else if (charInfo.hasStunRounds)
+                {
+                    projectile.spriteRenderer.color = Color.blue;
+                }
+                else if (charInfo.hasSlamRounds)
+                {
+                    projectile.spriteRenderer.color = Color.green;
+                }
+
 
                 if (!weaponData.useProjPhys)
                 {
@@ -137,7 +145,7 @@ namespace MyGame
                                 damage *= 3;
                             }
 
-                            enemy.GetHit(weaponData, (enemy.transform.position - transform.position).normalized);
+                            enemy.GetHit(weaponData, (enemy.transform.position - transform.position).normalized, charInfo.hasSlamRounds, charInfo.hasStunRounds);
                             enemiesHit++;
 
                             if (enemy.isDead)

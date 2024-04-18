@@ -43,7 +43,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -284.99933, y: 0}
+  m_AnchoredPosition: {x: -284.99966, y: 0}
   m_SizeDelta: {x: 637.2, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &7739663092015025507
@@ -181,9 +181,10 @@ MonoBehaviour:
   charParent: {fileID: 2901588518129765881}
   playerHasRifle: 0
   penetratorUpgrade: {fileID: 11400000, guid: 14c01b2a1a4fb42cc9e33f01edf1d5ef, type: 2}
+  slamUpgrade: {fileID: 11400000, guid: b16ee1966989b4bc79d4842ea35bb4d6, type: 2}
+  stunUpgrade: {fileID: 11400000, guid: 476028d0aea6b42e3a3f6ffe68fca056, type: 2}
   shopItems:
   - {fileID: 11400000, guid: 8d7355163a95a421b9ad41cf8d285461, type: 2}
-  - {fileID: 11400000, guid: ebf45b3a5f00d44a682cdef212b22085, type: 2}
   - {fileID: 11400000, guid: 42068d51b8338454da2a466f48cb622f, type: 2}
   itemMouseFollowPlaceholder: {fileID: 2534982217664519896}
   blackoutPanel: {fileID: 7244035052027731526}
@@ -358,7 +359,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -162.54967, y: 0}
+  m_AnchoredPosition: {x: -162.54984, y: 0}
   m_SizeDelta: {x: 637.2, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &871475897165984088
@@ -1448,6 +1449,7 @@ MonoBehaviour:
   defaultTextItem: {fileID: 0}
   purchaseButton: {fileID: 0}
   TheUpgradeItem: {fileID: 0}
+  detailParent: {fileID: 0}
 --- !u!114 &6015138476906339308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2085,8 +2087,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7346065776057577427}
   m_HandleRect: {fileID: 8422281447210882542}
   m_Direction: 0
-  m_Value: -0.000009082602
-  m_Size: 0.8945385
+  m_Value: -0.0000045413053
+  m_Size: 0.8945386
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2634,8 +2636,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7215390895509400717}
   m_HandleRect: {fileID: 7004152495920002900}
   m_Direction: 0
-  m_Value: -0.0000010755955
-  m_Size: 0.51020086
+  m_Value: -0.00000058668854
+  m_Size: 0.5102009
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

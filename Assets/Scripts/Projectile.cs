@@ -56,14 +56,14 @@ namespace MyGame
 
             if (_data.useProjPhys)
             {
-                if (collision.tag == "Player" && !firedFromPlayer)
-                {
-                    Debug.Log("Hit a Player character");
-                }
-                else if (collision.tag == "Enemy" && firedFromPlayer)
-                {
-                    collision.GetComponent<Enemy>().GetHit(_data, (collision.transform.position - transform.position).normalized);
-                }
+                //if (collision.tag == "Player" && !firedFromPlayer)
+                //{
+                //    Debug.Log("Hit a Player character");
+                //}
+                //else if (collision.tag == "Enemy" && firedFromPlayer)
+                //{
+                //    collision.GetComponent<Enemy>().GetHit(_data, (collision.transform.position - transform.position).normalized);
+                //}
             }
         }
 

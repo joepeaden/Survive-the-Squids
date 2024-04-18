@@ -111,18 +111,19 @@ namespace MyGame
             }
         }
 
-        public void GetHit(WeaponData hitWeaponData, Vector2 forceDirection)
+        public void GetHit(WeaponData hitWeaponData, Vector2 forceDirection, bool isSlam, bool isStun)
         {
             remainingHitPoints -= hitWeaponData.damage;
 
+            float newStunTime = hitWeaponData.stunTime + (isStun ? 2 : 0);
             // set stunTime, but only change it if the new value is greater than the old.
-            if (stunTime < hitWeaponData.stunTime)
+            if (stunTime < newStunTime)
             {
-                stunTime = hitWeaponData.stunTime;
+                stunTime = newStunTime;
             }
 
             // apply knockback
-            rb.AddForce(forceDirection.normalized * hitWeaponData.knockBack);
+            rb.AddForce(forceDirection.normalized * (hitWeaponData.knockBack + (isSlam ? 100f : 0)));
 
             if (remainingHitPoints <= 0)
             {
