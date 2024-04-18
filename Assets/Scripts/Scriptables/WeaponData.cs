@@ -18,5 +18,6 @@ namespace MyGame
         public float stunTime;
         public float knockBack;
         public Sprite projSprite;
+        public Sprite weaponSprite;
     }
 }

@@ -19,6 +19,11 @@ namespace MyGame
         private Rigidbody2D rb;
         private float stunTime;
 
+        [SerializeField]
+        GameObject sampleDrop;
+        [SerializeField]
+        EnemySprite spriteController;
+
         private void Start()
         {
             pathfinder = GetComponent<AIPath>();
@@ -77,25 +82,31 @@ namespace MyGame
 
         private void Reset()
         {
-            gameObject.SetActive(false);
+            transform.parent.gameObject.SetActive(false);
             remainingHitPoints = data.hitPoints;
+        }
+
+        public void SetData(EnemyData newData)
+        {
+            data = newData;
+            spriteController.bodySprite.sprite = newData.bodySprite;
         }
 
         private void PickTarget()
         {
             float smallestDist = float.MaxValue;
-            for (int i = 0; i < player.CharacterBodies.Count; i++)
+            for (int i = 0; i < player.ActiveCharacters.Count; i++)
             {
-                if (player.CharacterBodies[i].isDead)
+                if (player.ActiveCharacters[i].isDead || !player.ActiveCharacters[i].isActiveAndEnabled)
                 {
                     continue;
                 }
 
-                float dist = (transform.position - player.CharacterBodies[i].transform.position).magnitude;
+                float dist = (transform.position - player.ActiveCharacters[i].transform.position).magnitude;
                 if (dist < smallestDist)
                 {
                     smallestDist = dist;
-                    targetCharacter = player.CharacterBodies[i];
+                    targetCharacter = player.ActiveCharacters[i];
                 }
             }
         }
@@ -126,9 +137,13 @@ namespace MyGame
                 player.enemiesInRange.Remove(this);
             }
 
+            Instantiate(sampleDrop, transform.position, Quaternion.identity);
+            spriteController.HandleDeath();
+
             isDead = true;
             GameManager.instance.EnemyKilled();
-            gameObject.SetActive(false);
+
+            transform.parent.gameObject.SetActive(false);
         }
     }
 }

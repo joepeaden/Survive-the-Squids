@@ -14,11 +14,13 @@ namespace MyGame
 
         public bool canAttack = true;
         public bool isDead;
-        [SerializeField]
-        private SpriteRenderer weaponSprite;
+        //[SerializeField]
+        //private SpriteRenderer weaponSprite;
 
         [SerializeField]
         private WeaponSprite weaponSpriteScript;
+        [SerializeField]
+        CharacterSprite charSpriteScript;
 
         public WeaponData CurrentWeapon => weaponData;
         [HideInInspector]
@@ -77,6 +79,11 @@ namespace MyGame
             }
         }
 
+        public void SetBodyActive(bool shouldEnable)
+        {
+            transform.parent.gameObject.SetActive(shouldEnable);
+        }
+
         private void UpdateRotation()
         {
             Vector3 targetDir = GetTargetDirection();
@@ -101,31 +108,50 @@ namespace MyGame
                 projectile.lifeSpan = 10f;
                 projectile.SetData(weaponData);
 
+                // projectile doesn't account for it, it's only implemented for Raycast for now!
+                projectile.penetration = charInfo.hasPenetratorRounds ? 1 : 0;
+
+                if (charInfo.hasPenetratorRounds)
+                {
+                    projectile.spriteRenderer.color = Color.red;
+                    Debug.Log("firing penerator rounds");
+                }
+
                 if (!weaponData.useProjPhys)
                 {
-                    RaycastHit2D hit = Physics2D.Raycast(transform.position, projectile.transform.up, 100f, ~LayerMask.GetMask("Projectiles", "Boundary", "Characters"));
-                    if (hit && hit.transform.GetComponent<Enemy>() != null)
+                    int enemiesHit = 0;
+                    RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, projectile.transform.up, 100f, ~LayerMask.GetMask("Projectiles", "Boundary", "Characters"));
+                    foreach (RaycastHit2D hit in hits)
                     {
-                        Enemy enemy = hit.transform.GetComponent<Enemy>();
-
-                        // add proj damage and character damage buff (from trait)
-                        int damage = projectile.damage + charInfo.DamageBuff;
-
-                        // roll for crit, if so then 3x damage
-                        float critRoll = Random.Range(0f, 1f);
-                        if (critRoll < charInfo.CritChance)
+                        if (hit && hit.transform.GetComponent<Enemy>() != null)
                         {
-                            damage *= 3;
+                            Enemy enemy = hit.transform.GetComponent<Enemy>();
+
+                            // add proj damage and character damage buff (from trait)
+                            int damage = projectile.damage + charInfo.DamageBuff;
+
+                            // roll for crit, if so then 3x damage
+                            float critRoll = Random.Range(0f, 1f);
+                            if (critRoll < charInfo.CritChance)
+                            {
+                                damage *= 3;
+                            }
+
+                            enemy.GetHit(weaponData, (enemy.transform.position - transform.position).normalized);
+                            enemiesHit++;
+
+                            if (enemy.isDead)
+                            {
+                                charInfo.AddXP(enemy.data.xpReward);
+                            }
+
+                            // If penetrator rounds then can hit multiple targets. Otherwise exit here.
+                            if (!charInfo.hasPenetratorRounds || enemiesHit > 1)
+                            {
+                                projectile.lifeSpan = Mathf.Abs((transform.position - hit.transform.position).magnitude) / projectile.projectileVelocity;
+                                break;
+                            }
                         }
-
-                        enemy.GetHit(weaponData, (enemy.transform.position - transform.position).normalized);
-                        projectile.lifeSpan = Mathf.Abs((transform.position - hit.transform.position).magnitude) / projectile.projectileVelocity;
-
-                        if (enemy.isDead)
-                        {
-                            charInfo.AddXP(enemy.data.xpReward);
-                        }
-
                     }
                 }
 
@@ -158,19 +184,27 @@ namespace MyGame
             {
                 Die();
             }
+            else
+            {
+                charSpriteScript.HandleHit();
+            }
         }
 
         public void Die()
         {
             isDead = true;
             currentTarget = null;
-            gameObject.SetActive(false);
+            SetBodyActive(false);
+            player.ActiveCharacters.Remove(this);
+
+            player.CheckGameOver();
         }
 
         public void Reset()
         {
             isDead = false;
-            gameObject.SetActive(true);
+            SetBodyActive(false);
+            charSpriteScript.Reset();
 
             if (gameManager == null)
             {
@@ -182,7 +216,7 @@ namespace MyGame
         {
             charInfo = info;
 
-            weaponData = charInfo.weaponData;
+            SetWeapon(charInfo.weaponData);
             charName = charInfo.charName;
             reflexSpeed = charInfo.ReflexSpeed;
             hitPoints = charInfo.TotalHitPoints;
@@ -191,6 +225,7 @@ namespace MyGame
         public void SetWeapon(WeaponData newWeapon)
         {
             weaponData = newWeapon;
+            weaponSpriteScript.SetWeapon(newWeapon);
         }
     }
 }

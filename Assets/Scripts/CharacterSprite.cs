@@ -8,13 +8,17 @@ namespace MyGame
     public class CharacterSprite : MonoBehaviour
     {
         [SerializeField]
-        SpriteRenderer faceSprite;
+        SpriteRenderer faceSpriteRend;
         [SerializeField]
-        SpriteRenderer headSprite;
+        SpriteRenderer headSpriteRend;
         [SerializeField]
-        SpriteRenderer bodySprite;
+        SpriteRenderer bodySpriteRend;
         [SerializeField]
         Transform charBody;
+        [SerializeField]
+        Sprite headHitSprite;
+        [SerializeField]
+        Sprite bodyHitSprite;
 
         [SerializeField]
         Sprite upFace;
@@ -25,15 +29,18 @@ namespace MyGame
         [SerializeField]
         Sprite rightFace;
 
-        [SerializeField]
-        Transform headFollower;
-
         Animator animator;
         bool isMoving;
+
+        Sprite oldBodySprite;
+        Sprite oldHeadSprite;
 
         void Start()
         {
             animator = GetComponent<Animator>();
+
+            oldBodySprite = bodySpriteRend.sprite;
+            oldHeadSprite = headSpriteRend.sprite;
         }
 
         private void Update()
@@ -58,36 +65,62 @@ namespace MyGame
             if (charBody.rotation.eulerAngles.z > 90 && charBody.rotation.eulerAngles.z < 270)
             {
                 // weapon pointing down
-                bodySprite.sortingOrder = 24;
+                bodySpriteRend.sortingOrder = 24;
             }
             else
             {
                 // weapon pointing up
-                bodySprite.sortingOrder = 26;
+                bodySpriteRend.sortingOrder = 26;
             }
 
             if (charBody.rotation.eulerAngles.z >= 45 && charBody.rotation.eulerAngles.z < 135)
             {
-                faceSprite.sprite = leftFace;
+                faceSpriteRend.sprite = leftFace;
             }
             else if (charBody.rotation.eulerAngles.z >= 135 && charBody.rotation.eulerAngles.z < 225)
             {
-                faceSprite.sprite = downFace;
+                faceSpriteRend.sprite = downFace;
             }
             else if (charBody.rotation.eulerAngles.z >= 225 && charBody.rotation.eulerAngles.z < 315)
             {
-                faceSprite.sprite = rightFace;
+                faceSpriteRend.sprite = rightFace;
             }
             else
             {
-                faceSprite.sprite = upFace;
+                faceSpriteRend.sprite = upFace;
                 newFaceSorting = 24;
             }
 
-            faceSprite.sortingOrder = newFaceSorting;
+            faceSpriteRend.sortingOrder = newFaceSorting;
 
-            headSprite.gameObject.transform.position = headFollower.position;
+            headSpriteRend.gameObject.transform.localPosition = charBody.transform.up * .05f;
+            // lower the head so it doesn't stick out too much
+            headSpriteRend.gameObject.transform.localPosition = new Vector3(headSpriteRend.gameObject.transform.localPosition.x, headSpriteRend.gameObject.transform.localPosition.y - .03f, headSpriteRend.gameObject.transform.localPosition.z);
         }
 
+        public void HandleHit()
+        {
+            StartCoroutine(FlashHit());
+        }
+
+        IEnumerator FlashHit()
+        {
+            faceSpriteRend.enabled = false;
+            bodySpriteRend.sprite = bodyHitSprite;
+            headSpriteRend.sprite = headHitSprite;
+
+            yield return new WaitForSeconds(.1f);
+
+            faceSpriteRend.enabled = true;
+            bodySpriteRend.sprite = oldBodySprite;
+            headSpriteRend.sprite = oldHeadSprite;
+        }
+
+        public void Reset()
+        {
+            faceSpriteRend.enabled = true;
+            bodySpriteRend.sprite = oldBodySprite;
+            headSpriteRend.sprite = oldHeadSprite;
+        }
     }
 }

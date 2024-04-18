@@ -11,6 +11,8 @@ namespace MyGame
         public float spawnRateIncreaseInterval;
         public float currentSpawnInterval;
         public float spawnRateIncrement;
+        public int minToSpawnAtOnce;
+        public int maxToSpawnAtOnce;
 
         private List<Transform> spawnPoints = new List<Transform>();
         private float spawnTimer;
@@ -18,6 +20,8 @@ namespace MyGame
         private int spawnedAmmountThisWave;
         private GameManager gameManager;
         private Player player;
+
+        public List<EnemyData> enemyTypes = new List<EnemyData>();
 
         private void Start()
         {
@@ -37,7 +41,7 @@ namespace MyGame
 
         private void Update()
         {
-            // follow player to stay out of camera so nothing spawns in there
+            //follow player to stay out of camera so nothing spawns in there
             transform.position = player.transform.position;
 
             if (shouldSpawn)
@@ -49,30 +53,38 @@ namespace MyGame
 
                     int spawnPosIndex;
 
-                    int iterations = 0;
-                    do
+                    int amountToSpawn = Random.Range(minToSpawnAtOnce, maxToSpawnAtOnce);
+                    for (int i = 0; i < amountToSpawn; i++)
                     {
-                        // this isn't performant but whatever hopefully it doesn't freeze
-                        spawnPosIndex = Random.Range(0, spawnPoints.Count);
+                        int iterations = 0;
 
-                        // just to stop it from potentially freezing
-                        if (iterations > spawnPoints.Count)
+                        do
                         {
+                            // this isn't performant but whatever hopefully it doesn't freeze
+                            spawnPosIndex = Random.Range(0, spawnPoints.Count);
+
+                            //just to stop it from potentially freezing
+                            if (iterations > spawnPoints.Count)
+                            {
+                                break;
+                            }
+
+                        } while (!gameManager.WithinBounds(spawnPoints[spawnPosIndex].position));
+
+                        int enemyTypeIndex = Random.Range(0, enemyTypes.Count);
+
+                        GameObject enemyGO = ObjectPool.instance.GetEnemy();
+                        enemyGO.GetComponentInChildren<Enemy>().SetData(enemyTypes[enemyTypeIndex]);
+                        enemyGO.SetActive(true);
+                        enemyGO.transform.position = spawnPoints[spawnPosIndex].position;
+                        enemyGO.transform.rotation = Quaternion.identity;
+
+                        spawnedAmmountThisWave++;
+                        if (spawnedAmmountThisWave >= gameManager.GetEnemyCountToSpawnThisRound())
+                        {
+                            shouldSpawn = false;
                             break;
                         }
-
-                    } while (!gameManager.WithinBounds(spawnPoints[spawnPosIndex].position));
-
-
-                    GameObject enemyGO = ObjectPool.instance.GetEnemy();
-                    enemyGO.SetActive(true);
-                    enemyGO.transform.position = spawnPoints[spawnPosIndex].position;
-                    enemyGO.transform.rotation = Quaternion.identity;
-
-                    spawnedAmmountThisWave++;
-                    if (spawnedAmmountThisWave >= gameManager.GetEnemyCountToSpawnThisRound())
-                    {
-                        shouldSpawn = false;
                     }
                 }
             }

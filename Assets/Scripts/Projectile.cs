@@ -7,8 +7,8 @@ namespace MyGame
 
     public class Projectile : MonoBehaviour
     {
-        [SerializeField]
-        private SpriteRenderer spriteRenderer;
+        
+        public SpriteRenderer spriteRenderer;
 
         [HideInInspector]
         public int projectileVelocity;
@@ -27,6 +27,8 @@ namespace MyGame
         private float spawnTime;
 
         private WeaponData _data;
+
+        public int penetration = 0;
 
         private void Start()
         {
@@ -50,6 +52,8 @@ namespace MyGame
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
+            // doesn't account for penetrator rounds - just keep it in mind.
+
             if (_data.useProjPhys)
             {
                 if (collision.tag == "Player" && !firedFromPlayer)

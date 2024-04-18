@@ -10,6 +10,8 @@ namespace MyGame
 
     public class GameManager : MonoBehaviour
     {
+        public int BaseKillsToLevel;
+
         // Singleton
         public static GameManager instance => _instance;
         private static GameManager _instance;
@@ -25,17 +27,23 @@ namespace MyGame
         public int rightBoundary;
         public int enemiesKilled;
         private int enemiesKilledThisRound;
+        private int playerLevel = 1;
+        private int killsToLevelUp;
+        private int killsSinceLastLevelUp;
         public bool inMenu = true;
-        public int level = 1;
+        public int wave = 1;
         public int baseEnemyAmountToSpawn;
         public List<WeaponData> weapons = new List<WeaponData>();
 
         [Header("UI")]
         public GameObject startUI;
         public Button startButton;
-        public GameObject betweenRoundsUI;
+        public GameObject shopUI;
+        public GameObject levelUpUI;
+        public GameObject controlsUI;
         public Button startRoundButton;
         public TMP_Text enemiesKilledText;
+        public TMP_Text samplesText;
         //public TMP_Text characterName;
         //public TMP_Text currentWeapon;
 
@@ -64,17 +72,19 @@ namespace MyGame
 
         public void RoundEnd()
         {
-            betweenRoundsUI.SetActive(true);
+            shopUI.SetActive(true);
+            controlsUI.SetActive(false);
             inMenu = true;
         }
 
         private void StartNewRound()
         {
             OnNewRound.Invoke();
-            betweenRoundsUI.SetActive(false);
+            shopUI.SetActive(false);
+            controlsUI.SetActive(true);
             enemiesKilledThisRound = 0;
             inMenu = false;
-            level++;
+            wave++;
         }
 
         private void StartGame()
@@ -84,14 +94,29 @@ namespace MyGame
             enemiesKilled = 0;
             enemiesKilledThisRound = 0;
             inMenu = false;
-            level = 1;
+            wave = 1;
+            playerLevel = 1;
+            killsToLevelUp = BaseKillsToLevel;
             enemiesKilledText.text = enemiesKilled.ToString();
+
+            UpdateSampleUI(0);
         }
 
         public void EnemyKilled()
         {
             enemiesKilled++;
             enemiesKilledThisRound++;
+            killsSinceLastLevelUp++;
+
+            // level the player up if necessary
+            if (killsSinceLastLevelUp >= killsToLevelUp)
+            {
+                killsSinceLastLevelUp = 0;
+                playerLevel++;
+                killsToLevelUp = BaseKillsToLevel * (playerLevel*2);
+                Time.timeScale = 0;
+                levelUpUI.SetActive(true);
+            }
 
             if (enemiesKilledThisRound >= GetEnemyCountToSpawnThisRound())
             {
@@ -101,9 +126,14 @@ namespace MyGame
             enemiesKilledText.text = enemiesKilled.ToString();
         }
 
+        public void UpdateSampleUI(int samples)
+        {
+            samplesText.text = samples.ToString();
+        }
+
         public int GetEnemyCountToSpawnThisRound()
         {
-            return baseEnemyAmountToSpawn * level;
+            return baseEnemyAmountToSpawn * wave;
         }
 
         public bool WithinBounds(Vector2 position)

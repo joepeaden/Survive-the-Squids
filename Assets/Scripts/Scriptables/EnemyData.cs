@@ -13,5 +13,6 @@ namespace MyGame
         public float attackInterval;
         public int xpReward;
         public int damage;
+        public Sprite bodySprite;
     }
 }

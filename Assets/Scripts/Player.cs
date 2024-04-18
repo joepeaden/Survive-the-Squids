@@ -9,7 +9,6 @@ namespace MyGame
         public static Player instance;
         public float moveForce;
         public List<Enemy> enemiesInRange = new List<Enemy>();
-        public List<CharacterBody> CharacterBodies => characterBodies;
 
         public CharacterStatsData statsData;
         public Dictionary<CharacterInfo.CharTraits, TraitData> traitEnumToData = new Dictionary<CharacterInfo.CharTraits, TraitData>();
@@ -22,14 +21,16 @@ namespace MyGame
         [SerializeField]
         // character bodies (to be filled in with character info)
         private List<CharacterBody> characterBodies;
+        /// <summary>
+        /// Characters actually being played in the game (not inactive bodies)
+        /// </summary>
+        public List<CharacterBody> ActiveCharacters;
 
-        // backend info about the characters
-        private List<CharacterInfo> characters = new List<CharacterInfo>();
-        private List<WeaponData> ownedWeapons = new List<WeaponData>();
-        //private int characterIndex = 0;
-        private CharacterBody controlledCharacter;
         private Rigidbody2D rb;
         private GameManager gameManager;
+
+        [HideInInspector]
+        public int playerSamples;
 
         private void Awake()
         {
@@ -47,9 +48,6 @@ namespace MyGame
             gameManager = GameManager.instance;
             rb = GetComponent<Rigidbody2D>();
             gameManager.OnGameStart.AddListener(HandleGameStart);
-
-            ownedWeapons.Add(gameManager.weapons[0]);
-            HandleGameStart();
         }
 
         private void OnDestroy()
@@ -89,6 +87,12 @@ namespace MyGame
             }
         }
 
+        public void UpdateSamples(int num)
+        {
+            playerSamples += num;
+            gameManager.UpdateSampleUI(playerSamples);
+        }
+
         public Enemy GetEnemy()
         {
             if (enemiesInRange.Count == 0)
@@ -100,33 +104,47 @@ namespace MyGame
             return enemiesInRange[randomIndex];
         }
 
+        public void CheckGameOver()
+        {
+            if (ActiveCharacters.Count <= 0)
+            {
+                gameManager.GameOver();
+            }
+        }
+
+        public void  AddCharacter()
+        {
+            CharacterInfo charInfo = new CharacterInfo(statsData);
+
+            foreach (CharacterBody charBody in characterBodies)
+            {
+                if (!charBody.isActiveAndEnabled)
+                {
+                    charBody.SetCharacter(charInfo);
+                    charBody.SetBodyActive(true);
+                    ActiveCharacters.Add(charBody);
+
+                    break;
+                }
+            }
+        }
+
         private void HandleGameStart()
         {
             for (int i = 0; i < characterBodies.Count; i++)
             {
                 characterBodies[i].Reset();
             }
+            ActiveCharacters.Clear();
 
-            characters.Clear();
-            for (int i = 0; i < 9; i++)
-            {
-                CharacterInfo charInfo = new CharacterInfo(statsData);
-                characters.Add(charInfo);
+            CharacterInfo charInfo = new CharacterInfo(statsData);
+            characterBodies[0].SetCharacter(charInfo);
+            characterBodies[0].SetBodyActive(true);
+            ActiveCharacters.Add(characterBodies[0]);
 
-                AssignCharacterInfoToBody(charInfo, characterBodies[i]);
-            }
-
-            //SwitchCharacters(0);
+            playerSamples = 0;
 
             transform.position = Vector2.zero;
-
-            // remove all weapons but the initial one
-            ownedWeapons.RemoveRange(1, ownedWeapons.Count - 1);
-        }
-
-        private void AssignCharacterInfoToBody(CharacterInfo charInfo, CharacterBody body)
-        {
-            body.SetCharacter(charInfo);
         }
 
         private void UpdateMovement()
@@ -160,18 +178,11 @@ namespace MyGame
         {
             foreach (CharacterBody body in characterBodies)
             {
-                body.SetCharacter(body.CharInfo);
+                if (body.isActiveAndEnabled)
+                {
+                    body.SetCharacter(body.CharInfo);
+                }
             }
-        }
-
-        public void PickupWeapon(WeaponData weapon)
-        {
-            ownedWeapons.Add(weapon);
-
-            controlledCharacter.SetWeapon(weapon);
-            controlledCharacter.CharInfo.weaponData = weapon;
-
-            //gameManager.UpdateCharacterUI(controlledCharacter);
         }
     }
 }

@@ -73,6 +73,8 @@ namespace MyGame
         private int baseHitPoints;
         private int hitPointsBuff;
 
+        public bool hasPenetratorRounds;
+
         public CharacterInfo(CharacterStatsData newStatsData)
         {
             if (!staticsInitialized)
@@ -164,9 +166,26 @@ namespace MyGame
             Player.instance.UpdateCharBodies();
         }
 
-        public void SetWeapon(WeaponData newWeapon)
+        /// <summary>
+        /// Set the wapon for hte chereacter. TYPOS FTW!
+        /// </summary>
+        /// <param name="newWeapon"></param>
+        /// <param name="updateBody">Should we trigger an update for the character?</param>
+        public void SetWeapon(WeaponData newWeapon, bool updateBody = false)
         {
             weaponData = newWeapon;
+            if (updateBody)
+            {
+                Player.instance.UpdateCharBodies();
+            }
+        }
+
+        public void AddWeaponUpgrade(WeaponUpgradeData weaponUpgrade)
+        {
+            //if (weaponUpgrade.name == )
+
+            //for now, assume it's just penetrator rounds.
+            hasPenetratorRounds = true;
         }
 
         private void AssignRandomName()

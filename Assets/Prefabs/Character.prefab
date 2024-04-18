@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 685070147801800817}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8888533289016025869}
@@ -240,37 +240,6 @@ MonoBehaviour:
   gunBlastAnim: {fileID: 8714468551880767446}
   gunMoveAnim: {fileID: 3972352173710296337}
   shellCasing: {fileID: 985649568063755930, guid: 622c8443f398a4ecdaa309785f0be338, type: 3}
---- !u!1 &4514281841048777463
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7960849226710657826}
-  m_Layer: 7
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7960849226710657826
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4514281841048777463}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.03, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8888533289016025869}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7356236697645773130
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,7 +251,7 @@ GameObject:
   - component: {fileID: 3253055278505099794}
   - component: {fileID: 330942476638407572}
   m_Layer: 7
-  m_Name: Body
+  m_Name: BodySprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -386,7 +355,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6678824127911143058}
-  - {fileID: 7960849226710657826}
   m_Father: {fileID: 4492700896817343786}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -402,11 +370,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a596b6b2e0e345e18b96db17dc98f05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayerControlled: 0
   canAttack: 1
   isDead: 0
-  weaponSprite: {fileID: 8536514623455650912}
   weaponSpriteScript: {fileID: 5229110389691575294}
+  charSpriteScript: {fileID: 1681464006233582822}
   charName: 
 --- !u!58 &8147916453871793020
 CircleCollider2D:
@@ -564,15 +531,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cf9aaa3fd62645df85e0df6f6dae20c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faceSprite: {fileID: 1200144379827762306}
-  headSprite: {fileID: 8079920048399191969}
-  bodySprite: {fileID: 330942476638407572}
+  faceSpriteRend: {fileID: 1200144379827762306}
+  headSpriteRend: {fileID: 8079920048399191969}
+  bodySpriteRend: {fileID: 330942476638407572}
   charBody: {fileID: 8888533289016025869}
+  headHitSprite: {fileID: 21300000, guid: 2e1bd9fc8ef0a4f1bb8ffc8d95ed2a20, type: 3}
+  bodyHitSprite: {fileID: 21300000, guid: 1731413acb03a4d7caecf5c89c8af026, type: 3}
   upFace: {fileID: 21300000, guid: 815af85b916fa4486994fa81ab050c18, type: 3}
   downFace: {fileID: 21300000, guid: 43edb2b7399ff4b75ba58e3e84576497, type: 3}
   leftFace: {fileID: 21300000, guid: dd7e88fc6a1c049c3ac5342107275c70, type: 3}
   rightFace: {fileID: 21300000, guid: 76073fe2ca0d34f9eb49f43a8fe655cb, type: 3}
-  headFollower: {fileID: 7960849226710657826}
 --- !u!1 &8555844597671647841
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,5 +16,5 @@ namespace MyGame
         public ScriptableObject associatedData;
     }
 
-    public enum UpgradeType { weapon, armor, support };
+    public enum UpgradeType { weapon, armor, support, recruit, companyBuff, characterBuff, weaponUpgrade };
 }
