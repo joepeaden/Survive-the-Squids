@@ -46,28 +46,34 @@ namespace MyGame
 
         private void Update()
         {
+            if (weaponData == null)
+            {
+                return;
+            }
+
             attackTimer -= Time.deltaTime;
 
             if (!gameManager.inMenu)
             {
-                if (ManualAimEnabled)
-                {
-                    UpdateRotation();
+                //if (ManualAimEnabled)
+                //{
+                //    UpdateRotation();
 
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        Attack();
-                    }
-                }
-                else
-                {
-                    if (currentTarget == null || currentTarget.isDead)
+                //    if (Input.GetMouseButtonDown(0))
+                //    {
+                //        Attack();
+                //    }
+                //}
+                //else
+                //{
+                    
+                    if (weaponData.controlStyle == ControlStyle.freeAim360 && currentTarget == null || (currentTarget != null && currentTarget.isDead))
                     {
                         currentTarget = player.GetEnemy();
                     }
 
-                    if (currentTarget != null)
-                    {
+                    if (currentTarget != null || weaponData.controlStyle == ControlStyle.moveDirection)
+                {
                         UpdateRotation();
 
                         if (canAttack && attackTimer <= 0)
@@ -75,7 +81,7 @@ namespace MyGame
                             Attack();
                         }
                     }
-                }
+                //}
             }
         }
 
@@ -173,14 +179,24 @@ namespace MyGame
 
         private Vector3 GetTargetDirection()
         {
-            if (ManualAimEnabled)
+            //if (ManualAimEnabled)
+            //{
+            //    Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //    return (mousePos - transform.position).normalized;
+            //}
+            //else
+
+            if (weaponData.controlStyle == ControlStyle.moveDirection)
             {
-                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                return (mousePos - transform.position).normalized;
+                return player.MoveDirection.normalized;
+            }
+            else if (weaponData.controlStyle == ControlStyle.freeAim360)
+            {
+                return (currentTarget.transform.position - transform.position).normalized;
             }
             else
             {
-                return (currentTarget.transform.position - transform.position).normalized;
+                return player.MoveDirection.normalized;
             }
         }
 

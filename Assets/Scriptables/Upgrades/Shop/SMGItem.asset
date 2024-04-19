@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: SMG
   image: {fileID: 21300000, guid: 7a9fde81fdfcf4b138e7ddef39cf25d1, type: 3}
-  cost: 10
+  cost: 1
   details:
   - 'Damage: 1'
   - 'Fire Per Second: 3'

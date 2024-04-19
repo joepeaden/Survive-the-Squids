@@ -4435,7 +4435,7 @@ MonoBehaviour:
   enemiesKilled: 0
   inMenu: 0
   wave: 1
-  baseEnemyAmountToSpawn: 30
+  baseEnemyAmountToSpawn: 10
   weapons:
   - {fileID: 11400000, guid: fae2db17dc578408b8f0507baaa51ac6, type: 2}
   - {fileID: 11400000, guid: bf5321317bf30420ab796e8514e13778, type: 2}
@@ -6579,8 +6579,6 @@ MonoBehaviour:
   maxToSpawnAtOnce: 15
   enemyTypes:
   - {fileID: 11400000, guid: 3fa37d304f3784862a5c5a107fc35c5b, type: 2}
-  - {fileID: 11400000, guid: 5bb03dc51b61f4ede92c29ecb783c727, type: 2}
-  - {fileID: 11400000, guid: a5a9c0860c1914587890c27b55fad680, type: 2}
 --- !u!4 &1016082369
 Transform:
   m_ObjectHideFlags: 0

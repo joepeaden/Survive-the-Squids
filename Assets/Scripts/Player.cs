@@ -32,6 +32,9 @@ namespace MyGame
         [HideInInspector]
         public int playerSamples;
 
+        public Vector2 MoveDirection => moveDirection;
+        Vector2 moveDirection;
+
         private void Awake()
         {
             instance = this;
@@ -149,25 +152,31 @@ namespace MyGame
 
         private void UpdateMovement()
         {
-            Vector2 direction = Vector2.zero;
+            Vector2 newMoveDirection = Vector2.zero;
+
             if (Input.GetKey(KeyCode.W))
             {
-                direction += (Vector2.up);
+                newMoveDirection += (Vector2.up);
             }
             if (Input.GetKey(KeyCode.S))
             {
-                direction += (-Vector2.up);
+                newMoveDirection += (-Vector2.up);
             }
             if (Input.GetKey(KeyCode.D))
             {
-                direction += (Vector2.right);
+                newMoveDirection += (Vector2.right);
             }
             if (Input.GetKey(KeyCode.A))
             {
-                direction += (-Vector2.right);
+                newMoveDirection += (-Vector2.right);
             }
 
-            rb.AddForce(direction * moveForce);
+            rb.AddForce(newMoveDirection * moveForce);
+
+            if (newMoveDirection != Vector2.zero)
+            {
+                moveDirection = newMoveDirection;
+            }
             //rb.velocity = newVelocity * moveForce;
         }
 

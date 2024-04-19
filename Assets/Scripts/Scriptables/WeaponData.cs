@@ -19,5 +19,8 @@ namespace MyGame
         public float knockBack;
         public Sprite projSprite;
         public Sprite weaponSprite;
+        public ControlStyle controlStyle;
     }
+
+    public enum ControlStyle { moveDirection, freeAim360 };
 }

@@ -19,7 +19,8 @@ MonoBehaviour:
   projectileVelocity: 100
   projSpreadAngle: 0
   projPerShot: 1
-  stunTime: 0
-  knockBack: 0
+  stunTime: 0.5
+  knockBack: 10
   projSprite: {fileID: 21300000, guid: a6b43c69cc25249db9bc17c4c88c8448, type: 3}
   weaponSprite: {fileID: 21300000, guid: 0695eb6e341d54a6d9ce43e08a5b8e2d, type: 3}
+  controlStyle: 0
