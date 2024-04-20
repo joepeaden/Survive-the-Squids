@@ -15,6 +15,7 @@ MonoBehaviour:
   weaponName: Assault Rifle
   attackInterval: 0.3
   damage: 2
+  range: 10
   useProjPhys: 0
   projectileVelocity: 100
   projSpreadAngle: 0
@@ -23,4 +24,3 @@ MonoBehaviour:
   knockBack: 10
   projSprite: {fileID: 21300000, guid: 5d067c9ec6ed54f6488041068c67d699, type: 3}
   weaponSprite: {fileID: 21300000, guid: 485b52fa17bfd4bbb9c2a5ade452f846, type: 3}
-  controlStyle: 1

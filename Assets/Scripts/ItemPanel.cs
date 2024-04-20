@@ -24,6 +24,11 @@ namespace MyGame
 
         [SerializeField] Transform detailParent;
 
+        void Start()
+        {
+            purchaseButton.onClick.AddListener(PurchaseItem);//ShopScreen.Instance.SetCurrentUpgradeItem(TheUpgradeItem));
+        }
+
         public void SetItem(UpgradeItemData theItem)
         {
             for (int i = 0; i < detailParent.childCount; i++)
@@ -57,7 +62,40 @@ namespace MyGame
         {
             purchaseButton.interactable = Player.instance.playerSamples >= TheUpgradeItem.cost;
             purchaseButton.GetComponentInChildren<TMP_Text>().color = purchaseButton.interactable ? Color.green : Color.red;
-            purchaseButton.onClick.AddListener(() => ShopScreen.Instance.SetCurrentUpgradeItem(TheUpgradeItem));
+        }
+
+        void PurchaseItem()
+        {
+            //UpgradeItemData theItem = ShopScreen.Instance.CurrentUpgradeItem;
+
+            if (TheUpgradeItem != null)
+            {
+                switch (TheUpgradeItem.upgradeType)
+                {
+                    case UpgradeType.weapon:
+                        //thisCharInfo.SetWeapon((WeaponData)TheUpgradeItem.associatedData, true);
+                        //weaponImage.sprite = theUpgradeItem.image;
+                        CharacterBody c = Player.instance.AddCharacter();
+                        c.CharInfo.SetWeapon((WeaponData)TheUpgradeItem.associatedData, true);
+
+                        Player.instance.UpdateSamples(-TheUpgradeItem.cost);
+                        //ShopScreen.Instance.SetCurrentUpgradeItem(null);
+
+                        // for upgrades. probably temporary.
+                        if (TheUpgradeItem.itemName == "Rifle")
+                        {
+                            ShopScreen.Instance.playerHasRifle = true;
+                        }
+                        break;
+                    case UpgradeType.weaponUpgrade:
+                        //thisCharInfo.AddWeaponUpgrade((WeaponUpgradeData)theItem.associatedData);
+                        //Player.instance.UpdateSamples(-theItem.cost);
+                        //ShopScreen.Instance.SetCurrentUpgradeItem(null);
+                        break;
+                }
+
+                GameManager.instance.StartNewRound();
+            }
         }
 
         private void OnDisable()

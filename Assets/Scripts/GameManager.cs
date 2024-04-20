@@ -77,7 +77,7 @@ namespace MyGame
             inMenu = true;
         }
 
-        private void StartNewRound()
+        public void StartNewRound()
         {
             OnNewRound.Invoke();
             shopUI.SetActive(false);
@@ -111,11 +111,11 @@ namespace MyGame
             // level the player up if necessary
             if (killsSinceLastLevelUp >= killsToLevelUp)
             {
-                killsSinceLastLevelUp = 0;
-                playerLevel++;
-                killsToLevelUp = BaseKillsToLevel * (playerLevel*2);
-                Time.timeScale = 0;
-                levelUpUI.SetActive(true);
+                //killsSinceLastLevelUp = 0;
+                //playerLevel++;
+                //killsToLevelUp = BaseKillsToLevel * (playerLevel*2);
+                //Time.timeScale = 0;
+                //levelUpUI.SetActive(true);
             }
 
             if (enemiesKilledThisRound >= GetEnemyCountToSpawnThisRound())

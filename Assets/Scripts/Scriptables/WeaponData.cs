@@ -11,6 +11,7 @@ namespace MyGame
         public string weaponName;
         public float attackInterval;
         public int damage;
+        public float range;
         public bool useProjPhys;
         public int projectileVelocity;
         public int projSpreadAngle;
@@ -19,8 +20,5 @@ namespace MyGame
         public float knockBack;
         public Sprite projSprite;
         public Sprite weaponSprite;
-        public ControlStyle controlStyle;
     }
-
-    public enum ControlStyle { moveDirection, freeAim360 };
 }

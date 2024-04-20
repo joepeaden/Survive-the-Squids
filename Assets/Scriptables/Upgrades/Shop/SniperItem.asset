@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62a3b6825c12a415cb81c887e9a0450f, type: 3}
-  m_Name: SMGItem
+  m_Name: SniperItem
   m_EditorClassIdentifier: 
-  itemName: SMG
-  image: {fileID: 21300000, guid: 7a9fde81fdfcf4b138e7ddef39cf25d1, type: 3}
+  itemName: Sniper
+  image: {fileID: 21300000, guid: 485b52fa17bfd4bbb9c2a5ade452f846, type: 3}
   cost: 0
   details:
   - 'Damage: 1'
   - 'Fire Per Second: 3'
   - 'Capacity: 40'
   upgradeType: 0
-  associatedData: {fileID: 11400000, guid: 1d6ead512bbb34b4bb0f12ddb5dc6df9, type: 2}
+  associatedData: {fileID: 11400000, guid: a94d25d2fed084349a743bbe707e3cd5, type: 2}

@@ -15,6 +15,7 @@ MonoBehaviour:
   weaponName: Basic Pistol
   attackInterval: 0.7
   damage: 1
+  range: 5
   useProjPhys: 0
   projectileVelocity: 100
   projSpreadAngle: 0
@@ -23,4 +24,3 @@ MonoBehaviour:
   knockBack: 10
   projSprite: {fileID: 21300000, guid: a6b43c69cc25249db9bc17c4c88c8448, type: 3}
   weaponSprite: {fileID: 21300000, guid: 0695eb6e341d54a6d9ce43e08a5b8e2d, type: 3}
-  controlStyle: 0

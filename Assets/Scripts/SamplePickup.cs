@@ -16,15 +16,18 @@ namespace MyGame
             gameManager.OnGameStart.AddListener(RemoveOldSample);
         }
 
+        
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.GetComponent<CharacterBody>())
-            {
+            // should only happen with player circle pickup zone thing. Cause they re on the pickup physics layer
+
+            //if (other.GetComponent<CharacterBody>())
+            //{
                 player.UpdateSamples(1);
 
                 // maybe no need for object pooling cause it's not like there's gonna be a lot
                 Destroy(gameObject);
-            }
+            //}
         }
 
         private void RemoveOldSample()

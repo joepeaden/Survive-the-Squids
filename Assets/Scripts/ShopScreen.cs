@@ -83,12 +83,12 @@ namespace MyGame
 
             List<UpgradeItemData> items = new List<UpgradeItemData>();
             items.AddRange(shopItems);
-            if (playerHasRifle)
-            {
-                items.Add(penetratorUpgrade);
-                items.Add(slamUpgrade);
-                items.Add(stunUpgrade);
-            }
+            //if (playerHasRifle)
+            //{
+            //    items.Add(penetratorUpgrade);
+            //    items.Add(slamUpgrade);
+            //    items.Add(stunUpgrade);
+            //}
 
             for (int i = 0; i < itemPanels.Count; i++)
             {

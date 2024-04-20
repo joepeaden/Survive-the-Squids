@@ -35,6 +35,7 @@ namespace MyGame
 
         public CharacterInfo CharInfo => charInfo;
         private CharacterInfo charInfo;
+        public List<Enemy> enemiesInRange = new List<Enemy>();
 
         private int hitPoints;
 
@@ -42,6 +43,22 @@ namespace MyGame
         {
             player = Player.instance;
             gameManager = GameManager.instance;
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.tag == "Enemy")
+            {
+                enemiesInRange.Add(collision.GetComponent<Enemy>());
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            if (collision.tag == "Enemy")
+            {
+                enemiesInRange.Remove(collision.GetComponent<Enemy>());
+            }
         }
 
         private void Update()
@@ -67,14 +84,20 @@ namespace MyGame
                 //else
                 //{
                     
-                    if (weaponData.controlStyle == ControlStyle.freeAim360 && currentTarget == null || (currentTarget != null && currentTarget.isDead))
+                    if (currentTarget == null || (currentTarget != null && currentTarget.isDead))
                     {
-                        currentTarget = player.GetEnemy();
+                        if (currentTarget != null)
+                        {
+                            enemiesInRange.Remove(currentTarget);
+                        }
+
+                        currentTarget = GetEnemy();
                     }
 
-                    if (currentTarget != null || weaponData.controlStyle == ControlStyle.moveDirection)
+                UpdateRotation();
+
+                if (currentTarget != null)// || weaponData.controlStyle == ControlStyle.moveDirection)
                 {
-                        UpdateRotation();
 
                         if (canAttack && attackTimer <= 0)
                         {
@@ -83,6 +106,18 @@ namespace MyGame
                     }
                 //}
             }
+        }
+
+
+        public Enemy GetEnemy()
+        {
+            if (enemiesInRange.Count == 0)
+            {
+                return null;
+            }
+
+            int randomIndex = Random.Range(0, enemiesInRange.Count);
+            return enemiesInRange[randomIndex];
         }
 
         public void SetBodyActive(bool shouldEnable)
@@ -186,11 +221,9 @@ namespace MyGame
             //}
             //else
 
-            if (weaponData.controlStyle == ControlStyle.moveDirection)
-            {
-                return player.MoveDirection.normalized;
-            }
-            else if (weaponData.controlStyle == ControlStyle.freeAim360)
+            //if (weaponData.controlStyle == ControlStyle.moveDirection)
+            //{
+            if (currentTarget != null)
             {
                 return (currentTarget.transform.position - transform.position).normalized;
             }
@@ -204,14 +237,14 @@ namespace MyGame
         {
             hitPoints -= damage;
 
-            if (hitPoints <= 0)
-            {
-                Die();
-            }
-            else
-            {
+            //if (hitPoints <= 0)
+            //{
+            //    Die();
+            //}
+            //else
+            //{
                 charSpriteScript.HandleHit();
-            }
+            //}
         }
 
         public void Die()
@@ -246,10 +279,12 @@ namespace MyGame
             hitPoints = charInfo.TotalHitPoints;
         }
 
+        [SerializeField] CircleCollider2D rangeTrigger;
         public void SetWeapon(WeaponData newWeapon)
         {
             weaponData = newWeapon;
             weaponSpriteScript.SetWeapon(newWeapon);
+            rangeTrigger.radius = newWeapon.range;
         }
     }
 }

@@ -8,7 +8,6 @@ namespace MyGame
     {
         public static Player instance;
         public float moveForce;
-        public List<Enemy> enemiesInRange = new List<Enemy>();
 
         public CharacterStatsData statsData;
         public Dictionary<CharacterInfo.CharTraits, TraitData> traitEnumToData = new Dictionary<CharacterInfo.CharTraits, TraitData>();
@@ -34,6 +33,18 @@ namespace MyGame
 
         public Vector2 MoveDirection => moveDirection;
         Vector2 moveDirection;
+
+        public Transform hitCircle;
+
+        public List<Vector2> positions2Chars = new List<Vector2>();
+        public List<Vector2> positions3Chars = new List<Vector2>();
+        public List<Vector2> positions4Chars = new List<Vector2>();
+        public List<Vector2> positions5Chars = new List<Vector2>();
+        public List<Vector2> positions6Chars = new List<Vector2>();
+        public List<Vector2> positions7Chars = new List<Vector2>();
+        public List<Vector2> positions8Chars = new List<Vector2>();
+
+        //public List<Vector2> positions9Chars = new List<Vector2>();
 
         private void Awake()
         {
@@ -74,19 +85,21 @@ namespace MyGame
             }
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        int hitPoints = 100;
+        public void GetHit(int damage)
         {
-            if (collision.tag == "Enemy")
-            {
-                enemiesInRange.Add(collision.GetComponent<Enemy>());
-            }
-        }
+            hitPoints--;
 
-        private void OnTriggerExit2D(Collider2D collision)
-        {
-            if (collision.tag == "Enemy")
+            if (hitPoints <= 0)
             {
-                enemiesInRange.Remove(collision.GetComponent<Enemy>());
+                gameManager.GameOver();
+            }
+            else
+            {
+                foreach (CharacterBody b in ActiveCharacters)
+                {
+                    b.GetHit(damage);
+                }
             }
         }
 
@@ -96,26 +109,16 @@ namespace MyGame
             gameManager.UpdateSampleUI(playerSamples);
         }
 
-        public Enemy GetEnemy()
-        {
-            if (enemiesInRange.Count == 0)
-            {
-                return null;
-            }
-
-            int randomIndex = Random.Range(0, enemiesInRange.Count);
-            return enemiesInRange[randomIndex];
-        }
 
         public void CheckGameOver()
         {
-            if (ActiveCharacters.Count <= 0)
-            {
-                gameManager.GameOver();
-            }
+            //if (ActiveCharacters.Count <= 0)
+            //{
+            //    gameManager.GameOver();
+            //}
         }
 
-        public void  AddCharacter()
+        public CharacterBody  AddCharacter()
         {
             CharacterInfo charInfo = new CharacterInfo(statsData);
 
@@ -127,9 +130,56 @@ namespace MyGame
                     charBody.SetBodyActive(true);
                     ActiveCharacters.Add(charBody);
 
-                    break;
+                    // gonna change this
+
+                    List<Vector2> characterPositions;
+                    switch (ActiveCharacters.Count)
+                    {
+                        case 2:
+                            characterPositions = positions2Chars;
+                            hitCircle.transform.localScale = new Vector3(1.2f, 1.2f);
+                            break;
+                        case 3:
+                            characterPositions = positions3Chars;
+                            hitCircle.transform.localScale = new Vector3(1.5f, 1.5f);
+                            break;
+                        case 4:
+                            characterPositions = positions4Chars;
+                            hitCircle.transform.localScale = new Vector3(1.8f, 1.8f);
+                            break;
+                        case 5:
+                            characterPositions = positions5Chars;
+                            hitCircle.transform.localScale = new Vector3(2f, 2f);
+                            break;
+                        case 6:
+                            characterPositions = positions6Chars;
+                            break;
+                        case 7:
+                            characterPositions = positions7Chars;
+                            hitCircle.transform.localScale = new Vector3(2.2f, 2.2f);
+                            break;
+                        case 8:
+                            characterPositions = positions8Chars;
+                            break;
+                        //case 9:
+                        //    characterPositions = positions9Chars;
+                        //    break;
+                        default:
+                            return charBody;
+                    }
+
+                    for (int i = 0; i < ActiveCharacters.Count; i++)
+                    {
+                        ActiveCharacters[i].transform.parent.localPosition = characterPositions[i];
+                    }
+
+                    return charBody;
                 }
             }
+
+            Debug.LogWarning("No characters left to add!");
+
+            return null;
         }
 
         private void HandleGameStart()
@@ -148,6 +198,7 @@ namespace MyGame
             playerSamples = 0;
 
             transform.position = Vector2.zero;
+            hitCircle.transform.localScale = new Vector3(1f, 1f);
         }
 
         private void UpdateMovement()

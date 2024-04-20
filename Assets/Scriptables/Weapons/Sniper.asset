@@ -10,17 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2794bd9a678304bf4bb8b44a08efb237, type: 3}
-  m_Name: SMG
+  m_Name: Sniper
   m_EditorClassIdentifier: 
-  weaponName: SMG
-  attackInterval: 0.1
-  damage: 1
-  range: 3
+  weaponName: Sniper
+  attackInterval: 1
+  damage: 10
   useProjPhys: 0
   projectileVelocity: 100
   projSpreadAngle: 0
   projPerShot: 1
   stunTime: 0.5
   knockBack: 10
-  projSprite: {fileID: 21300000, guid: a6b43c69cc25249db9bc17c4c88c8448, type: 3}
-  weaponSprite: {fileID: 21300000, guid: 7a9fde81fdfcf4b138e7ddef39cf25d1, type: 3}
+  projSprite: {fileID: 21300000, guid: 5d067c9ec6ed54f6488041068c67d699, type: 3}
+  weaponSprite: {fileID: 21300000, guid: 485b52fa17bfd4bbb9c2a5ade452f846, type: 3}
+  controlStyle: 1
+  firingArc: 360
+  facingDirs:
+  - {x: 1, y: 0}
+  autoShoot: 0
+  scanVisualSpeed: 0.1
