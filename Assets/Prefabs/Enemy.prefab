@@ -184,6 +184,9 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: 3fa37d304f3784862a5c5a107fc35c5b, type: 2}
   sampleDrop: {fileID: 2573718352448038753, guid: 6b39f1f2904124795a3abf95adb30326, type: 3}
   spriteController: {fileID: 4489314789699784413}
+  OnGetHit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &5816883633718698424
 GameObject:
   m_ObjectHideFlags: 0
@@ -365,7 +368,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7963171769337099550}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: e2a1f6ecef6e94eb2915d2b9e9f4c1e2, type: 2}
   m_CullingMode: 0

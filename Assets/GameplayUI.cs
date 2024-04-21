@@ -8,6 +8,7 @@ namespace MyGame
     public class GameplayUI : MonoBehaviour
     {
         public static GameplayUI Instance;
+        public Transform healthBarsParent;
 
         public GameObject healthBarPrefab;
 
@@ -18,7 +19,7 @@ namespace MyGame
 
         public void AddHealthBar(Enemy e)
         {
-            GameObject hb = Instantiate(healthBarPrefab, transform);
+            GameObject hb = Instantiate(healthBarPrefab, healthBarsParent);
             hb.GetComponent<HealthBar>().SetupHealthBar(e);
         }
     }

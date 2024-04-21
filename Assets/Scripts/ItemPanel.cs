@@ -44,7 +44,7 @@ namespace MyGame
 
             title.text = TheUpgradeItem.itemName;
             image.sprite = TheUpgradeItem.image;
-            cost.text = TheUpgradeItem.cost + " samples";
+            //cost.text = TheUpgradeItem.cost + " samples";
 
             defaultTextItem.gameObject.SetActive(false);
 
@@ -78,7 +78,7 @@ namespace MyGame
                         CharacterBody c = Player.instance.AddCharacter();
                         c.CharInfo.SetWeapon((WeaponData)TheUpgradeItem.associatedData, true);
 
-                        Player.instance.UpdateSamples(-TheUpgradeItem.cost);
+                        //Player.instance.UpdateSamples(-TheUpgradeItem.cost);
                         //ShopScreen.Instance.SetCurrentUpgradeItem(null);
 
                         // for upgrades. probably temporary.

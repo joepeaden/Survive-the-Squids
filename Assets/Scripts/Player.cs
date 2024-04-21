@@ -46,6 +46,8 @@ namespace MyGame
 
         //public List<Vector2> positions9Chars = new List<Vector2>();
 
+        public int HitPoints = 10;
+
         private void Awake()
         {
             instance = this;
@@ -85,12 +87,11 @@ namespace MyGame
             }
         }
 
-        int hitPoints = 100;
         public void GetHit(int damage)
         {
-            hitPoints--;
+            HitPoints--;
 
-            if (hitPoints <= 0)
+            if (HitPoints <= 0)
             {
                 gameManager.GameOver();
             }
@@ -101,12 +102,14 @@ namespace MyGame
                     b.GetHit(damage);
                 }
             }
+
+            PlayerBar.Instance.HandleHit();
         }
 
         public void UpdateSamples(int num)
         {
             playerSamples += num;
-            gameManager.UpdateSampleUI(playerSamples);
+            gameManager.UpdateSamples(playerSamples);
         }
 
 
@@ -199,6 +202,8 @@ namespace MyGame
 
             transform.position = Vector2.zero;
             hitCircle.transform.localScale = new Vector3(1f, 1f);
+
+            PlayerBar.Instance.Initialize();
         }
 
         private void UpdateMovement()

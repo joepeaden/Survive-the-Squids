@@ -9,6 +9,8 @@ namespace MyGame
 
     public class Enemy : MonoBehaviour
     {
+        public static int EnemiesAlive;
+
         public bool isDead;
         public EnemyData data;
 
@@ -36,7 +38,7 @@ namespace MyGame
             rb = GetComponent<Rigidbody2D>();
         }
 
-        private void OnEnable()
+        private void Initialize()
         {
             player = Player.instance;
             isDead = false;
@@ -47,6 +49,8 @@ namespace MyGame
                 pathfinder = GetComponent<AIPath>();
             }
             pathfinder.maxSpeed = data.moveSpeed;
+
+            EnemiesAlive++;
         }
 
         private void Update()
@@ -98,6 +102,7 @@ namespace MyGame
         {
             data = newData;
             spriteController.bodySprite.sprite = newData.bodySprite;
+            Initialize();
         }
 
         private void PickTarget()
@@ -153,6 +158,8 @@ namespace MyGame
 
             isDead = true;
             GameManager.instance.EnemyKilled();
+
+            EnemiesAlive--;
 
             transform.parent.gameObject.SetActive(false);
         }

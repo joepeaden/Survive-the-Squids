@@ -4,15 +4,21 @@ using UnityEngine;
 
 namespace MyGame
 {
+    /*
+     * Plan:
+     *  - One wave per minute
+     *  - Spawn until target number of enemies on screen for that wave
+     */
+
 
     public class EnemySpawner : MonoBehaviour
     {
-        public float baseSpawnInterval;
-        public float spawnRateIncreaseInterval;
-        public float currentSpawnInterval;
-        public float spawnRateIncrement;
-        public int minToSpawnAtOnce;
-        public int maxToSpawnAtOnce;
+        public float SpawnInterval;
+        //public float spawnRateIncreaseInterval;
+        //public float currentSpawnInterval;
+        //public float spawnRateIncrement;
+        //public int minToSpawnAtOnce;
+        //public int maxToSpawnAtOnce;
 
         private List<Transform> spawnPoints = new List<Transform>();
         private float spawnTimer;
@@ -23,6 +29,15 @@ namespace MyGame
 
         public List<EnemyData> enemyTypes = new List<EnemyData>();
 
+        int wave = 0;
+        public int BaseTargetEnemyCount;
+        public int TargetEnemyCount;
+        float waveStartTime;
+        public float waveInterval;
+
+        public int enemiesAlive;
+
+
         private void Start()
         {
             for (int i = 0; i < transform.childCount; i++)
@@ -32,29 +47,43 @@ namespace MyGame
 
             gameManager = GameManager.instance;
             gameManager.OnGameStart.AddListener(HandleGameStart);
-            gameManager.OnNewRound.AddListener(HandleNewRound);
+            //gameManager.OnNewRound.AddListener(HandleNewRound);
 
-            StartCoroutine(IncrementSpawnInterval());
+            //StartCoroutine(IncrementSpawnInterval());
 
             player = Player.instance;
         }
 
         private void Update()
         {
+            enemiesAlive = Enemy.EnemiesAlive;
             //follow player to stay out of camera so nothing spawns in there
             transform.position = player.transform.position;
 
+
             if (shouldSpawn)
             {
+
+                // increment wave# and enemies to spawn every minue
+                float timeSinceLastWave = Time.time - waveStartTime;
+                if (timeSinceLastWave > waveInterval)
+                {
+                    wave++;
+                    TargetEnemyCount = (int)Mathf.Ceil(wave * 1.5f) * BaseTargetEnemyCount;
+                    waveStartTime = Time.time;
+                }
+
+
                 spawnTimer -= Time.deltaTime;
                 if (spawnTimer <= 0)
                 {
-                    spawnTimer = currentSpawnInterval;
+                    spawnTimer = SpawnInterval;
 
                     int spawnPosIndex;
 
-                    int amountToSpawn = Random.Range(minToSpawnAtOnce, maxToSpawnAtOnce);
-                    for (int i = 0; i < amountToSpawn; i++)
+                    int amountToSpawn = (TargetEnemyCount - Enemy.EnemiesAlive);//spawnedAmmountThisWave;//Random.Range(minToSpawnAtOnce, maxToSpawnAtOnce);
+
+                    for (int i = 0; i < amountToSpawn; i++)// && i < spawnPoints.Count; i++)
                     {
                         int iterations = 0;
 
@@ -81,12 +110,12 @@ namespace MyGame
 
                         GameplayUI.Instance.AddHealthBar(enemyGO.GetComponentInChildren<Enemy>());
 
-                        spawnedAmmountThisWave++;
-                        if (spawnedAmmountThisWave >= gameManager.GetEnemyCountToSpawnThisRound())
-                        {
-                            shouldSpawn = false;
-                            break;
-                        }
+                        //spawnedAmmountThisWave++;
+                        //if (spawnedAmmountThisWave >= gameManager.GetEnemyCountToSpawnThisRound())
+                        //{
+                        //    shouldSpawn = false;
+                        //    break;
+                        //}
                     }
                 }
             }
@@ -96,30 +125,31 @@ namespace MyGame
         private void OnDestroy()
         {
             gameManager.OnGameStart.RemoveListener(HandleGameStart);
-            gameManager.OnNewRound.RemoveListener(HandleNewRound);
+            //gameManager.OnNewRound.RemoveListener(HandleNewRound);
         }
 
-        private void HandleNewRound()
-        {
-            shouldSpawn = true;
-            spawnedAmmountThisWave = 0;
-            currentSpawnInterval = baseSpawnInterval;
-        }
+        //private void HandleNewRound()
+        //{
+        //    shouldSpawn = true;
+            //spawnedAmmountThisWave = 0;
+            //currentSpawnInterval = baseSpawnInterval;
+        //}
 
         private void HandleGameStart()
         {
             shouldSpawn = true;
-            spawnedAmmountThisWave = 0;
-            currentSpawnInterval = baseSpawnInterval;
+            waveStartTime = Time.time;
+            TargetEnemyCount = BaseTargetEnemyCount;
+        //currentSpawnInterval = baseSpawnInterval;
         }
 
-        private IEnumerator IncrementSpawnInterval()
-        {
-            while (true)
-            {
-                yield return new WaitForSeconds(spawnRateIncreaseInterval);
-                currentSpawnInterval -= spawnRateIncrement;
-            }
-        }
+        //private IEnumerator IncrementSpawnInterval()
+        //{
+        //    while (true)
+        //    {
+        //        yield return new WaitForSeconds(spawnRateIncreaseInterval);
+        //        currentSpawnInterval -= spawnRateIncrement;
+        //    }
+        //}
     }
 }

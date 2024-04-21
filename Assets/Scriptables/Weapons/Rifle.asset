@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Rifle
   m_EditorClassIdentifier: 
   weaponName: Assault Rifle
-  attackInterval: 0.3
+  attackInterval: 0.2
   damage: 2
   range: 10
   useProjPhys: 0

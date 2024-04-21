@@ -52,7 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthPip: {fileID: 7023157330226876881, guid: 4caf3003b71ca49f4af9d91e2871e492, type: 3}
   FollowTransform: {fileID: 0}
-  heightOffset: -10
+  heightOffset: -30
 --- !u!114 &3658449298745391828
 MonoBehaviour:
   m_ObjectHideFlags: 0
