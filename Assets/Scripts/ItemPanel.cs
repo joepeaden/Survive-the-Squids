@@ -26,7 +26,7 @@ namespace MyGame
 
         void Start()
         {
-            purchaseButton.onClick.AddListener(PurchaseItem);//ShopScreen.Instance.SetCurrentUpgradeItem(TheUpgradeItem));
+            purchaseButton.onClick.AddListener(AttemptPurchaseItem);//ShopScreen.Instance.SetCurrentUpgradeItem(TheUpgradeItem));
         }
 
         public void SetItem(UpgradeItemData theItem)
@@ -62,6 +62,24 @@ namespace MyGame
         {
             purchaseButton.interactable = Player.instance.playerSamples >= TheUpgradeItem.cost;
             purchaseButton.GetComponentInChildren<TMP_Text>().color = purchaseButton.interactable ? Color.green : Color.red;
+        }
+
+        void AttemptPurchaseItem()
+        {
+            if (TheUpgradeItem.upgradeType == UpgradeType.weapon && Player.instance.ActiveCharacters.Count >= Player.MAX_CHARACTERS)
+            {
+                // get yo drag on gurl
+                EnableDrag();
+            }
+            else
+            {
+                PurchaseItem();
+            }
+        }
+
+        void EnableDrag()
+        {
+            ShopScreen.Instance.SetCurrentUpgradeItem(TheUpgradeItem);
         }
 
         void PurchaseItem()

@@ -17,22 +17,22 @@ public class FadeInOutHighlight : MonoBehaviour
         Color newHighlightColor;
         while (true)
         {
-            for (float i = 1; i > 0; i -= .1f)
-            {
-                newHighlightColor = highlight.color;
-                highlightAlpha -= i;
-                newHighlightColor.a = i;
-                highlight.color = newHighlightColor;
-                yield return new WaitForSeconds(.05f);
-            }
-
-            for (float i = 0; i < 1; i += .1f)
+            for (float i = 0; i < .5f; i += .01f)
             {
                 newHighlightColor = highlight.color;
                 highlightAlpha += i;
                 newHighlightColor.a = i;
                 highlight.color = newHighlightColor;
-                yield return new WaitForSeconds(.05f);
+                yield return new WaitForSecondsRealtime(.01f);
+            }
+
+            for (float i = .5f; i > 0; i -= .01f)
+            {
+                newHighlightColor = highlight.color;
+                highlightAlpha -= i;
+                newHighlightColor.a = i;
+                highlight.color = newHighlightColor;
+                yield return new WaitForSecondsRealtime(.01f);
             }
         }
     }

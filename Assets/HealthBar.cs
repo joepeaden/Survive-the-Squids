@@ -30,6 +30,7 @@ namespace MyGame
             if (theEnemy.HitPoints <= 0)
             {
                 Destroy(gameObject);
+                return;
             }
 
             for (int i = theEnemy.HitPoints; i < transform.childCount; i++)

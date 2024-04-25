@@ -45,7 +45,7 @@ namespace MyGame
 
         private void Update()
         {
-            float animationVelocity = transform.parent.parent.GetComponent<Rigidbody2D>().velocity.magnitude;
+            float animationVelocity = Player.instance.GetComponent<Rigidbody2D>().velocity.magnitude;
             if (animationVelocity <= .5)
             {
                 // make sure it's negative so it's "less than zero" so that the anim controller knows we stopped
@@ -119,8 +119,14 @@ namespace MyGame
         public void Reset()
         {
             faceSpriteRend.enabled = true;
-            bodySpriteRend.sprite = oldBodySprite;
-            headSpriteRend.sprite = oldHeadSprite;
+            if (oldBodySprite != null)
+            {
+                bodySpriteRend.sprite = oldBodySprite;
+            }
+            if (oldHeadSprite != null)
+            {
+                headSpriteRend.sprite = oldHeadSprite;
+            }
         }
     }
 }

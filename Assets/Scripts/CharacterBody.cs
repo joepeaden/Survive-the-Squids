@@ -83,16 +83,22 @@ namespace MyGame
                 //}
                 //else
                 //{
-                    
-                    if (currentTarget == null || (currentTarget != null && currentTarget.isDead))
-                    {
-                        if (currentTarget != null)
-                        {
-                            enemiesInRange.Remove(currentTarget);
-                        }
 
-                        currentTarget = GetEnemy();
-                    }
+                if (currentTarget != null && currentTarget.isDead)
+                {
+                    enemiesInRange.Remove(currentTarget);
+                }
+
+
+                    //if (currentTarget == null || (currentTarget != null && currentTarget.isDead))
+                    //{
+                    //    if (currentTarget != null)
+                    //    {
+                    //        enemiesInRange.Remove(currentTarget);
+                    //    }
+
+                    currentTarget = GetEnemy();
+                    //}
 
                 UpdateRotation();
 
@@ -116,8 +122,23 @@ namespace MyGame
                 return null;
             }
 
-            int randomIndex = Random.Range(0, enemiesInRange.Count);
-            return enemiesInRange[randomIndex];
+            // to shoot at random:
+            //int randomIndex = Random.Range(0, enemiesInRange.Count);
+            //return enemiesInRange[randomIndex];
+
+            float closestDist = float.MaxValue;
+            Enemy closestEnemy = null;
+            foreach (Enemy e in enemiesInRange)
+            {
+                float distToEnemy = (transform.position - e.transform.position).magnitude;
+                if (distToEnemy < closestDist)
+                {
+                    closestDist = distToEnemy;
+                    closestEnemy = e;
+                }
+            }
+
+            return closestEnemy;
         }
 
         public void SetBodyActive(bool shouldEnable)
@@ -247,14 +268,22 @@ namespace MyGame
             //}
         }
 
+        public void Disable()
+        {
+            isDead = false;
+            currentTarget = null;
+            SetBodyActive(false);
+            //player.ActiveCharacters.Remove(this);
+        }
+
         public void Die()
         {
             isDead = true;
             currentTarget = null;
             SetBodyActive(false);
+            //// I think this can be
+            //player.CheckGameOver();
             player.ActiveCharacters.Remove(this);
-
-            player.CheckGameOver();
         }
 
         public void Reset()

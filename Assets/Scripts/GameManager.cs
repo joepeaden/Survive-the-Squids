@@ -38,8 +38,8 @@ namespace MyGame
         public GameObject startUI;
         public Button startButton;
         public GameObject shopUI;
-        public GameObject controlsUI;
-        public Button startRoundButton;
+        public GameObject pauseMenu;
+        //public Button startRoundButton;
         public TMP_Text enemiesKilledText;
         public TMP_Text samplesText;
         //public TMP_Text characterName;
@@ -53,13 +53,32 @@ namespace MyGame
         private void Start()
         {
             startButton.onClick.AddListener(StartGame);
-            startRoundButton.onClick.AddListener(StartNewRound);
+            //startRoundButton.onClick.AddListener(StartNewRound);
         }
 
         private void OnDestroy()
         {
             startButton.onClick.RemoveListener(StartGame);
-            startRoundButton.onClick.RemoveListener(StartNewRound);
+            //startRoundButton.onClick.RemoveListener(StartNewRound);
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                TogglePauseScreen(!pauseMenu.activeSelf);
+            }
+        }
+
+        public void TogglePauseScreen(bool isEnabled)
+        {
+            pauseMenu.SetActive(isEnabled);
+            Time.timeScale = isEnabled ? 0 : 1;
+        }
+
+        public void QuitGame()
+        {
+            Application.Quit();
         }
 
         public void GameOver()
@@ -71,7 +90,6 @@ namespace MyGame
         public void RoundEnd()
         {
             shopUI.SetActive(true);
-            controlsUI.SetActive(false);
             inMenu = true;
         }
 
@@ -79,14 +97,13 @@ namespace MyGame
         {
             OnNewRound.Invoke();
             shopUI.SetActive(false);
-            controlsUI.SetActive(true);
             enemiesKilledThisRound = 0;
             inMenu = false;
             wave++;
             Time.timeScale = 1;
         }
 
-        private void StartGame()
+        public void StartGame()
         {
             OnGameStart.Invoke();
             startUI.SetActive(false);
@@ -100,6 +117,7 @@ namespace MyGame
 
             UpdateSamples(0, true);
         }
+
 
         public void EnemyKilled()
         {
@@ -117,8 +135,8 @@ namespace MyGame
         public void UpdateSamples(int samples, bool initializing = false)
         {
             /// right now there's no content past level 7
-            if (playerLevel < 7)
-            {
+            //if (playerLevel < 7)
+            //{
                 if (!initializing)
                 {
                     samplesSinceLastLevelUp++;
@@ -127,14 +145,14 @@ namespace MyGame
                     {
                         samplesSinceLastLevelUp = 0;
                         playerLevel++;
-                        samplesToLevelUp = 10 * playerLevel;
+                        //samplesToLevelUp = 10 * playerLevel;
                         Time.timeScale = 0;
                         shopUI.SetActive(true);
                     }
                 }
 
                 PlayerBar.Instance.HandleXP(samplesSinceLastLevelUp, samplesToLevelUp);
-            }
+            //}
 
             samplesText.text = samples.ToString();
         }

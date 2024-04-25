@@ -85,28 +85,28 @@ namespace MyGame
 
                     for (int i = 0; i < amountToSpawn; i++)// && i < spawnPoints.Count; i++)
                     {
-                        int iterations = 0;
+                        //int iterations = 0;
 
-                        do
-                        {
-                            // this isn't performant but whatever hopefully it doesn't freeze
+                        //do
+                        //{
+                        //    // this isn't performant but whatever hopefully it doesn't freeze
                             spawnPosIndex = Random.Range(0, spawnPoints.Count);
 
-                            //just to stop it from potentially freezing
-                            if (iterations > spawnPoints.Count)
-                            {
-                                break;
-                            }
+                        //    //just to stop it from potentially freezing
+                        //    if (iterations > spawnPoints.Count)
+                        //    {
+                        //        break;
+                        //    }
 
-                        } while (!gameManager.WithinBounds(spawnPoints[spawnPosIndex].position));
+                        //} while (!gameManager.WithinBounds(spawnPoints[spawnPosIndex].position));
 
                         int enemyTypeIndex = Random.Range(0, enemyTypes.Count);
 
                         GameObject enemyGO = ObjectPool.instance.GetEnemy();
                         enemyGO.GetComponentInChildren<Enemy>().SetData(enemyTypes[enemyTypeIndex]);
+                        enemyGO.transform.GetChild(0).position = spawnPoints[spawnPosIndex].position;
                         enemyGO.SetActive(true);
-                        enemyGO.transform.position = spawnPoints[spawnPosIndex].position;
-                        enemyGO.transform.rotation = Quaternion.identity;
+                        //enemyGO.transform.rotation = Quaternion.identity;
 
                         GameplayUI.Instance.AddHealthBar(enemyGO.GetComponentInChildren<Enemy>());
 

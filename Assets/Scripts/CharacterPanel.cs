@@ -16,22 +16,38 @@ namespace MyGame
         //public TMP_Text defaultTextItem;
 
         [SerializeField]
-        Button weaponButton;
+        Button replaceButton;
         [SerializeField]
         Button equipmentButton;
         [SerializeField]
         Image weaponImage;
         [SerializeField]
+        Image charImage;
+        [SerializeField]
         Image equipmentImage;
         [SerializeField]
-        GameObject weaponButtonHighlight;
+        GameObject replaceHighlight;
 
         private CharacterInfo thisCharInfo;
+
+        private void Start()
+        {
+            replaceButton.onClick.AddListener(ReplaceCharacter);
+        }
+
+        private void OnDestroy()
+        {
+            replaceButton.onClick.RemoveListener(ReplaceCharacter);
+        }
 
         public void SetCharacter(CharacterInfo charInfo)
         {
             thisCharInfo = charInfo;
-            charName.text = charInfo.charName;// + "  (LVL " + charInfo.level.ToString() + ")";
+            charName.text = charInfo.charName;
+            weaponImage.color = Color.white;
+            charImage.color = Color.white;
+            charName.color = Color.white;
+            // + "  (LVL " + charInfo.level.ToString() + ")";
             //weaponName.text = charInfo.weaponData.weaponName;
             //reflexSpeed.text = "Reflex Speed: " + charInfo.ReflexSpeed.ToString();
 
@@ -45,42 +61,52 @@ namespace MyGame
             //}
 
             weaponImage.sprite = charInfo.weaponData.weaponSprite;
-            weaponButton.onClick.AddListener(UpdateCharWeapon);
+            replaceButton.interactable = Player.instance.ActiveCharacters.Count >= Player.MAX_CHARACTERS;
             SetButtonHighlights(false);
         }
 
-        public void UpdateCharWeapon()
+        public void ReplaceCharacter()
         {
             UpgradeItemData theItem = ShopScreen.Instance.CurrentUpgradeItem;
 
             if (theItem != null)
             {
-                switch (theItem.upgradeType)
-                {
-                    case UpgradeType.weapon:
-                        thisCharInfo.SetWeapon((WeaponData)theItem.associatedData, true);
-                        weaponImage.sprite = theItem.image;
-                        Player.instance.UpdateSamples(-theItem.cost);
-                        ShopScreen.Instance.SetCurrentUpgradeItem(null);
+                //    switch (theItem.upgradeType)
+                //    {
+                //        case UpgradeType.weapon:
+                //thisCharInfo.SetWeapon((WeaponData)theItem.associatedData, true);
 
-                        // for upgrades. probably temporary.
-                        if (theItem.itemName == "Rifle")
-                        {
-                            ShopScreen.Instance.playerHasRifle = true;
-                        }
-                        break;
-                    case UpgradeType.weaponUpgrade:
-                        thisCharInfo.AddWeaponUpgrade((WeaponUpgradeData)theItem.associatedData);
-                        Player.instance.UpdateSamples(-theItem.cost);
-                        ShopScreen.Instance.SetCurrentUpgradeItem(null);
-                        break;
-                }
+                CharacterBody newChar = Player.instance.ReplaceCharacter(thisCharInfo);
+                newChar.CharInfo.SetWeapon((WeaponData)theItem.associatedData, true);
+                //Player.instance.acti//ActiveCharacters(thisCharInfo.ID)
+                //CharacterBody c = Player.instance.AddCharacter();
+
+                //SetCharacter(c.CharInfo);
+                //weaponImage.sprite = theItem.image;
+
+                //Player.instance.UpdateSamples(-theItem.cost);
+                ShopScreen.Instance.SetCurrentUpgradeItem(null);
+
+                //            // for upgrades. probably temporary.
+                //            if (theItem.itemName == "Rifle")
+                //            {
+                //                ShopScreen.Instance.playerHasRifle = true;
+                //            }
+                //            break;
+                //        case UpgradeType.weaponUpgrade:
+                //            thisCharInfo.AddWeaponUpgrade((WeaponUpgradeData)theItem.associatedData);
+                //            Player.instance.UpdateSamples(-theItem.cost);
+                //            ShopScreen.Instance.SetCurrentUpgradeItem(null);
+                //            break;
+                //    }
+
+                GameManager.instance.StartNewRound();
             }
         }
 
         public void SetButtonHighlights(bool enabled)
         {
-            weaponButtonHighlight.SetActive(enabled);
+            replaceHighlight.SetActive(enabled);
         }
     }
 }

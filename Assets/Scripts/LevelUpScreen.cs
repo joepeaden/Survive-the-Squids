@@ -57,7 +57,7 @@ namespace MyGame
             switch (upgrade.upgradeType)
             {
                 case UpgradeType.recruit:
-                    Player.instance.AddCharacter();
+                    //Player.instance.AddCharacter();
                     break;
 
                 case UpgradeType.companyBuff:

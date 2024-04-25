@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,8 @@ namespace MyGame
         public static bool staticsInitialized = false;
 
         public CharacterStatsData statsData;
+
+        public string ID;
 
         public enum CharTraits
         {
@@ -91,6 +94,8 @@ namespace MyGame
                 };
             }
 
+            ID = Guid.NewGuid().ToString();
+
             statsData = newStatsData;
 
             AssignRandomName();
@@ -133,7 +138,7 @@ namespace MyGame
             List<CharTraits> tempPossibleTraits = new List<CharTraits>(possibleTraits);
             do
             {
-                newTrait = tempPossibleTraits[Random.Range(0, tempPossibleTraits.Count)];
+                newTrait = tempPossibleTraits[UnityEngine.Random.Range(0, tempPossibleTraits.Count)];
                 tempPossibleTraits.Remove(newTrait);
             } while (traits.Contains(newTrait) && tempPossibleTraits.Count > 0);
 
@@ -247,13 +252,12 @@ namespace MyGame
                 "Torres",
                 "Campbell",
                 "Parker",
-                "Hall",
                 "Adams",
                 "Rogers"
             };
 
-            string firstName = firstNameOptions[Random.Range(0, firstNameOptions.Count)];
-            string lastName = lastNameOptions[Random.Range(0, lastNameOptions.Count)];
+            string firstName = firstNameOptions[UnityEngine.Random.Range(0, firstNameOptions.Count)];
+            string lastName = lastNameOptions[UnityEngine.Random.Range(0, lastNameOptions.Count)];
 
             charName = firstName + " " + lastName;
         }

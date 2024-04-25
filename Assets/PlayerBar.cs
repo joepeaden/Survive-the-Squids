@@ -67,7 +67,10 @@ namespace MyGame
                 }
             }
 
-            xpParent.GetChild(xpCount-1).GetComponent<Image>().color = Color.yellow;
+            if (xpCount != 0)
+            {
+                xpParent.GetChild(xpCount - 1).GetComponent<Image>().color = Color.yellow;
+            }
             //for (int i = xpCount; i < xpParent.childCount; i++)
             //{
             //    Image image = healthParent.GetChild(i).GetComponent<Image>();

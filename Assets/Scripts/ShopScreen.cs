@@ -57,7 +57,7 @@ namespace MyGame
             {
                 Transform t = charParent.GetChild(i);
                 charPanels.Add(t.GetComponent<CharacterPanel>());
-                t.gameObject.SetActive(false);
+                //t.gameObject.SetActive(false);
             }
 
             itemMouseFollowPlaceholder.SetActive(false);
@@ -122,7 +122,7 @@ namespace MyGame
 
             for (int i = 0; i < charPanels.Count; i++)
             {
-                charPanels[i].gameObject.SetActive(false);
+                //charPanels[i].gameObject.SetActive(false);
             }
         }
 
@@ -130,7 +130,7 @@ namespace MyGame
         {
             currentUpgradeItem = theItem;
             itemMouseFollowPlaceholder.SetActive(theItem != null);
-            blackoutPanel.SetActive(theItem != null);
+            //blackoutPanel.SetActive(theItem != null);
             if (theItem != null)
             {
                 itemMouseFollowPlaceholder.transform.GetChild(0).GetComponent<Image>().sprite = theItem.image;
@@ -141,14 +141,14 @@ namespace MyGame
                 charPanels[i].SetButtonHighlights(theItem != null);
             }
 
-            if (theItem == null)
-            {
-                playerSamplesText.text = Player.instance.playerSamples.ToString();
-                foreach (ItemPanel panel in itemPanels)
-                {
-                    panel.RefreshPuchaseButton();
-                }
-            }
+            //if (theItem == null)
+            //{
+            //    playerSamplesText.text = Player.instance.playerSamples.ToString();
+            //    foreach (ItemPanel panel in itemPanels)
+            //    {
+            //        panel.RefreshPuchaseButton();
+            //    }
+            //}
         }
 
     }
