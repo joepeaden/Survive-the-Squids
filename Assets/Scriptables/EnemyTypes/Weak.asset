@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164dd7174b6e14dcf8fd5376672df209, type: 3}
   m_Name: Weak
   m_EditorClassIdentifier: 
-  hitPoints: 3
+  hitPoints: 50
   moveSpeed: 3
   attackInterval: 1
   xpReward: 1

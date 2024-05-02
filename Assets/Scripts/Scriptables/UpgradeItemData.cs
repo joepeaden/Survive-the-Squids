@@ -14,7 +14,8 @@ namespace MyGame
         public List<string> details = new List<string>();
         public UpgradeType upgradeType;
         public ScriptableObject associatedData;
+        public GameObject associatedPrefab;
     }
 
-    public enum UpgradeType { weapon, armor, support, recruit, companyBuff, characterBuff, weaponUpgrade };
+    public enum UpgradeType { weapon, armor, support, recruit, companyBuff, characterBuff, weaponUpgrade, supportWeapon };
 }

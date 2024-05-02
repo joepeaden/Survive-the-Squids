@@ -117,6 +117,18 @@ namespace MyGame
                         //Player.instance.UpdateSamples(-theItem.cost);
                         //ShopScreen.Instance.SetCurrentUpgradeItem(null);
                         break;
+                    case UpgradeType.supportWeapon:
+                        if (TheUpgradeItem.associatedPrefab == null)
+                        {
+                            Debug.LogWarning("Associated item is null!");
+                            break;
+                        }
+                        else
+                        {
+                            Instantiate(TheUpgradeItem.associatedPrefab, Player.instance.transform);
+                        }
+
+                        break;
                 }
 
                 StartCoroutine(ExitLevelScreen());

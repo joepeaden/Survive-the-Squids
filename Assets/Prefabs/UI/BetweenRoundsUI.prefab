@@ -119,6 +119,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2d0e09d1cb0254873af8548dda8a4a4e, type: 2}
   - {fileID: 11400000, guid: a2e63bd35da784ad0bdccaba846649c7, type: 2}
   - {fileID: 11400000, guid: ebf45b3a5f00d44a682cdef212b22085, type: 2}
+  - {fileID: 11400000, guid: f52322e355f344d249af8d8031eb93d8, type: 2}
   itemMouseFollowPlaceholder: {fileID: 2534982217664519896}
   blackoutPanel: {fileID: 7244035052027731526}
   playerSamplesText: {fileID: 617421761975295357}

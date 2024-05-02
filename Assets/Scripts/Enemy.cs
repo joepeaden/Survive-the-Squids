@@ -53,6 +53,7 @@ namespace MyGame
             pathfinder.maxSpeed = data.moveSpeed;
 
             EnemiesAlive++;
+            GameManager.instance.enemies.Add(this);
         }
 
         private void Update()
@@ -170,6 +171,7 @@ namespace MyGame
             GameManager.instance.EnemyKilled();
 
             EnemiesAlive--;
+            GameManager.instance.enemies.Remove(this);
 
             transform.parent.gameObject.SetActive(false);
         }

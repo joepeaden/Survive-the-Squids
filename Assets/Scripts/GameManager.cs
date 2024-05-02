@@ -34,6 +34,8 @@ namespace MyGame
         public int wave = 1;
         public List<WeaponData> weapons = new List<WeaponData>();
 
+        //public Enemy highestHPEnemy;
+
         [Header("UI")]
         public GameObject startUI;
         public Button startButton;
@@ -44,6 +46,8 @@ namespace MyGame
         public TMP_Text samplesText;
         //public TMP_Text characterName;
         //public TMP_Text currentWeapon;
+
+        public List<Enemy> enemies = new List<Enemy>();
 
         private void Awake()
         {

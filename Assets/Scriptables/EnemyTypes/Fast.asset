@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164dd7174b6e14dcf8fd5376672df209, type: 3}
   m_Name: Fast
   m_EditorClassIdentifier: 
-  hitPoints: 2
-  moveSpeed: 5
+  hitPoints: 50
+  moveSpeed: 4
   attackInterval: 1
   xpReward: 1
   damage: 1

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62a3b6825c12a415cb81c887e9a0450f, type: 3}
+  m_Name: SupportSniperItem
+  m_EditorClassIdentifier: 
+  itemName: Sniper Support
+  image: {fileID: 21300000, guid: 5140f8e26fd8347658815ae4c7aed686, type: 3}
+  cost: 0
+  details:
+  - An off-site sniper supports you from a distance
+  - High damage
+  - Slow firing
+  - Fires at highest HP target
+  upgradeType: 7
+  associatedData: {fileID: 0}
+  associatedPrefab: {fileID: 5181692447298332329, guid: 58097172bce5549c292f45f6a1ba8601, type: 3}
