@@ -18,6 +18,8 @@ namespace MyGame
         Transform itemParent;
         [SerializeField]
         Transform charParent;
+        [SerializeField]
+        AudioSource audioSource;
 
         public bool playerHasRifle;
 
@@ -81,6 +83,8 @@ namespace MyGame
                 player = Player.instance;
             }
 
+            audioSource.Play();
+
             List<UpgradeItemData> items = new List<UpgradeItemData>();
             items.AddRange(shopItems);
             //if (playerHasRifle)
@@ -97,6 +101,14 @@ namespace MyGame
                 itemPanels[i].gameObject.SetActive(true);
             }
 
+            UpdateCharPanels();
+
+           
+            playerSamplesText.text = Player.instance.playerSamples.ToString();
+        }
+
+        public void UpdateCharPanels()
+        {
             int charPanelIndex = 0;
             for (int i = 0; i < player.ActiveCharacters.Count; i++)
             {
@@ -109,8 +121,6 @@ namespace MyGame
                     charPanelIndex++;
                 }
             }
-
-            playerSamplesText.text = Player.instance.playerSamples.ToString();
         }
 
         private void OnDisable()

@@ -15,7 +15,7 @@ MonoBehaviour:
   weaponName: SMG
   attackInterval: 0.1
   damage: 1
-  range: 3
+  range: 5
   useProjPhys: 0
   projectileVelocity: 100
   projSpreadAngle: 0
@@ -24,3 +24,8 @@ MonoBehaviour:
   knockBack: 10
   projSprite: {fileID: 21300000, guid: a6b43c69cc25249db9bc17c4c88c8448, type: 3}
   weaponSprite: {fileID: 21300000, guid: 7a9fde81fdfcf4b138e7ddef39cf25d1, type: 3}
+  weaponFireSounds:
+  - {fileID: 8300000, guid: d6403769a8d43ca4c8e424454bb0653d, type: 3}
+  - {fileID: 8300000, guid: 8d19cd7f377aa9e4e834d2627646d695, type: 3}
+  - {fileID: 8300000, guid: 765da422d63b84a4fa107946d1d0f7ff, type: 3}
+  - {fileID: 8300000, guid: c7f675ac5a89bd840b8d67697779530d, type: 3}

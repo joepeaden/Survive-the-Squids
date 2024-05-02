@@ -16,8 +16,6 @@ MonoBehaviour:
   image: {fileID: 21300000, guid: 7a9fde81fdfcf4b138e7ddef39cf25d1, type: 3}
   cost: 0
   details:
-  - 'Damage: 1'
-  - 'Fire Per Second: 3'
-  - 'Capacity: 40'
+  - Fires fast, but very close range.
   upgradeType: 0
   associatedData: {fileID: 11400000, guid: 1d6ead512bbb34b4bb0f12ddb5dc6df9, type: 2}

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62a3b6825c12a415cb81c887e9a0450f, type: 3}
+  m_Name: LMGItem
+  m_EditorClassIdentifier: 
+  itemName: LMG
+  image: {fileID: 21300000, guid: 92c75cc1d27fb4d2eaa072754b303738, type: 3}
+  cost: 0
+  details:
+  - Heavy damage & fast firing, slow reload.
+  upgradeType: 0
+  associatedData: {fileID: 11400000, guid: f95687866e2b34f46a6ed60b6bc1277f, type: 2}

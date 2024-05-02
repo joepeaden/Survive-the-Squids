@@ -145,7 +145,7 @@ namespace MyGame
                     {
                         samplesSinceLastLevelUp = 0;
                         playerLevel++;
-                        //samplesToLevelUp = 10 * playerLevel;
+                        samplesToLevelUp = 10 * playerLevel;
                         Time.timeScale = 0;
                         shopUI.SetActive(true);
                     }

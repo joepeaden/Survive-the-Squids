@@ -16,8 +16,6 @@ MonoBehaviour:
   image: {fileID: 21300000, guid: 0695eb6e341d54a6d9ce43e08a5b8e2d, type: 3}
   cost: 0
   details:
-  - 'Damage: 1'
-  - 'Fire Per Second: 2'
-  - 'Capacity: 40'
+  - It's a pistol.
   upgradeType: 0
   associatedData: {fileID: 11400000, guid: fae2db17dc578408b8f0507baaa51ac6, type: 2}

@@ -19,6 +19,9 @@ namespace MyGame
         public TraitData brutalTraitData;
         public TraitData smartTraitData;
 
+        [SerializeField] List<AudioClip> hitClips;
+        [SerializeField] List<AudioClip> deathClips;
+
         [SerializeField]
         // character bodies (to be filled in with character info)
         private List<CharacterBody> characterBodies;
@@ -105,6 +108,11 @@ namespace MyGame
             if (HitPoints <= 0)
             {
                 gameManager.GameOver();
+
+                GameObject audioSource = ObjectPool.instance.GetAudioSource();
+                audioSource.SetActive(true);
+                AudioClip hitClip = deathClips[Random.Range(0, deathClips.Count)];
+                audioSource.GetComponent<PooledAudioSource>().SetData(hitClip, AudioGroups.pickup);
             }
             else
             {
@@ -112,6 +120,11 @@ namespace MyGame
                 {
                     b.GetHit(damage);
                 }
+
+                GameObject audioSource = ObjectPool.instance.GetAudioSource();
+                audioSource.SetActive(true);
+                AudioClip hitClip = hitClips[Random.Range(0, hitClips.Count)];
+                audioSource.GetComponent<PooledAudioSource>().SetData(hitClip, AudioGroups.pickup);
             }
 
             PlayerBar.Instance.HandleHit();

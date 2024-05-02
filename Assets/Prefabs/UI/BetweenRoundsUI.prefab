@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7404832491316358792}
   - component: {fileID: 3977067136576665975}
   - component: {fileID: 6494490923072320775}
+  - component: {fileID: 437702232151480320}
   m_Layer: 5
   m_Name: BetweenRoundsUI
   m_TagString: Untagged
@@ -107,6 +108,7 @@ MonoBehaviour:
   player: {fileID: 0}
   itemParent: {fileID: 7551971012057829816}
   charParent: {fileID: 4751817903495764122}
+  audioSource: {fileID: 437702232151480320}
   playerHasRifle: 0
   penetratorUpgrade: {fileID: 11400000, guid: 14c01b2a1a4fb42cc9e33f01edf1d5ef, type: 2}
   slamUpgrade: {fileID: 11400000, guid: b16ee1966989b4bc79d4842ea35bb4d6, type: 2}
@@ -115,9 +117,107 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8d7355163a95a421b9ad41cf8d285461, type: 2}
   - {fileID: 11400000, guid: 42068d51b8338454da2a466f48cb622f, type: 2}
   - {fileID: 11400000, guid: 2d0e09d1cb0254873af8548dda8a4a4e, type: 2}
+  - {fileID: 11400000, guid: a2e63bd35da784ad0bdccaba846649c7, type: 2}
+  - {fileID: 11400000, guid: ebf45b3a5f00d44a682cdef212b22085, type: 2}
   itemMouseFollowPlaceholder: {fileID: 2534982217664519896}
   blackoutPanel: {fileID: 7244035052027731526}
   playerSamplesText: {fileID: 617421761975295357}
+--- !u!82 &437702232151480320
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 347628893111039842}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 3235401645351469070, guid: fcac39cf6785b4c50a7751ad2e1009bd, type: 2}
+  m_audioClip: {fileID: 8300000, guid: b94f4c125367a4214a0da37022b8119d, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &366944010225176969
 GameObject:
   m_ObjectHideFlags: 0
@@ -1251,6 +1351,7 @@ MonoBehaviour:
   purchaseButton: {fileID: 0}
   TheUpgradeItem: {fileID: 0}
   detailParent: {fileID: 0}
+  characterAudioSource: {fileID: 0}
 --- !u!114 &6015138476906339308
 MonoBehaviour:
   m_ObjectHideFlags: 0

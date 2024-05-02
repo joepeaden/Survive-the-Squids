@@ -16,9 +16,6 @@ MonoBehaviour:
   image: {fileID: 21300000, guid: 984dfd5a121e146c8bbc395ba11b1f8d, type: 3}
   cost: 0
   details:
-  - 'Damage: 5'
-  - 'Fire Per Second: 1'
-  - 'Capacity: 8'
-  - Spread Shot
+  - Fires in a spread.
   upgradeType: 0
   associatedData: {fileID: 11400000, guid: 8bbddf3bfceee48d1935f671bf420b22, type: 2}

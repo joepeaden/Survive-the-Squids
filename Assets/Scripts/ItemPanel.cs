@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 namespace MyGame
 {
@@ -23,6 +24,8 @@ namespace MyGame
         public UpgradeItemData TheUpgradeItem;
 
         [SerializeField] Transform detailParent;
+
+        [SerializeField] AudioSource characterAudioSource;
 
         void Start()
         {
@@ -99,6 +102,10 @@ namespace MyGame
                         //Player.instance.UpdateSamples(-TheUpgradeItem.cost);
                         //ShopScreen.Instance.SetCurrentUpgradeItem(null);
 
+                        characterAudioSource.Play();
+
+                        ShopScreen.Instance.UpdateCharPanels();
+
                         // for upgrades. probably temporary.
                         if (TheUpgradeItem.itemName == "Rifle")
                         {
@@ -112,8 +119,16 @@ namespace MyGame
                         break;
                 }
 
-                GameManager.instance.StartNewRound();
+                StartCoroutine(ExitLevelScreen());
             }
+        }
+
+
+
+        IEnumerator ExitLevelScreen()
+        {
+            yield return new WaitForSecondsRealtime(1f);
+            GameManager.instance.StartNewRound();
         }
 
         private void OnDisable()

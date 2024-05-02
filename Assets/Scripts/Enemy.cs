@@ -31,6 +31,8 @@ namespace MyGame
         [HideInInspector]
         public UnityEvent OnGetHit = new UnityEvent();
 
+        [SerializeField] AudioSource impactAudio;
+
         private void Start()
         {
             pathfinder = GetComponent<AIPath>();
@@ -126,6 +128,7 @@ namespace MyGame
 
         public void GetHit(WeaponData hitWeaponData, Vector2 forceDirection, bool isSlam, bool isStun)
         {
+
             remainingHitPoints -= hitWeaponData.damage;
 
             float newStunTime = hitWeaponData.stunTime + (isStun ? 2 : 0);
@@ -148,6 +151,13 @@ namespace MyGame
 
         public void Die()
         {
+
+            //impactAudio.Play();
+            GameObject audioSource = ObjectPool.instance.GetAudioSource();
+            audioSource.SetActive(true);
+            //audioSource.GetComponent<AudioSource>().clip = weaponData.weaponFireSound;
+            //audioSource.GetComponent<AudioSource>().Play();
+            audioSource.GetComponent<PooledAudioSource>().SetData(impactAudio.clip, AudioGroups.death);
             //if (player.enemiesInRange.Contains(this))
             //{
             //    player.enemiesInRange.Remove(this);

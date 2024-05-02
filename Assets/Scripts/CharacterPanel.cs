@@ -27,6 +27,7 @@ namespace MyGame
         Image equipmentImage;
         [SerializeField]
         GameObject replaceHighlight;
+        [SerializeField] AudioSource audioSource;
 
         private CharacterInfo thisCharInfo;
 
@@ -81,7 +82,7 @@ namespace MyGame
                 //Player.instance.acti//ActiveCharacters(thisCharInfo.ID)
                 //CharacterBody c = Player.instance.AddCharacter();
 
-                //SetCharacter(c.CharInfo);
+                SetCharacter(newChar.CharInfo);
                 //weaponImage.sprite = theItem.image;
 
                 //Player.instance.UpdateSamples(-theItem.cost);
@@ -99,9 +100,16 @@ namespace MyGame
                 //            ShopScreen.Instance.SetCurrentUpgradeItem(null);
                 //            break;
                 //    }
+                audioSource.Play();
 
-                GameManager.instance.StartNewRound();
+                StartCoroutine(ExitLevelScreen());
             }
+        }
+
+        IEnumerator ExitLevelScreen()
+        {
+            yield return new WaitForSecondsRealtime(1f);
+            GameManager.instance.StartNewRound();
         }
 
         public void SetButtonHighlights(bool enabled)

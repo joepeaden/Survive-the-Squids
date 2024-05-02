@@ -8,6 +8,7 @@ namespace MyGame
     {
         private Player player;
         private GameManager gameManager;
+        [SerializeField] AudioClip pickupSound;
 
         private void Start()
         {
@@ -23,7 +24,14 @@ namespace MyGame
 
             //if (other.GetComponent<CharacterBody>())
             //{
-                player.UpdateSamples(1);
+
+            GameObject audioSource = ObjectPool.instance.GetAudioSource();
+            audioSource.SetActive(true);
+            //audioSource.GetComponent<AudioSource>().clip = weaponData.weaponFireSound;
+            //audioSource.GetComponent<AudioSource>().Play();
+            audioSource.GetComponent<PooledAudioSource>().SetData(pickupSound, AudioGroups.pickup);
+
+            player.UpdateSamples(1);
 
                 // maybe no need for object pooling cause it's not like there's gonna be a lot
                 Destroy(gameObject);

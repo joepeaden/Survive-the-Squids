@@ -23,6 +23,8 @@ namespace MyGame
         [HideInInspector]
         public int damage;
 
+        [SerializeField] AudioSource fireSoundSource;
+
         private Rigidbody2D rb;
         private float spawnTime;
 
@@ -72,6 +74,9 @@ namespace MyGame
             _data = data;
 
             spriteRenderer.sprite = data.projSprite;
+
+            //fireSoundSource.clip = data.weaponFireSound;
+            //fireSoundSource.Play();
         }
     }
 }

@@ -13,14 +13,18 @@ MonoBehaviour:
   m_Name: Shotgun
   m_EditorClassIdentifier: 
   weaponName: Shotgun
-  attackInterval: 0.1
-  damage: 1
+  attackInterval: 1
+  damage: 10
+  range: 4
   useProjPhys: 0
   projectileVelocity: 100
-  projSpreadAngle: 3
-  projPerShot: 1
-  stunTime: 0.5
+  projSpreadAngle: 60
+  projPerShot: 20
+  stunTime: 1
   knockBack: 50
+  reloadTime: 2
+  magSize: 8
   projSprite: {fileID: 21300000, guid: a6b43c69cc25249db9bc17c4c88c8448, type: 3}
   weaponSprite: {fileID: 21300000, guid: 984dfd5a121e146c8bbc395ba11b1f8d, type: 3}
-  controlStyle: 1
+  weaponFireSounds:
+  - {fileID: 8300000, guid: 7f4cc086c4677754a9e31ba81a7d811b, type: 3}

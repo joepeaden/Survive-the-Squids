@@ -18,7 +18,10 @@ namespace MyGame
         public int projPerShot;
         public float stunTime;
         public float knockBack;
+        public float reloadTime;
+        public int magSize;
         public Sprite projSprite;
         public Sprite weaponSprite;
+        public List<AudioClip> weaponFireSounds;
     }
 }

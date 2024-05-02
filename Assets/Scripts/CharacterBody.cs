@@ -12,7 +12,6 @@ namespace MyGame
         /// </summary>
         public static bool ManualAimEnabled;
 
-        public bool canAttack = true;
         public bool isDead;
         //[SerializeField]
         //private SpriteRenderer weaponSprite;
@@ -38,6 +37,8 @@ namespace MyGame
         public List<Enemy> enemiesInRange = new List<Enemy>();
 
         private int hitPoints;
+
+        int ammoInWeapon;
 
         private void Start()
         {
@@ -87,29 +88,47 @@ namespace MyGame
                 if (currentTarget != null && currentTarget.isDead)
                 {
                     enemiesInRange.Remove(currentTarget);
+                    currentTarget = null;
                 }
 
 
-                    //if (currentTarget == null || (currentTarget != null && currentTarget.isDead))
-                    //{
-                    //    if (currentTarget != null)
-                    //    {
-                    //        enemiesInRange.Remove(currentTarget);
-                    //    }
+                //if (currentTarget == null || (currentTarget != null && currentTarget.isDead))
+                //{
+                //    if (currentTarget != null)
+                //    {
+                //        enemiesInRange.Remove(currentTarget);
+                //    }
 
-                    currentTarget = GetEnemy();
+                Enemy oldTarget = currentTarget;
+                currentTarget = GetEnemy();
                     //}
+
+                if (oldTarget == null && currentTarget != null)
+                {
+                    // adding random time before firing at first target so that all characters don't fire at once (sound concerns)
+                    attackTimer += Random.Range(0, .2f);
+                }
 
                 UpdateRotation();
 
+
+                // if we just waited for reload because no bullets left, then reload the weapon
+                if (ammoInWeapon <= 0 && attackTimer <= 0)
+                {
+                    ammoInWeapon = weaponData.magSize;
+                }
+
                 if (currentTarget != null)// || weaponData.controlStyle == ControlStyle.moveDirection)
                 {
+                    if (attackTimer <= 0)
+                    {
+                        // just in case - in Attack we're adding to the attack timer not setting it
+                        attackTimer = 0;
 
-                        if (canAttack && attackTimer <= 0)
-                        {
-                            Attack();
-                        }
+
+                        Attack();
                     }
+                }
                 //}
             }
         }
@@ -156,10 +175,11 @@ namespace MyGame
         private void Attack()
         {
             float angle = -weaponData.projSpreadAngle / 2;
-            Quaternion projectileRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z + angle);
-
+            
             for (int i = 0; i < weaponData.projPerShot; i++)
             {
+                Quaternion projectileRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z + angle);
+
                 GameObject projectileGO = ObjectPool.instance.GetProjectile();
                 projectileGO.SetActive(true);
                 projectileGO.transform.position = transform.position;
@@ -169,6 +189,17 @@ namespace MyGame
                 projectile.firedFromPlayer = true;
                 projectile.lifeSpan = 10f;
                 projectile.SetData(weaponData);
+
+                // only use one audio source for something like a shotgun w/ multiple proj per shot
+                if (i == 0)
+                {
+                    GameObject audioSource = ObjectPool.instance.GetAudioSource();
+                    audioSource.SetActive(true);
+                    //audioSource.GetComponent<AudioSource>().clip = weaponData.weaponFireSound;
+                    //audioSource.GetComponent<AudioSource>().Play();
+                    AudioClip fireSound = weaponData.weaponFireSounds[Random.Range(0, weaponData.weaponFireSounds.Count)];
+                    audioSource.GetComponent<PooledAudioSource>().SetData(fireSound, AudioGroups.projectiles);
+                }
 
                 // projectile doesn't account for it, it's only implemented for Raycast for now!
                 //projectile.penetration = charInfo.hasPenetratorRounds ? 1 : 0;
@@ -228,9 +259,19 @@ namespace MyGame
                 angle += weaponData.projSpreadAngle / weaponData.projPerShot;
             }
 
-            attackTimer = weaponData.attackInterval;
-
             weaponSpriteScript.PlayFireAnim();
+
+            ammoInWeapon--;
+            // if still ammo, wait standard time between shots; if no ammo, then wait for reload
+            if (ammoInWeapon > 0)
+            {
+                attackTimer += weaponData.attackInterval;
+            }
+            else
+            {
+                attackTimer += weaponData.reloadTime;
+            }
+            
         }
 
         private Vector3 GetTargetDirection()
@@ -314,6 +355,7 @@ namespace MyGame
             weaponData = newWeapon;
             weaponSpriteScript.SetWeapon(newWeapon);
             rangeTrigger.radius = newWeapon.range;
+            ammoInWeapon = newWeapon.magSize;
         }
     }
 }
