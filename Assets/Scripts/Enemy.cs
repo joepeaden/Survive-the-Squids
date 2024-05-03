@@ -33,6 +33,9 @@ namespace MyGame
 
         [SerializeField] AudioSource impactAudio;
 
+        WeaponData lastWeaponThatHit;
+        float bleedTimeRemaining;
+
         private void Start()
         {
             pathfinder = GetComponent<AIPath>();
@@ -90,6 +93,17 @@ namespace MyGame
             }
         }
 
+        IEnumerator HandleBleed()
+        {
+            do
+            {
+                remainingHitPoints -= lastWeaponThatHit.bleedDamage;
+                HandleDamge();
+                yield return new WaitForSeconds(1f);
+                bleedTimeRemaining -= 1f;
+            } while (bleedTimeRemaining > 0f);
+        }
+
         private void OnDestroy()
         {
             GameManager.instance.OnGameStart.RemoveListener(Reset);
@@ -129,6 +143,7 @@ namespace MyGame
 
         public void GetHit(WeaponData hitWeaponData, Vector2 forceDirection, bool isSlam, bool isStun)
         {
+            lastWeaponThatHit = hitWeaponData;
 
             remainingHitPoints -= hitWeaponData.damage;
 
@@ -139,9 +154,20 @@ namespace MyGame
                 stunTime = newStunTime;
             }
 
+            if (hitWeaponData.causesBleed)
+            {
+                bleedTimeRemaining += hitWeaponData.bleedTime;
+                StartCoroutine(HandleBleed());
+            }
+
             // apply knockback
             rb.AddForce(forceDirection.normalized * (hitWeaponData.knockBack + (isSlam ? 100f : 0)));
 
+            HandleDamge();
+        }
+
+        void HandleDamge()
+        {
             OnGetHit.Invoke();
 
             if (remainingHitPoints <= 0)

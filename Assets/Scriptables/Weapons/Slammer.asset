@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2794bd9a678304bf4bb8b44a08efb237, type: 3}
-  m_Name: Shotgun
+  m_Name: Slammer
   m_EditorClassIdentifier: 
-  weaponName: Shotgun
-  attackInterval: 1
-  damage: 10
-  range: 4
+  weaponName: Slammer
+  attackInterval: 0.2
+  damage: 20
+  range: 6.5
   useProjPhys: 0
   projectileVelocity: 100
-  projSpreadAngle: 60
-  projPerShot: 20
-  stunTime: 1
-  knockBack: 30
-  reloadTime: 2
-  magSize: 8
-  projSprite: {fileID: 21300000, guid: a6b43c69cc25249db9bc17c4c88c8448, type: 3}
-  weaponSprite: {fileID: 21300000, guid: 984dfd5a121e146c8bbc395ba11b1f8d, type: 3}
+  projSpreadAngle: 0
+  projPerShot: 1
+  stunTime: 1.5
+  knockBack: 60
+  reloadTime: 1.5
+  magSize: 12
+  projSprite: {fileID: 21300000, guid: 5d067c9ec6ed54f6488041068c67d699, type: 3}
+  weaponSprite: {fileID: 21300000, guid: 6dc440e2632ae432986842a20b93e979, type: 3}
   weaponFireSounds:
-  - {fileID: 8300000, guid: 7f4cc086c4677754a9e31ba81a7d811b, type: 3}
+  - {fileID: 8300000, guid: 8ff65121ad4bc42e9bf32f75bf8f6628, type: 3}

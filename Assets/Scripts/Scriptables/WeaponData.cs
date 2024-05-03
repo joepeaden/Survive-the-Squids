@@ -18,6 +18,9 @@ namespace MyGame
         public int projPerShot;
         public float stunTime;
         public float knockBack;
+        public bool causesBleed;
+        public int bleedDamage;
+        public float bleedTime;
         public float reloadTime;
         public int magSize;
         public Sprite projSprite;

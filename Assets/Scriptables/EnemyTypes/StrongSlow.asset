@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StrongSlow
   m_EditorClassIdentifier: 
   hitPoints: 100
-  moveSpeed: 2
+  moveSpeed: 1.5
   attackInterval: 1
   xpReward: 1
   damage: 3

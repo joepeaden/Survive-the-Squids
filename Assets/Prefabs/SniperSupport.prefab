@@ -99,9 +99,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponData: {fileID: 11400000, guid: 76b72ec54fdac4f938b4d504658d0c61, type: 2}
-  enemiesInRange: []
-  baseDesignateTime: 2
+  baseLaserDesignateTime: 2
   line: {fileID: 5523221928256040146}
+  targetPref: 0
+  useLaserSight: 1
 --- !u!1 &5181692447298332329
 GameObject:
   m_ObjectHideFlags: 0

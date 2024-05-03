@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Basic Pistol
   attackInterval: 0.5
-  damage: 20
+  damage: 34
   range: 5
   useProjPhys: 0
   projectileVelocity: 100

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fast
   m_EditorClassIdentifier: 
   hitPoints: 50
-  moveSpeed: 4
+  moveSpeed: 3.5
   attackInterval: 1
   xpReward: 1
   damage: 1

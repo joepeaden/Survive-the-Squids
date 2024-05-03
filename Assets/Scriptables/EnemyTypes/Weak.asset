@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Weak
   m_EditorClassIdentifier: 
   hitPoints: 50
-  moveSpeed: 3
+  moveSpeed: 2
   attackInterval: 1
   xpReward: 1
   damage: 1

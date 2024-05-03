@@ -120,6 +120,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a2e63bd35da784ad0bdccaba846649c7, type: 2}
   - {fileID: 11400000, guid: ebf45b3a5f00d44a682cdef212b22085, type: 2}
   - {fileID: 11400000, guid: f52322e355f344d249af8d8031eb93d8, type: 2}
+  - {fileID: 11400000, guid: 56311824f364040b597a1c1e93fdb3cd, type: 2}
+  - {fileID: 11400000, guid: ae9683d80662f4ee49ff53233fe933c9, type: 2}
+  - {fileID: 11400000, guid: 71148ed0b70bb4decbe87616f0e43bc3, type: 2}
   itemMouseFollowPlaceholder: {fileID: 2534982217664519896}
   blackoutPanel: {fileID: 7244035052027731526}
   playerSamplesText: {fileID: 617421761975295357}

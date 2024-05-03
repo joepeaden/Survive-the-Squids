@@ -9,7 +9,7 @@ namespace MyGame
     public class EnemyData : ScriptableObject
     {
         public int hitPoints;
-        public int moveSpeed;
+        public float moveSpeed;
         public float attackInterval;
         public int xpReward;
         public int damage;

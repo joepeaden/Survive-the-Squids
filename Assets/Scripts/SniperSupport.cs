@@ -10,9 +10,13 @@ namespace MyGame
         //public List<Enemy> enemiesInRange = new List<Enemy>();
         private Enemy currentTarget;
         private float attackTimer;
-        public float baseDesignateTime;
+        public float baseLaserDesignateTime;
         public LineRenderer line;
         int ammoInWeapon;
+
+        enum PreferTarget { highestHP, closest }
+        [SerializeField] PreferTarget targetPref;
+        [SerializeField] bool useLaserSight;
 
         private void OnEnable()
         {
@@ -34,24 +38,30 @@ namespace MyGame
                 currentTarget = null;
             }
 
-            Enemy oldTarget = currentTarget;
-
-            if (currentTarget == null)
-            {
+            //if (currentTarget == null)
+            //{
                 currentTarget = GetEnemy();
-            }
+            //}
 
             if (currentTarget != null)
             {
                 UpdateRotation();
 
-                if (attackTimer <= baseDesignateTime)
+                // if we just waited for reload because no bullets left, then reload the weapon
+                if (ammoInWeapon <= 0 && attackTimer <= 0)
+                {
+                    ammoInWeapon = weaponData.magSize;
+                }
+
+                if (useLaserSight && attackTimer <= baseLaserDesignateTime)
                 {
                     UpdateDesignationLine();
                 }
 
                 if (attackTimer <= 0)
                 {
+                    // just in case - in Attack we're adding to the attack timer not setting it
+                    attackTimer = 0;
                     Attack();
                     line.enabled = false;
                 }
@@ -80,20 +90,20 @@ namespace MyGame
         {
             //while (aiming)
             //{
-                //Ray2D ray = new Ray2D(transform.position, transform.up);
-                //int layerMask = ~LayerMask.GetMask("Projectiles", "Boundary", "Characters");
-                //RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, int.MaxValue, layerMask);
+            //Ray2D ray = new Ray2D(transform.position, transform.up);
+            //int layerMask = ~LayerMask.GetMask("Projectiles", "Boundary", "Characters");
+            //RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, int.MaxValue, layerMask);
 
-                //if (hit)
-                //{
-                //    //aimGlow.transform.position = hit.point;
+            //if (hit)
+            //{
+            //    //aimGlow.transform.position = hit.point;
 
-                //    line.enabled = true;
-                //    line.SetPosition(0, transform.position);
-                //    line.SetPosition(1, hit.point);
-                //}
+            //    line.enabled = true;
+            //    line.SetPosition(0, transform.position);
+            //    line.SetPosition(1, hit.point);
+            //}
 
-                yield return null;
+            yield return null;
             //}
         }
 
@@ -107,25 +117,54 @@ namespace MyGame
 
         public Enemy GetEnemy()
         {
-            //int randomIndex = Random.Range(0, GameManager.instance.enemies.Count);
-            //return GameManager.instance.enemies[randomIndex];
-
-            int highestHP = int.MinValue;
-            Enemy strongestEnemy = null;
-            foreach (Enemy e in GameManager.instance.enemies)
+            switch (targetPref)
             {
-                // make sure to shoot an enemy in player view
-                if (Camera.main.WorldToViewportPoint(e.transform.position).x > 0 && Camera.main.WorldToViewportPoint(e.transform.position).x < 1 && Camera.main.WorldToViewportPoint(e.transform.position).y < 1 && Camera.main.WorldToViewportPoint(e.transform.position).y > 0)
-                {
-                    if (e.HitPoints > highestHP)
+                case PreferTarget.highestHP:
+                    int highestHP = int.MinValue;
+                    Enemy strongestEnemy = null;
+                    foreach (Enemy e in GameManager.instance.enemies)
                     {
-                        highestHP = e.HitPoints;
-                        strongestEnemy = e;
-                    }
-                }
-            }
+                        // make sure to shoot an enemy in player view
+                        bool inCamView = Camera.main.WorldToViewportPoint(e.transform.position).x > 0 && Camera.main.WorldToViewportPoint(e.transform.position).x < 1 && Camera.main.WorldToViewportPoint(e.transform.position).y < 1 && Camera.main.WorldToViewportPoint(e.transform.position).y > 0;
+                        // make sure it's in range
+                        bool inRange = (e.transform.position - transform.position).magnitude <= weaponData.range;
 
-            return strongestEnemy;
+                        if (inCamView)
+                        {
+                            if (e.HitPoints > highestHP)
+                            {
+                                highestHP = e.HitPoints;
+                                strongestEnemy = e;
+                            }
+                        }
+                    }
+                    return strongestEnemy;
+
+                case PreferTarget.closest:
+                    float closestDist = float.MaxValue;
+                    Enemy closestEnemy = null;
+                    foreach (Enemy e in GameManager.instance.enemies)
+                    {
+                        // make sure to shoot an enemy in player view
+                        bool inCamView = Camera.main.WorldToViewportPoint(e.transform.position).x > 0 && Camera.main.WorldToViewportPoint(e.transform.position).x < 1 && Camera.main.WorldToViewportPoint(e.transform.position).y < 1 && Camera.main.WorldToViewportPoint(e.transform.position).y > 0;
+
+                        // make sure it's in range
+                        float distToEnemy = (transform.position - e.transform.position).magnitude;
+                        bool inRange = distToEnemy <= weaponData.range;
+
+                        if (inCamView && inRange && distToEnemy < closestDist)
+                        {
+                            closestDist = distToEnemy;
+                            closestEnemy = e;
+                        }
+                    }
+                    return closestEnemy;
+
+                default:
+                    // pick random target by default
+                    int randomIndex = Random.Range(0, GameManager.instance.enemies.Count);
+                    return GameManager.instance.enemies[randomIndex];
+            }
         }
 
         private void Attack()
