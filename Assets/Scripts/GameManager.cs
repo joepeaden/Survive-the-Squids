@@ -89,6 +89,7 @@ namespace MyGame
         {
             startUI.SetActive(true);
             inMenu = true;
+            Time.timeScale = 0;
         }
 
         public void RoundEnd()
@@ -118,8 +119,10 @@ namespace MyGame
             playerLevel = 0;
             samplesToLevelUp = BaseSamplesToLevel;
             enemiesKilledText.text = enemiesKilled.ToString();
+            Enemy.EnemiesAlive = 0;
 
             UpdateSamples(0, true);
+            Time.timeScale = 1;
         }
 
 

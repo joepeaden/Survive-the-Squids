@@ -17,14 +17,17 @@ MonoBehaviour:
   damage: 10
   range: 4
   useProjPhys: 0
-  projectileVelocity: 100
+  projectileVelocity: 400
   projSpreadAngle: 60
   projPerShot: 20
   stunTime: 1
   knockBack: 30
+  causesBleed: 0
+  bleedDamage: 0
+  bleedTime: 0
   reloadTime: 2
   magSize: 8
-  projSprite: {fileID: 21300000, guid: a6b43c69cc25249db9bc17c4c88c8448, type: 3}
-  weaponSprite: {fileID: 21300000, guid: 984dfd5a121e146c8bbc395ba11b1f8d, type: 3}
+  projSprite: {fileID: 21300000, guid: f94d820aea89a4e2db0884911af4a295, type: 3}
+  weaponSprite: {fileID: 21300000, guid: 74e89b1ece8a9458fa87ab616f5f8cf6, type: 3}
   weaponFireSounds:
   - {fileID: 8300000, guid: 7f4cc086c4677754a9e31ba81a7d811b, type: 3}

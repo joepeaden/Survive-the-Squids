@@ -54,6 +54,7 @@ namespace MyGame
 
         //public List<Vector2> positions9Chars = new List<Vector2>();
 
+        public int BaseHitPoints = 10;
         public int HitPoints = 10;
 
         private void Awake()
@@ -387,13 +388,16 @@ namespace MyGame
             characterBodies[0].SetBodyActive(true);
             ActiveCharacters.Add(characterBodies[0]);
             activeCharactersIndex.Add(charInfo.ID, 0);
+            SetPositions();
 
             playerSamples = 0;
 
             transform.position = Vector2.zero;
             hitCircle.transform.localScale = new Vector3(1f, 1f);
 
-            PlayerBar.Instance.Initialize();
+            HitPoints = BaseHitPoints;
+            PlayerBar.Instance.InitializeHP();
+            PlayerBar.Instance.HandleXP(0, GameManager.instance.BaseSamplesToLevel);
         }
 
         private void UpdateMovement()

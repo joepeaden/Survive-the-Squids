@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: PistolItem
   m_EditorClassIdentifier: 
   itemName: Pistol
-  image: {fileID: 21300000, guid: 0695eb6e341d54a6d9ce43e08a5b8e2d, type: 3}
+  image: {fileID: 21300000, guid: eb9db6614057045d69059c629d30926f, type: 3}
   cost: 0
   details:
   - It's a pistol.
   upgradeType: 0
   associatedData: {fileID: 11400000, guid: fae2db17dc578408b8f0507baaa51ac6, type: 2}
+  associatedPrefab: {fileID: 0}

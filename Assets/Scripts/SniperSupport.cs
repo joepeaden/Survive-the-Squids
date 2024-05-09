@@ -22,7 +22,14 @@ namespace MyGame
         {
             ammoInWeapon = weaponData.magSize;
             line.enabled = false;
+            GameManager.instance.OnGameStart.AddListener(HandleGameStart);
         }
+
+        void HandleGameStart()
+        {
+            Destroy(gameObject);
+        }
+    
 
         private void Update()
         {

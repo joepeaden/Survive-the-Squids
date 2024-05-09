@@ -18,7 +18,7 @@ namespace MyGame
             Instance = this;
         }
 
-        public void Initialize()
+        public void InitializeHP()
         {
             for (int i = 0; i < healthParent.childCount; i++)
             {

@@ -17,4 +17,4 @@ MonoBehaviour:
   attackInterval: 1
   xpReward: 1
   damage: 1
-  bodySprite: {fileID: 21300000, guid: c5fa656f8c3ab4f2e8cbf19921e99552, type: 3}
+  bodySprite: {fileID: 21300000, guid: ff34d9c8c065e432182cd4b6d9a891c7, type: 3}

@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: SniperItem
   m_EditorClassIdentifier: 
   itemName: Sniper
-  image: {fileID: 21300000, guid: 5140f8e26fd8347658815ae4c7aed686, type: 3}
+  image: {fileID: 21300000, guid: 0d2a5862b108b499b8091d5908c304f4, type: 3}
   cost: 0
   details:
   - Long range, but slow firing.
   upgradeType: 0
   associatedData: {fileID: 11400000, guid: a94d25d2fed084349a743bbe707e3cd5, type: 2}
+  associatedPrefab: {fileID: 0}
