@@ -16,8 +16,8 @@ TagManager:
   - Characters
   - Pickups
   - Obstacles
-  - 
-  - 
+  - Enemies
+  - ObstaclesNoBlockLOS
   - 
   - 
   - 

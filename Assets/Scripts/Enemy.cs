@@ -118,7 +118,7 @@ namespace MyGame
         public void SetData(EnemyData newData)
         {
             data = newData;
-            spriteController.bodySprite.sprite = newData.bodySprite;
+            spriteController.SetData(newData);
             Initialize();
         }
 
@@ -169,6 +169,8 @@ namespace MyGame
         void HandleDamge()
         {
             OnGetHit.Invoke();
+
+            spriteController.HandleHit();
 
             if (remainingHitPoints <= 0)
             {

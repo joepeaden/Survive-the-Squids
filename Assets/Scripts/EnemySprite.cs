@@ -9,9 +9,9 @@ namespace MyGame
     {
         public Enemy enemyScript;
 
-        public SpriteRenderer headSprite;
-        public SpriteRenderer bodySprite;
-        public SpriteRenderer faceSprite;
+        public SpriteRenderer headSpriteRend;
+        public SpriteRenderer bodySpriteRend;
+        public SpriteRenderer faceSpriteRend;
         public Sprite deadSprite;
 
         [SerializeField]
@@ -22,6 +22,13 @@ namespace MyGame
         Sprite leftFace;
         [SerializeField]
         Sprite rightFace;
+        [SerializeField]
+        Sprite headHitSprite;
+        [SerializeField]
+        Sprite bodyHitSprite;
+
+        Sprite oldBodySprite;
+        Sprite oldHeadSprite;
 
         Animator animator;
         bool isMoving;
@@ -29,6 +36,18 @@ namespace MyGame
         private void Start()
         {
             animator = GetComponent<Animator>();
+        }
+
+        public void  SetData(EnemyData newData)
+        {
+            bodySpriteRend.sprite = newData.bodySprite;
+            faceSpriteRend.sprite = newData.faceSprite;
+            headSpriteRend.sprite = newData.headSprite;
+            headHitSprite = newData.headHitSprite;
+            bodyHitSprite = newData.bodyHitSprite;
+
+            oldBodySprite = bodySpriteRend.sprite;
+            oldHeadSprite = headSpriteRend.sprite;
         }
 
         private void Update()
@@ -53,7 +72,7 @@ namespace MyGame
             transform.position = enemyScript.transform.position;
 
 
-            headSprite.transform.localPosition = enemyScript.transform.up * .08f;//headFollowTransform.transform.position + bodySprite.transform.localPosition;
+            headSpriteRend.transform.localPosition = enemyScript.transform.up * .08f;//headFollowTransform.transform.position + bodySprite.transform.localPosition;
 
 
             int newFaceSorting = 26;
@@ -61,34 +80,54 @@ namespace MyGame
             if (enemyScript.transform.rotation.eulerAngles.z > 90 && enemyScript.transform.rotation.eulerAngles.z < 270)
             {
                 // weapon pointing down
-                bodySprite.sortingOrder = 24;
+                bodySpriteRend.sortingOrder = 24;
             }
             else
             {
                 // weapon pointing up
-                bodySprite.sortingOrder = 26;
+                bodySpriteRend.sortingOrder = 26;
             }
 
             if (enemyScript.transform.rotation.eulerAngles.z >= 45 && enemyScript.transform.rotation.eulerAngles.z < 135)
             {
-                faceSprite.sprite = leftFace;
+                faceSpriteRend.sprite = leftFace;
             }
             else if (enemyScript.transform.rotation.eulerAngles.z >= 135 && enemyScript.transform.rotation.eulerAngles.z < 225)
             {
-                faceSprite.sprite = downFace;
+                faceSpriteRend.sprite = downFace;
             }
             else if (enemyScript.transform.rotation.eulerAngles.z >= 225 && enemyScript.transform.rotation.eulerAngles.z < 315)
             {
-                faceSprite.sprite = rightFace;
+                faceSpriteRend.sprite = rightFace;
             }
             else
             {
-                faceSprite.sprite = upFace;
+                faceSpriteRend.sprite = upFace;
                 newFaceSorting = 25;
             }
 
-            faceSprite.sortingOrder = newFaceSorting;
+            faceSpriteRend.sortingOrder = newFaceSorting;
 
+        }
+
+        public void HandleHit()
+        {
+            StartCoroutine(FlashHit());
+        }
+
+        IEnumerator FlashHit()
+        {
+            animator.SetTrigger("Hit");
+
+            faceSpriteRend.enabled = false;
+            bodySpriteRend.sprite = bodyHitSprite;
+            headSpriteRend.sprite = headHitSprite;
+
+            yield return new WaitForSeconds(.08f);
+
+            faceSpriteRend.enabled = true;
+            bodySpriteRend.sprite = oldBodySprite;
+            headSpriteRend.sprite = oldHeadSprite;
         }
 
         public void HandleDeath()

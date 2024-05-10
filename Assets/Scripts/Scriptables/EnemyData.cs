@@ -14,5 +14,9 @@ namespace MyGame
         public int xpReward;
         public int damage;
         public Sprite bodySprite;
+        public Sprite headSprite;
+        public Sprite faceSprite;
+        public Sprite headHitSprite;
+        public Sprite bodyHitSprite;
     }
 }

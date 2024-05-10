@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164dd7174b6e14dcf8fd5376672df209, type: 3}
   m_Name: StrongSlow
   m_EditorClassIdentifier: 
-  hitPoints: 100
+  hitPoints: 200
   moveSpeed: 1.5
   attackInterval: 1
   xpReward: 1
   damage: 3
   bodySprite: {fileID: 21300000, guid: 037110e62cb5a4da8a9d0b81ef31e96b, type: 3}
+  headSprite: {fileID: 21300000, guid: a9eb48ff0959b4be48067f2c1fbee981, type: 3}
+  faceSprite: {fileID: 21300000, guid: 08db588474fad4f5d801f1e01cb93c50, type: 3}
+  headHitSprite: {fileID: 21300000, guid: d2365eb2b1e8d4d17ba8fc13fc0dae97, type: 3}
+  bodyHitSprite: {fileID: 21300000, guid: 0f96a4f37e4634aefa31132104054e3e, type: 3}

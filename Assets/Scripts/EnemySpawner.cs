@@ -108,7 +108,7 @@ namespace MyGame
                         enemyGO.SetActive(true);
                         //enemyGO.transform.rotation = Quaternion.identity;
 
-                        GameplayUI.Instance.AddHealthBar(enemyGO.GetComponentInChildren<Enemy>());
+                        //GameplayUI.Instance.AddHealthBar(enemyGO.GetComponentInChildren<Enemy>());
 
                         //spawnedAmmountThisWave++;
                         //if (spawnedAmmountThisWave >= gameManager.GetEnemyCountToSpawnThisRound())

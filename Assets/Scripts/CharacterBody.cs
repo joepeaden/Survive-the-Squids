@@ -149,11 +149,17 @@ namespace MyGame
             Enemy closestEnemy = null;
             foreach (Enemy e in enemiesInRange)
             {
-                float distToEnemy = (transform.position - e.transform.position).magnitude;
-                if (distToEnemy < closestDist)
+                Vector2 vectorToEnemy = e.transform.position - transform.position;
+                //Debug.DrawRay(transform.position, vectorToEnemy.normalized, Color.green, .5f);
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, vectorToEnemy.normalized, 1000f, LayerMask.GetMask("Obstacles", "Enemies"));
+                if (hit && hit.transform.tag == "Enemy")
                 {
-                    closestDist = distToEnemy;
-                    closestEnemy = e;
+                    float distToEnemy = vectorToEnemy.magnitude;
+                    if (distToEnemy < closestDist)
+                    {
+                        closestDist = distToEnemy;
+                        closestEnemy = e;
+                    }
                 }
             }
 
