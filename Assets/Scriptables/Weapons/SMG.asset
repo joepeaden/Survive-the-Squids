@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: SMG
   attackInterval: 0.1
-  damage: 1
+  damage: 15
   range: 5
   useProjPhys: 0
   projectileVelocity: 400

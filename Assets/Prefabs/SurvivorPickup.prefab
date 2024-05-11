@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 8808876045938025711}
   - component: {fileID: 1549883263591451433}
   - component: {fileID: 9019523574321493777}
-  - component: {fileID: 1691134662364808669}
+  - component: {fileID: 5852698081487122710}
   m_Layer: 8
-  m_Name: Weapon Pickup
+  m_Name: SurvivorPickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2573718352448038753}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.330596, y: -0.8148389, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -75,8 +75,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0.9614235, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 46b478973393d430d9d8cedfd8e82b3b, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -129,9 +129,9 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.6, y: 0.8}
   m_EdgeRadius: 0
---- !u!114 &1691134662364808669
+--- !u!114 &5852698081487122710
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,6 +140,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2573718352448038753}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2108bbde3257947e095a7ad592508102, type: 3}
+  m_Script: {fileID: 11500000, guid: 2cc43168017674e02b1e62ed215f3b94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sound: {fileID: 8300000, guid: fd8d9b55653a54a8eb7613a4fb8d7489, type: 3}

@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Shotgun
   attackInterval: 1
-  damage: 10
+  damage: 20
   range: 4
   useProjPhys: 0
   projectileVelocity: 400
-  projSpreadAngle: 60
+  projSpreadAngle: 30
   projPerShot: 20
   stunTime: 1
   knockBack: 30

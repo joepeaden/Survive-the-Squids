@@ -88,10 +88,10 @@ namespace MyGame
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                CharacterBody.ManualAimEnabled = !CharacterBody.ManualAimEnabled;
-            }
+            //if (Input.GetKeyDown(KeyCode.Space))
+            //{
+            //    CharacterBody.ManualAimEnabled = !CharacterBody.ManualAimEnabled;
+            //}
         }
 
         private void FixedUpdate()

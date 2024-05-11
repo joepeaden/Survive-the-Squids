@@ -30,6 +30,7 @@ namespace MyGame
         [SerializeField] AudioSource audioSource;
 
         private CharacterInfo thisCharInfo;
+        public bool hasCharacter;
 
         private void Start()
         {
@@ -62,8 +63,9 @@ namespace MyGame
             //}
 
             weaponImage.sprite = charInfo.weaponData.weaponSprite;
-            replaceButton.interactable = Player.instance.ActiveCharacters.Count >= Player.MAX_CHARACTERS;
+            //Player.instance.ActiveCharacters.Count >= Player.MAX_CHARACTERS;
             SetButtonHighlights(false);
+            hasCharacter = true;
         }
 
         public void ReplaceCharacter()
@@ -77,12 +79,12 @@ namespace MyGame
                 //        case UpgradeType.weapon:
                 //thisCharInfo.SetWeapon((WeaponData)theItem.associatedData, true);
 
-                CharacterBody newChar = Player.instance.ReplaceCharacter(thisCharInfo);
-                newChar.CharInfo.SetWeapon((WeaponData)theItem.associatedData, true);
+                //CharacterBody newChar = Player.instance.ReplaceCharacter(thisCharInfo);
+                thisCharInfo.SetWeapon((WeaponData)theItem.associatedData, true);
                 //Player.instance.acti//ActiveCharacters(thisCharInfo.ID)
                 //CharacterBody c = Player.instance.AddCharacter();
 
-                SetCharacter(newChar.CharInfo);
+                SetCharacter(thisCharInfo);
                 //weaponImage.sprite = theItem.image;
 
                 //Player.instance.UpdateSamples(-theItem.cost);
@@ -115,6 +117,7 @@ namespace MyGame
         public void SetButtonHighlights(bool enabled)
         {
             replaceHighlight.SetActive(enabled);
+            replaceButton.interactable = enabled;
         }
     }
 }

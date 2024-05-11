@@ -35,6 +35,9 @@ namespace MyGame
         Sprite oldBodySprite;
         Sprite oldHeadSprite;
 
+
+        [SerializeField] ParticleSystem moveDust;
+
         void Start()
         {
             animator = GetComponent<Animator>();
@@ -43,9 +46,26 @@ namespace MyGame
             oldHeadSprite = headSpriteRend.sprite;
         }
 
+        float dustTimer;
         private void Update()
         {
             float animationVelocity = Player.instance.GetComponent<Rigidbody2D>().velocity.magnitude;
+
+            if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)))
+            {
+                Debug.Log("Playing");
+                dustTimer -= Time.deltaTime;
+                if (dustTimer < 0f)
+                {
+                    moveDust.Emit(1);
+                    dustTimer = .1f;
+                }
+            }
+            else
+            {
+                dustTimer = .1f;
+            }
+
             if (animationVelocity <= .5)
             {
                 // make sure it's negative so it's "less than zero" so that the anim controller knows we stopped
@@ -59,6 +79,7 @@ namespace MyGame
             }
 
             animator.SetFloat("Velocity", animationVelocity);
+
 
             int newFaceSorting = 26;
             // sort body sprites based on facing

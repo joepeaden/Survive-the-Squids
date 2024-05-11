@@ -123,6 +123,11 @@ namespace MyGame
             }
         }
 
+        public void Close()
+        {
+            GameManager.instance.StartNewRound();
+        }
+
         private void OnDisable()
         {
             for (int i = 0; i < itemPanels.Count; i++)
@@ -148,7 +153,10 @@ namespace MyGame
 
             for (int i = 0; i < charPanels.Count; i++)
             {
-                charPanels[i].SetButtonHighlights(theItem != null);
+                if (charPanels[i].hasCharacter)
+                {
+                    charPanels[i].SetButtonHighlights(theItem != null);
+                }
             }
 
             //if (theItem == null)

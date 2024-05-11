@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Sniper
   attackInterval: 1
-  damage: 10
+  damage: 100
   range: 12
   useProjPhys: 0
   projectileVelocity: 400
@@ -25,7 +25,7 @@ MonoBehaviour:
   causesBleed: 0
   bleedDamage: 0
   bleedTime: 0
-  reloadTime: 1
+  reloadTime: 1.5
   magSize: 1
   projSprite: {fileID: 21300000, guid: f94d820aea89a4e2db0884911af4a295, type: 3}
   weaponSprite: {fileID: 21300000, guid: 0d2a5862b108b499b8091d5908c304f4, type: 3}

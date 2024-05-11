@@ -69,7 +69,7 @@ namespace MyGame
 
         void AttemptPurchaseItem()
         {
-            if (TheUpgradeItem.upgradeType == UpgradeType.weapon && Player.instance.ActiveCharacters.Count >= Player.MAX_CHARACTERS)
+            if (TheUpgradeItem.upgradeType == UpgradeType.weapon)// && Player.instance.ActiveCharacters.Count >= Player.MAX_CHARACTERS)
             {
                 // get yo drag on gurl
                 EnableDrag();

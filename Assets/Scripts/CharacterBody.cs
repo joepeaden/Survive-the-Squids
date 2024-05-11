@@ -64,6 +64,8 @@ namespace MyGame
 
         private void Update()
         {
+
+
             if (weaponData == null)
             {
                 return;
@@ -73,19 +75,19 @@ namespace MyGame
 
             if (!gameManager.inMenu)
             {
-                //if (ManualAimEnabled)
-                //{
-                //    UpdateRotation();
+                if (ManualAimEnabled)
+                {
+                    UpdateRotation();
 
-                //    if (Input.GetMouseButtonDown(0))
-                //    {
-                //        Attack();
-                //    }
-                //}
-                //else
-                //{
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        Attack();
+                    }
+                }
+                else
+                {
 
-                if (currentTarget != null && currentTarget.isDead)
+                    if (currentTarget != null && currentTarget.isDead)
                 {
                     enemiesInRange.Remove(currentTarget);
                     currentTarget = null;
@@ -129,7 +131,7 @@ namespace MyGame
                         Attack();
                     }
                 }
-                //}
+                }
             }
         }
 
@@ -282,12 +284,12 @@ namespace MyGame
 
         private Vector3 GetTargetDirection()
         {
-            //if (ManualAimEnabled)
-            //{
-            //    Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            //    return (mousePos - transform.position).normalized;
-            //}
-            //else
+            if (ManualAimEnabled)
+            {
+                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                return (mousePos - transform.position).normalized;
+            }
+            else
 
             //if (weaponData.controlStyle == ControlStyle.moveDirection)
             //{
