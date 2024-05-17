@@ -6,6 +6,14 @@ using UnityEngine;
 namespace MyGame
 {
 
+    public enum StatType
+    {
+        HP,
+        CRD,
+        AIM,
+        STR
+    }
+
     public class CharacterInfo
     {
         public const int LEVEL_TWO_XP_THRESHOLD = 10;
@@ -41,11 +49,20 @@ namespace MyGame
         {
             get
             {
-                return reflexSpeed + reflexSpeedBuff;
+                float crdStatReflexBuff = CrdStat * 5;
+                return reflexSpeed + crdStatReflexBuff + weaponData.rotationSpeedPenalty;
             }
         }
         private float reflexSpeed;
-        private float reflexSpeedBuff;
+        //private float reflexSpeedBuff;
+
+        public float ReloadTimeReduction
+        {
+            get
+            {
+                return CrdStat * .1f;
+            }
+        }
 
         public int DamageBuff => damageBuff;
         private int damageBuff;
@@ -56,29 +73,37 @@ namespace MyGame
         {
             get
             {
-                return critChanceBuff + critChance;
+                float critChanceFromAim = AimStat * .1f; 
+                return  critChanceFromAim + baseCritChance;
             }
         }
-        private float critChance;
-        private float critChanceBuff;
+        private float baseCritChance;
+        //private float critChanceAim;
 
         public int level = 1;
-        private int xp;
-        private int currentXPThreshold = LEVEL_TWO_XP_THRESHOLD;
+        public int xp;
+        public int kills;
+        public int currentXPThreshold = LEVEL_TWO_XP_THRESHOLD;
 
         public int TotalHitPoints
         {
             get
             {
-                return baseHitPoints + hitPointsBuff;
+                return baseHitPoints + HpStat;
             }
         }
         private int baseHitPoints;
-        private int hitPointsBuff;
 
         public bool hasPenetratorRounds;
         public bool hasStunRounds;
         public bool hasSlamRounds;
+
+        public int HpStat;
+        public int StrStat;
+        public int AimStat;
+        public int CrdStat;
+
+        public int pendingLevelUps;
 
         public CharacterInfo(CharacterStatsData newStatsData)
         {
@@ -101,8 +126,14 @@ namespace MyGame
             AssignRandomName();
             SetWeapon(GameManager.instance.weapons[0]);
             reflexSpeed = statsData.reflexSpeed;
-            critChance = statsData.critChance;
+            baseCritChance = statsData.critChance;
             baseHitPoints = statsData.totalHitPoints;
+        }
+
+        public void TallyKill(EnemyData enemy)
+        {
+            AddXP(enemy.xpReward);
+            kills++;
         }
 
         public void AddXP(int xpAmount)
@@ -115,9 +146,33 @@ namespace MyGame
             }
         }
 
+        public void UpgradeStat(StatType stat, int value)
+        {
+            switch (stat)
+            {
+                case StatType.HP:
+                    HpStat += value;
+                    break;
+                case StatType.STR:
+                    StrStat += value;
+                    break;
+                case StatType.AIM:
+                    AimStat += value;
+                    break;
+                case StatType.CRD:
+                    CrdStat += value;
+                    break;
+            }
+
+            pendingLevelUps--;
+            UpdateBody();
+        }
+
         public void LevelUp()
         {
+            Debug.Log("Character leveled up:  " + charName + " LVL " + level);
             level++;
+            pendingLevelUps++;
 
             switch (level)
             {
@@ -134,43 +189,42 @@ namespace MyGame
                     break;
             }
 
-            CharTraits newTrait;
-            List<CharTraits> tempPossibleTraits = new List<CharTraits>(possibleTraits);
-            do
-            {
-                newTrait = tempPossibleTraits[UnityEngine.Random.Range(0, tempPossibleTraits.Count)];
-                tempPossibleTraits.Remove(newTrait);
-            } while (traits.Contains(newTrait) && tempPossibleTraits.Count > 0);
+            //CharTraits newTrait;
+            //List<CharTraits> tempPossibleTraits = new List<CharTraits>(possibleTraits);
+            //do
+            //{
+            //    newTrait = tempPossibleTraits[UnityEngine.Random.Range(0, tempPossibleTraits.Count)];
+            //    tempPossibleTraits.Remove(newTrait);
+            //} while (traits.Contains(newTrait) && tempPossibleTraits.Count > 0);
 
-            // if it contains it then there are no more traits to give, the char has them all
-            if (!traits.Contains(newTrait))
-            {
-                traits.Add(newTrait);
+            //// if it contains it then there are no more traits to give, the char has them all
+            //if (!traits.Contains(newTrait))
+            //{
+            //    traits.Add(newTrait);
 
-                if (newTrait == CharTraits.Quick)
-                {
-                    reflexSpeedBuff = Player.instance.quickTraitData.value;
-                }
-                else if (newTrait == CharTraits.Brutal)
-                {
-                    damageBuff = (int)Player.instance.brutalTraitData.value;
-                }
-                else if (newTrait == CharTraits.Smart)
-                {
-                    xpGainMultiplier = Player.instance.smartTraitData.value;
-                }
-                else if (newTrait == CharTraits.Precise)
-                {
-                    critChanceBuff = Player.instance.preciseTraitData.value;
-                }
-                else if (newTrait == CharTraits.Tough)
-                {
-                    critChanceBuff = Player.instance.toughTraitData.value;
-                }
-            }
+            //    if (newTrait == CharTraits.Quick)
+            //    {
+            //        reflexSpeedBuff = Player.instance.quickTraitData.value;
+            //    }
+            //    else if (newTrait == CharTraits.Brutal)
+            //    {
+            //        damageBuff = (int)Player.instance.brutalTraitData.value;
+            //    }
+            //    else if (newTrait == CharTraits.Smart)
+            //    {
+            //        xpGainMultiplier = Player.instance.smartTraitData.value;
+            //    }
+            //    else if (newTrait == CharTraits.Precise)
+            //    {
+            //        critChanceBuff = Player.instance.preciseTraitData.value;
+            //    }
+                //else if (newTrait == CharTraits.Tough)
+                //{
+                //    critChanceBuff = Player.instance.toughTraitData.value;
+                //}
+            //}
 
-            // i could just update one. But whatever.
-            Player.instance.UpdateCharBodies();
+            UpdateBody();
         }
 
         /// <summary>
@@ -178,14 +232,28 @@ namespace MyGame
         /// </summary>
         /// <param name="newWeapon"></param>
         /// <param name="updateBody">Should we trigger an update for the character?</param>
-        public void SetWeapon(WeaponData newWeapon, bool updateBody = false)
+        public bool SetWeapon(WeaponData newWeapon, bool updateBody = false)
         {
+            if (newWeapon.weight > StrStat)
+            {
+                return false;
+            }
+
             weaponData = newWeapon;
             if (updateBody)
             {
-                Player.instance.UpdateCharBodies();
+                UpdateBody();
             }
+
+            return true;
         }
+
+        public void UpdateBody()
+        {
+            Player.instance.UpdateCharBody(ID);
+        }
+
+        // HITCHYAHITCHYAHITCHYA WITDA HARDPUNK TACTIX! KYUH!
 
         public void AddWeaponUpgrade(WeaponUpgradeData weaponUpgrade)
         {

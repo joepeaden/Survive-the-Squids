@@ -214,13 +214,14 @@ namespace MyGame
                             Enemy enemy = hit.transform.GetComponent<Enemy>();
 
                             // roll for crit, if so then 3x damage
+                            //bool isCrit = false;
                             //float critRoll = Random.Range(0f, 1f);
                             //if (critRoll < charInfo.CritChance)
                             //{
                             //    damage *= 3;
                             //}
 
-                            enemy.GetHit(weaponData, (enemy.transform.position - transform.position).normalized, false, false);
+                            enemy.GetHit(weaponData, (enemy.transform.position - transform.position).normalized, false, false, false);
                             enemiesHit++;
 
                             //if (enemy.isDead)

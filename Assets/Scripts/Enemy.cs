@@ -18,7 +18,7 @@ namespace MyGame
         private int remainingHitPoints;
         private float attackTimer;
         private Player player;
-        //private CharacterBody targetCharacter;
+        private CharacterBody targetCharacter;
         private AIPath pathfinder;
         private Rigidbody2D rb;
         private float stunTime;
@@ -74,20 +74,21 @@ namespace MyGame
 
                 if (player != null)
                 {
-                    pathfinder.destination = player.transform.position;
+                    pathfinder.destination = targetCharacter.transform.position;
 
-                    float distFromTarget = (transform.position - player.transform.position).magnitude;
-                    float attackDist = player.hitCircle.localScale.x/2;
+                    float distFromTarget = (transform.position - targetCharacter.transform.position).magnitude;
+                    float attackDist = .5f;
+                    //float attackDist = targetCharacter.hitCircle.localScale.x/2;
 
                     if (distFromTarget < attackDist && attackTimer <= 0)
                     {
-                        player.GetHit(data.damage);
+                        targetCharacter.GetHit(data.damage);
                         attackTimer = data.attackInterval;
 
-                        //if (targetCharacter.isDead)
-                        //{
-                        //    PickTarget();
-                        //}
+                        if (targetCharacter.isDead)
+                        {
+                            PickTarget();
+                        }
                     }
                 }
             }
@@ -98,7 +99,7 @@ namespace MyGame
             do
             {
                 remainingHitPoints -= lastWeaponThatHit.bleedDamage;
-                HandleDamge();
+                HandleDamge(lastWeaponThatHit.bleedDamage, isBleed: true);
                 yield return new WaitForSeconds(1f);
                 bleedTimeRemaining -= 1f;
             } while (bleedTimeRemaining > 0f);
@@ -124,28 +125,29 @@ namespace MyGame
 
         private void PickTarget()
         {
-            //float smallestDist = float.MaxValue;
-            //for (int i = 0; i < player.ActiveCharacters.Count; i++)
-            //{
-            //    if (player.ActiveCharacters[i].isDead || !player.ActiveCharacters[i].isActiveAndEnabled)
-            //    {
-            //        continue;
-            //    }
+            float smallestDist = float.MaxValue;
+            for (int i = 0; i < player.ActiveCharacters.Count; i++)
+            {
+                if (player.ActiveCharacters[i].isDead || !player.ActiveCharacters[i].isActiveAndEnabled)
+                {
+                    continue;
+                }
 
-            //    float dist = (transform.position - player.ActiveCharacters[i].transform.position).magnitude;
-            //    if (dist < smallestDist)
-            //    {
-            //        smallestDist = dist;
-            //        targetCharacter = player.ActiveCharacters[i];
-            //    }
-            //}
+                float dist = (transform.position - player.ActiveCharacters[i].transform.position).magnitude;
+                if (dist < smallestDist)
+                {
+                    smallestDist = dist;
+                    targetCharacter = player.ActiveCharacters[i];
+                }
+            }
         }
 
-        public void GetHit(WeaponData hitWeaponData, Vector2 forceDirection, bool isSlam, bool isStun)
+        public void GetHit(WeaponData hitWeaponData, Vector2 forceDirection, bool isSlam, bool isStun, bool isCrit)
         {
             lastWeaponThatHit = hitWeaponData;
 
-            remainingHitPoints -= hitWeaponData.damage;
+            int damage = isCrit ? hitWeaponData.damage * 3 : hitWeaponData.damage;
+            remainingHitPoints -= damage;
 
             float newStunTime = hitWeaponData.stunTime + (isStun ? 2 : 0);
             // set stunTime, but only change it if the new value is greater than the old.
@@ -163,14 +165,35 @@ namespace MyGame
             // apply knockback
             rb.AddForce(forceDirection.normalized * (hitWeaponData.knockBack + (isSlam ? 100f : 0)));
 
-            HandleDamge();
+            HandleDamge(damage, isCrit);
         }
 
-        void HandleDamge()
+        void HandleDamge(int damage, bool isCrit = false, bool isBleed = false)
         {
             OnGetHit.Invoke();
 
-            spriteController.HandleHit();
+            spriteController.HandleHit(isCrit);
+
+            // should probably move all this into the TextFloatUp script or whatever. just pass in enum for damage type.
+            string floatText = "0";
+            Color textColor = Color.white;
+            if (isCrit)
+            {
+                ColorUtility.TryParseHtmlString("#ffffff", out textColor);
+                floatText = "CRIT!";
+            }
+            else if (isBleed)
+            {
+                ColorUtility.TryParseHtmlString("#ff0100", out textColor);
+                floatText = "BLEED!";
+            }
+            else
+            {
+                ColorUtility.TryParseHtmlString("#b4d8f7", out textColor);
+                floatText = damage.ToString();
+            }
+
+            GameplayUI.Instance.AddTextFloatup(transform.position, floatText, textColor);
 
             if (remainingHitPoints <= 0)
             {

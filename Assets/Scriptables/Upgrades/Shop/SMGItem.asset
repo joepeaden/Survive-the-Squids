@@ -17,6 +17,8 @@ MonoBehaviour:
   cost: 0
   details:
   - Fires fast, but very close range.
+  - High Manuverability
+  - 'STR Required: 0'
   upgradeType: 0
   associatedData: {fileID: 11400000, guid: 1d6ead512bbb34b4bb0f12ddb5dc6df9, type: 2}
   associatedPrefab: {fileID: 0}

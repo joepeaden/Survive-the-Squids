@@ -22,10 +22,10 @@ namespace MyGame
         Sprite leftFace;
         [SerializeField]
         Sprite rightFace;
-        [SerializeField]
         Sprite headHitSprite;
-        [SerializeField]
         Sprite bodyHitSprite;
+        Sprite headHitCritSprite;
+        Sprite bodyHitCritSprite;
 
         Sprite oldBodySprite;
         Sprite oldHeadSprite;
@@ -45,6 +45,8 @@ namespace MyGame
             headSpriteRend.sprite = newData.headSprite;
             headHitSprite = newData.headHitSprite;
             bodyHitSprite = newData.bodyHitSprite;
+            headHitCritSprite = newData.headCritSprite;
+            bodyHitCritSprite = newData.bodyCritSprite;
 
             oldBodySprite = bodySpriteRend.sprite;
             oldHeadSprite = headSpriteRend.sprite;
@@ -110,18 +112,18 @@ namespace MyGame
 
         }
 
-        public void HandleHit()
+        public void HandleHit(bool isCrit)
         {
-            StartCoroutine(FlashHit());
+            StartCoroutine(FlashHit(isCrit));
         }
 
-        IEnumerator FlashHit()
+        IEnumerator FlashHit(bool isCrit)
         {
             animator.SetTrigger("Hit");
 
             faceSpriteRend.enabled = false;
-            bodySpriteRend.sprite = bodyHitSprite;
-            headSpriteRend.sprite = headHitSprite;
+            bodySpriteRend.sprite = isCrit ? bodyHitCritSprite :  bodyHitSprite;
+            headSpriteRend.sprite = isCrit ? headHitCritSprite : headHitSprite;
 
             yield return new WaitForSeconds(.08f);
 

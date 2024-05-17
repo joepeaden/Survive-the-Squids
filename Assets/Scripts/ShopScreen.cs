@@ -32,6 +32,7 @@ namespace MyGame
         UpgradeItemData currentUpgradeItem;
 
         List<ItemPanel> itemPanels = new List<ItemPanel>();
+        [SerializeField] CharacterPanel charLvlUpPanel;
         List<CharacterPanel> charPanels = new List<CharacterPanel>();
 
         [SerializeField]
@@ -40,6 +41,10 @@ namespace MyGame
         GameObject blackoutPanel;
         [SerializeField]
         TMP_Text playerSamplesText;
+
+        [SerializeField] Button nextCharLvlUpButton;
+        [SerializeField] GameObject charLvlUpStuff;
+        [SerializeField] GameObject shopStuff;
 
         void Awake()
         {
@@ -59,32 +64,56 @@ namespace MyGame
             {
                 Transform t = charParent.GetChild(i);
                 charPanels.Add(t.GetComponent<CharacterPanel>());
-                //t.gameObject.SetActive(false);
             }
 
             itemMouseFollowPlaceholder.SetActive(false);
+
+            nextCharLvlUpButton.onClick.AddListener(CycleLevelUpChar);
         }
 
-        private void Update()
+        private void Start()
         {
-            if (Input.GetButtonDown("Fire2"))
+            if (player == null)
             {
-                if (currentUpgradeItem != null)
-                {
-                    SetCurrentUpgradeItem(null);
-                }
+                player = Player.instance;
             }
         }
 
-        void OnEnable()
+        private void OnDestroy()
+        {
+            nextCharLvlUpButton.onClick.RemoveListener(CycleLevelUpChar);
+        }
+
+        void CycleLevelUpChar()
         {
             if (player == null)
             {
                 player = Player.instance;
             }
 
-            audioSource.Play();
+            bool isLevelingUp = false;
 
+            for (int i = 0; i < player.ActiveCharacters.Count; i++)
+            {
+                CharacterBody charBody = player.ActiveCharacters[i];
+                if (charBody.isActiveAndEnabled && charBody.CharInfo.pendingLevelUps > 0)
+                {
+                    charLvlUpPanel.SetCharacter(charBody.CharInfo);
+                    isLevelingUp = true;
+                    break;
+                }
+            }
+
+            charLvlUpStuff.SetActive(isLevelingUp);
+            shopStuff.SetActive(!isLevelingUp);
+            if (!isLevelingUp)
+            {
+                SetupShopScreen();
+            }
+        }
+
+        void SetupShopScreen()
+        {
             List<UpgradeItemData> items = new List<UpgradeItemData>();
             items.AddRange(shopItems);
             //if (playerHasRifle)
@@ -102,9 +131,28 @@ namespace MyGame
             }
 
             UpdateCharPanels();
+        }
+
+        private void Update()
+        {
+            if (Input.GetButtonDown("Fire2"))
+            {
+                if (currentUpgradeItem != null)
+                {
+                    SetCurrentUpgradeItem(null);
+                }
+            }
+        }
+
+        void OnEnable()
+        {
+            CycleLevelUpChar();
+
+            audioSource.Play();
+
 
            
-            playerSamplesText.text = Player.instance.playerSamples.ToString();
+//            playerSamplesText.text = Player.instance.playerSamples.ToString();
         }
 
         public void UpdateCharPanels()

@@ -18,6 +18,7 @@ MonoBehaviour:
   details:
   - This weapon deals serious knockback
   - Low damage
+  - 'STR Required: 3'
   upgradeType: 0
   associatedData: {fileID: 11400000, guid: 8893cc29e30794830afb8db2f88eb378, type: 2}
   associatedPrefab: {fileID: 0}

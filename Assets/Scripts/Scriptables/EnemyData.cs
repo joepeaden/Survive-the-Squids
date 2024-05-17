@@ -18,5 +18,7 @@ namespace MyGame
         public Sprite faceSprite;
         public Sprite headHitSprite;
         public Sprite bodyHitSprite;
+        public Sprite headCritSprite;
+        public Sprite bodyCritSprite;
     }
 }

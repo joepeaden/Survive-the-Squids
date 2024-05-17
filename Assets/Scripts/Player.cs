@@ -165,6 +165,20 @@ namespace MyGame
             return null;
         }
 
+        public void UpdateCharBody(string ID)
+        {
+            if (activeCharactersIndex.ContainsKey(ID))
+            {
+                int index = activeCharactersIndex[ID];
+                CharacterBody body = ActiveCharacters[index];
+                body.RefreshCharacter();
+            }
+            else
+            {
+                Debug.Log("Trying to update char body that isn't found");
+            }
+        }
+
         public void RemoveCharacter(CharacterInfo charInfo)
         {
             int index = 0;

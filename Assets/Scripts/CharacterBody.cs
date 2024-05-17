@@ -30,12 +30,11 @@ namespace MyGame
         private Enemy currentTarget;
         private float attackTimer;
         private WeaponData weaponData;
-        private float reflexSpeed;
 
         public CharacterInfo CharInfo => charInfo;
         private CharacterInfo charInfo;
         public List<Enemy> enemiesInRange = new List<Enemy>();
-
+        [SerializeField] bool isInvincible;
         private int hitPoints;
 
         int ammoInWeapon;
@@ -64,7 +63,7 @@ namespace MyGame
 
         private void Update()
         {
-
+            Debug.Log(charName + " HP: " + hitPoints);
 
             if (weaponData == null)
             {
@@ -177,7 +176,7 @@ namespace MyGame
         {
             Vector3 targetDir = GetTargetDirection();
             Quaternion newRotation = Quaternion.LookRotation(Vector3.forward, upwards: targetDir);
-            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * reflexSpeed);
+            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * charInfo.ReflexSpeed);
         }
 
         private void Attack()
@@ -239,19 +238,21 @@ namespace MyGame
                             // add proj damage and character damage buff (from trait)
                             int damage = projectile.damage + charInfo.DamageBuff;
 
+                            bool isCrit = false;
                             // roll for crit, if so then 3x damage
                             float critRoll = Random.Range(0f, 1f);
                             if (critRoll < charInfo.CritChance)
                             {
                                 damage *= 3;
+                                isCrit = true;
                             }
 
-                            enemy.GetHit(weaponData, (enemy.transform.position - transform.position).normalized, charInfo.hasSlamRounds, charInfo.hasStunRounds);
+                            enemy.GetHit(weaponData, (enemy.transform.position - transform.position).normalized, charInfo.hasSlamRounds, charInfo.hasStunRounds, isCrit);
                             enemiesHit++;
 
                             if (enemy.isDead)
                             {
-                                charInfo.AddXP(enemy.data.xpReward);
+                                charInfo.TallyKill(enemy.data);
                             }
 
                             // If penetrator rounds then can hit multiple targets. Otherwise exit here.
@@ -277,7 +278,7 @@ namespace MyGame
             }
             else
             {
-                attackTimer += weaponData.reloadTime;
+                attackTimer += weaponData.reloadTime - (weaponData.reloadTime * charInfo.ReloadTimeReduction);
             }
             
         }
@@ -305,16 +306,21 @@ namespace MyGame
 
         public void GetHit(int damage)
         {
+            if (isInvincible)
+            {
+                return;
+            }
+
             hitPoints -= damage;
 
-            //if (hitPoints <= 0)
-            //{
-            //    Die();
-            //}
-            //else
-            //{
+            if (hitPoints <= 0)
+            {
+                Die();
+            }
+            else
+            {
                 charSpriteScript.HandleHit();
-            //}
+            }
         }
 
         public void Disable()
@@ -322,7 +328,7 @@ namespace MyGame
             isDead = false;
             currentTarget = null;
             SetBodyActive(false);
-            //player.ActiveCharacters.Remove(this);
+            player.ActiveCharacters.Remove(this);
         }
 
         public void Die()
@@ -347,14 +353,17 @@ namespace MyGame
             }
         }
 
+        public void RefreshCharacter()
+        {
+            SetWeapon(charInfo.weaponData);
+            charName = charInfo.charName;
+            hitPoints = charInfo.TotalHitPoints;
+        }
+
         public void SetCharacter(CharacterInfo info)
         {
             charInfo = info;
-
-            SetWeapon(charInfo.weaponData);
-            charName = charInfo.charName;
-            reflexSpeed = charInfo.ReflexSpeed;
-            hitPoints = charInfo.TotalHitPoints;
+            RefreshCharacter();
         }
 
         [SerializeField] CircleCollider2D rangeTrigger;

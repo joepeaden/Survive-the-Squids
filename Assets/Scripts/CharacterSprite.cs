@@ -53,7 +53,7 @@ namespace MyGame
 
             if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)))
             {
-                Debug.Log("Playing");
+                //Debug.Log("Playing");
                 dustTimer -= Time.deltaTime;
                 if (dustTimer < 0f)
                 {

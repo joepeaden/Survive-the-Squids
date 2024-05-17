@@ -26,5 +26,7 @@ namespace MyGame
         public Sprite projSprite;
         public Sprite weaponSprite;
         public List<AudioClip> weaponFireSounds;
+        public int weight;
+        public float rotationSpeedPenalty;
     }
 }

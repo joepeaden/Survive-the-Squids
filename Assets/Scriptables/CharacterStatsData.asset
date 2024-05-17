@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: CharacterStatsData
   m_EditorClassIdentifier: 
   reflexSpeed: 20
-  critChance: 0.1
+  critChance: 0.05
   totalHitPoints: 5

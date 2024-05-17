@@ -54,7 +54,7 @@ namespace MyGame
             player = Player.instance;
         }
 
-        private void Update()
+        private void LateUpdate()
         {
             enemiesAlive = Enemy.EnemiesAlive;
             //follow player to stay out of camera so nothing spawns in there

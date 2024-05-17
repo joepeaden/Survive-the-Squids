@@ -96,21 +96,21 @@ namespace MyGame
                     case UpgradeType.weapon:
                         //thisCharInfo.SetWeapon((WeaponData)TheUpgradeItem.associatedData, true);
                         //weaponImage.sprite = theUpgradeItem.image;
-                        CharacterBody c = Player.instance.AddCharacter();
-                        c.CharInfo.SetWeapon((WeaponData)TheUpgradeItem.associatedData, true);
+                        //CharacterBody c = Player.instance.AddCharacter();
+                        //c.CharInfo.SetWeapon((WeaponData)TheUpgradeItem.associatedData, true);
 
-                        //Player.instance.UpdateSamples(-TheUpgradeItem.cost);
-                        //ShopScreen.Instance.SetCurrentUpgradeItem(null);
+                        ////Player.instance.UpdateSamples(-TheUpgradeItem.cost);
+                        ////ShopScreen.Instance.SetCurrentUpgradeItem(null);
 
-                        characterAudioSource.Play();
+                        //characterAudioSource.Play();
 
-                        ShopScreen.Instance.UpdateCharPanels();
+                        //ShopScreen.Instance.UpdateCharPanels();
 
-                        // for upgrades. probably temporary.
-                        if (TheUpgradeItem.itemName == "Rifle")
-                        {
-                            ShopScreen.Instance.playerHasRifle = true;
-                        }
+                        //// for upgrades. probably temporary.
+                        //if (TheUpgradeItem.itemName == "Rifle")
+                        //{
+                        //    ShopScreen.Instance.playerHasRifle = true;
+                        //}
                         break;
                     case UpgradeType.weaponUpgrade:
                         //thisCharInfo.AddWeaponUpgrade((WeaponUpgradeData)theItem.associatedData);

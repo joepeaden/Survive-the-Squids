@@ -11,6 +11,9 @@ namespace MyGame
         public Transform healthBarsParent;
 
         public GameObject healthBarPrefab;
+        public GameObject floatUpPrefab;
+
+        public Transform worldSpaceCanvas;
 
         private void Awake()
         {
@@ -21,6 +24,12 @@ namespace MyGame
         {
             GameObject hb = Instantiate(healthBarPrefab, healthBarsParent);
             hb.GetComponent<HealthBar>().SetupHealthBar(e);
+        }
+
+        public void AddTextFloatup(Vector3 position, string text, Color color)
+        {
+            GameObject floater = Instantiate(floatUpPrefab, worldSpaceCanvas);
+            floater.GetComponent<TextFloatUp>().SetData(position, text, color);
         }
     }
 }
