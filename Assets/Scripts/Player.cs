@@ -34,7 +34,7 @@ namespace MyGame
         private Dictionary<string, int> activeCharactersIndex = new Dictionary<string, int>();
 
         private Rigidbody2D rb;
-        private GameManager gameManager;
+        private GameplayManager gameplayManager;
 
         [HideInInspector]
         public int playerSamples;
@@ -66,13 +66,14 @@ namespace MyGame
             traitEnumToData[CharacterInfo.CharTraits.Tough] = toughTraitData;
             traitEnumToData[CharacterInfo.CharTraits.Brutal] = brutalTraitData;
             traitEnumToData[CharacterInfo.CharTraits.Smart] = smartTraitData;
+
+            GameplayManager.OnGameStart.AddListener(HandleGameStart);
         }
 
         private void Start()
         {
-            gameManager = GameManager.instance;
+            gameplayManager = GameplayManager.Instance;
             rb = GetComponent<Rigidbody2D>();
-            gameManager.OnGameStart.AddListener(HandleGameStart);
 
             for (int i = 0; i < characterParent.childCount; i++)
             {
@@ -83,7 +84,7 @@ namespace MyGame
 
         private void OnDestroy()
         {
-            gameManager.OnGameStart.RemoveListener(HandleGameStart);
+            GameplayManager.OnGameStart.RemoveListener(HandleGameStart);
         }
 
         private void Update()
@@ -96,7 +97,7 @@ namespace MyGame
 
         private void FixedUpdate()
         {
-            if (!gameManager.inMenu)
+            if (!gameplayManager.inMenu)
             {
                 UpdateMovement();
             }
@@ -108,7 +109,7 @@ namespace MyGame
 
             if (HitPoints <= 0)
             {
-                gameManager.GameOver();
+                gameplayManager.GameOver();
 
                 GameObject audioSource = ObjectPool.instance.GetAudioSource();
                 audioSource.SetActive(true);
@@ -134,16 +135,23 @@ namespace MyGame
         public void UpdateSamples(int num)
         {
             playerSamples += num;
-            gameManager.UpdateSamples(playerSamples);
+            gameplayManager.UpdateSamples(playerSamples);
+            gameplayManager.AddPlayerScore(5);
+        }
+
+        public void RescueSurvivor()
+        {
+            Debug.Log("Survivor Rescued");
+            gameplayManager.AddPlayerScore(50);
         }
 
 
         public void CheckGameOver()
         {
-            //if (ActiveCharacters.Count <= 0)
-            //{
-            //    gameManager.GameOver();
-            //}
+            if (ActiveCharacters.Count <= 0)
+            {
+                gameplayManager.GameOver();
+            }
         }
 
         public void AddCharacterNoReturn()
@@ -176,6 +184,20 @@ namespace MyGame
             else
             {
                 Debug.Log("Trying to update char body that isn't found");
+            }
+        }
+
+        public CharacterBody GetCharBodyByID(string ID)
+        {
+            if(activeCharactersIndex.ContainsKey(ID))
+            {
+                int index = activeCharactersIndex[ID];
+                return ActiveCharacters[index];
+            }
+            else
+            {
+                Debug.Log("Trying to get char body that isn't found");
+                return null;
             }
         }
 
@@ -411,7 +433,7 @@ namespace MyGame
 
             HitPoints = BaseHitPoints;
             PlayerBar.Instance.InitializeHP();
-            PlayerBar.Instance.HandleXP(0, GameManager.instance.BaseSamplesToLevel);
+            PlayerBar.Instance.HandleXP(0, GameplayManager.Instance.BaseSamplesToLevel);
         }
 
         private void UpdateMovement()

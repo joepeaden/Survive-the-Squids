@@ -82,7 +82,7 @@ namespace MyGame
 
         void EnableDrag()
         {
-            ShopScreen.Instance.SetCurrentUpgradeItem(TheUpgradeItem);
+            UpgradeScreen.Instance.SetCurrentUpgradeItem(TheUpgradeItem);
         }
 
         void PurchaseItem()
@@ -129,6 +129,9 @@ namespace MyGame
                         }
 
                         break;
+                    case UpgradeType.recruit:
+                        Player.instance.AddCharacter();
+                        break;
                 }
 
                 StartCoroutine(ExitLevelScreen());
@@ -140,7 +143,7 @@ namespace MyGame
         IEnumerator ExitLevelScreen()
         {
             yield return new WaitForSecondsRealtime(1f);
-            GameManager.instance.StartNewRound();
+            GameplayManager.Instance.StartNewRound();
         }
 
         private void OnDisable()

@@ -18,7 +18,7 @@ MonoBehaviour:
   details:
   - Nails the enemy in position for a few seconds
   - Causes bleed damage
-  - 'STR Required: 1'
+  - 'LVL Required: 2'
   upgradeType: 0
   associatedData: {fileID: 11400000, guid: 0f999c5423bd64a8bb98ba4dbbdec27d, type: 2}
   associatedPrefab: {fileID: 0}

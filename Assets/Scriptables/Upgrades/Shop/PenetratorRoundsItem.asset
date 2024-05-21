@@ -18,5 +18,7 @@ MonoBehaviour:
   details:
   - Rounds penetrate +1 enemy
   - Rifle Only
+  - No Level Requirement
   upgradeType: 6
   associatedData: {fileID: 11400000, guid: 309f09ed9a964483ebc8cd119b2e3361, type: 2}
+  associatedPrefab: {fileID: 0}

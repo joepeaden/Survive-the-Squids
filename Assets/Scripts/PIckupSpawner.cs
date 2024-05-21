@@ -12,7 +12,7 @@ namespace MyGame
         //private GameObject weaponPickupPrefab;
         [SerializeField]
         private GameObject survivorPrefab;
-        private GameManager gameManager;
+        private GameplayManager gameplayManager;
         Player player;
 
         // survivor spawn time if player has just one character, and so on
@@ -34,13 +34,16 @@ namespace MyGame
 
         List<Transform> spawnPoints = new List<Transform>();
 
+        private void Awake()
+        {
+            GameplayManager.OnGameStart.AddListener(Reset);
+        }
+
         public void Start()
         {
-            gameManager = GameManager.instance;
+            gameplayManager = GameplayManager.Instance;
             //gameManager.OnNewRound.AddListener(SpawnPickup);
             player = Player.instance;
-
-            gameManager.OnGameStart.AddListener(Reset);
 
             for (int i = 0; i < transform.childCount; i++)
             {
@@ -57,7 +60,7 @@ namespace MyGame
 
         private void OnDestroy()
         {
-            gameManager.OnGameStart.RemoveListener(SpawnPickup);
+            GameplayManager.OnGameStart.RemoveListener(SpawnPickup);
             //gameManager.OnNewRound.RemoveListener(SpawnPickup);
         }
 

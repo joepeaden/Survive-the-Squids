@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 namespace MyGame
 {
-    public class ShopScreen : MonoBehaviour
+    public class UpgradeScreen : MonoBehaviour
     {
-        public static ShopScreen Instance;
+        public static UpgradeScreen Instance;
 
         public GameObject characterPanelPrefab;
         public GameObject upgradeItemPanelPrefab;
@@ -26,7 +26,10 @@ namespace MyGame
         public UpgradeItemData penetratorUpgrade;
         public UpgradeItemData slamUpgrade;
         public UpgradeItemData stunUpgrade;
+        
         public List<UpgradeItemData> shopItems = new List<UpgradeItemData>();
+        public List<UpgradeItemData> experimentalItems = new List<UpgradeItemData>();
+        public List<UpgradeItemData> drones = new List<UpgradeItemData>();
 
         public UpgradeItemData CurrentUpgradeItem => currentUpgradeItem;
         UpgradeItemData currentUpgradeItem;
@@ -86,10 +89,6 @@ namespace MyGame
 
         void CycleLevelUpChar()
         {
-            if (player == null)
-            {
-                player = Player.instance;
-            }
 
             bool isLevelingUp = false;
 
@@ -115,7 +114,19 @@ namespace MyGame
         void SetupShopScreen()
         {
             List<UpgradeItemData> items = new List<UpgradeItemData>();
-            items.AddRange(shopItems);
+
+            List<UpgradeItemData> itemsToInclude = new List<UpgradeItemData>();
+            itemsToInclude.AddRange(shopItems);
+            if (PlayerProgression.Instance.HasUnlockedExperimentals)
+            {
+                itemsToInclude.AddRange(experimentalItems);
+            }
+            if (PlayerProgression.Instance.HasUnlockedDrones)
+            {
+                itemsToInclude.AddRange(drones);
+            }
+
+            items.AddRange(itemsToInclude);
             //if (playerHasRifle)
             //{
             //    items.Add(penetratorUpgrade);
@@ -146,8 +157,12 @@ namespace MyGame
 
         void OnEnable()
         {
-            CycleLevelUpChar();
-
+            if (player == null)
+            {
+                player = Player.instance;
+            }
+            //CycleLevelUpChar();
+            SetupShopScreen();
             audioSource.Play();
 
 
@@ -173,7 +188,7 @@ namespace MyGame
 
         public void Close()
         {
-            GameManager.instance.StartNewRound();
+            GameplayManager.Instance.StartNewRound();
         }
 
         private void OnDisable()

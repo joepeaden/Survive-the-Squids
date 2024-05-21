@@ -149,8 +149,8 @@ namespace MyGame
             //    newTextEntry.text = Player.instance.traitEnumToData[theTrait].traitName;
             //}
 
-            killsText.text = "Kills: " + thisCharInfo.kills;
-            rankText.text = "Level: " + thisCharInfo.level;
+            killsText.text = thisCharInfo.kills + " Kills";
+            rankText.text = "Level " + thisCharInfo.level;
 
             UpdateStatsDisplay();
 
@@ -184,7 +184,7 @@ namespace MyGame
 
         public void ReplaceCharacterGun()
         {
-            UpgradeItemData theItem = ShopScreen.Instance.CurrentUpgradeItem;
+            UpgradeItemData theItem = UpgradeScreen.Instance.CurrentUpgradeItem;
 
             if (theItem != null)
             {
@@ -209,7 +209,7 @@ namespace MyGame
                 //weaponImage.sprite = theItem.image;
 
                 //Player.instance.UpdateSamples(-theItem.cost);
-                ShopScreen.Instance.SetCurrentUpgradeItem(null);
+                UpgradeScreen.Instance.SetCurrentUpgradeItem(null);
 
                 //            // for upgrades. probably temporary.
                 //            if (theItem.itemName == "Rifle")
@@ -232,7 +232,7 @@ namespace MyGame
         IEnumerator ExitLevelScreen()
         {
             yield return new WaitForSecondsRealtime(1f);
-            GameManager.instance.StartNewRound();
+            GameplayManager.Instance.StartNewRound();
         }
 
         public void SetButtonHighlights(bool enabled)

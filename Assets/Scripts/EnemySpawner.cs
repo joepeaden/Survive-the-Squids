@@ -24,7 +24,7 @@ namespace MyGame
         private float spawnTimer;
         private bool shouldSpawn = false;
         private int spawnedAmmountThisWave;
-        private GameManager gameManager;
+        private GameplayManager gameplayManager;
         private Player player;
 
         public List<EnemyData> enemyTypes = new List<EnemyData>();
@@ -37,6 +37,10 @@ namespace MyGame
 
         public int enemiesAlive;
 
+        private void Awake()
+        {
+            GameplayManager.OnGameStart.AddListener(HandleGameStart);
+        }
 
         private void Start()
         {
@@ -45,8 +49,7 @@ namespace MyGame
                 spawnPoints.Add(transform.GetChild(i));
             }
 
-            gameManager = GameManager.instance;
-            gameManager.OnGameStart.AddListener(HandleGameStart);
+            gameplayManager = GameplayManager.Instance;
             //gameManager.OnNewRound.AddListener(HandleNewRound);
 
             //StartCoroutine(IncrementSpawnInterval());
@@ -98,7 +101,7 @@ namespace MyGame
                                 break;
                             }
 
-                        } while (!gameManager.WithinBounds(spawnPoints[spawnPosIndex].position));
+                        } while (!gameplayManager.WithinBounds(spawnPoints[spawnPosIndex].position));
 
                         int enemyTypeIndex = Random.Range(0, enemyTypes.Count);
 
@@ -124,7 +127,7 @@ namespace MyGame
 
         private void OnDestroy()
         {
-            gameManager.OnGameStart.RemoveListener(HandleGameStart);
+            GameplayManager.OnGameStart.RemoveListener(HandleGameStart);
             //gameManager.OnNewRound.RemoveListener(HandleNewRound);
         }
 

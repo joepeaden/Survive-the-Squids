@@ -7,14 +7,18 @@ namespace MyGame
     public class SamplePickup : MonoBehaviour
     {
         private Player player;
-        private GameManager gameManager;
+        private GameplayManager gameManager;
         [SerializeField] AudioClip pickupSound;
+
+        private void Awake()
+        {
+            GameplayManager.OnGameStart.AddListener(RemoveOldSample);
+        }
 
         private void Start()
         {
             player = Player.instance;
-            gameManager = GameManager.instance;
-            gameManager.OnGameStart.AddListener(RemoveOldSample);
+            gameManager = GameplayManager.Instance;
         }
 
         
@@ -40,7 +44,7 @@ namespace MyGame
 
         private void RemoveOldSample()
         {
-            gameManager.OnGameStart.RemoveListener(RemoveOldSample);
+            GameplayManager.OnGameStart.RemoveListener(RemoveOldSample);
             Destroy(gameObject);
         }
     }

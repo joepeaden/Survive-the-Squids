@@ -105,6 +105,7 @@ namespace MyGame
 
         public int pendingLevelUps;
 
+        
         public CharacterInfo(CharacterStatsData newStatsData)
         {
             if (!staticsInitialized)
@@ -124,7 +125,7 @@ namespace MyGame
             statsData = newStatsData;
 
             AssignRandomName();
-            SetWeapon(GameManager.instance.weapons[0]);
+            SetWeapon(GameplayManager.Instance.weapons[0]);
             reflexSpeed = statsData.reflexSpeed;
             baseCritChance = statsData.critChance;
             baseHitPoints = statsData.totalHitPoints;
@@ -134,6 +135,8 @@ namespace MyGame
         {
             AddXP(enemy.xpReward);
             kills++;
+
+            GameplayManager.Instance.AddPlayerScore(10);
         }
 
         public void AddXP(int xpAmount)
@@ -164,7 +167,7 @@ namespace MyGame
                     break;
             }
 
-            pendingLevelUps--;
+            //pendingLevelUps--;
             UpdateBody();
         }
 
@@ -172,7 +175,7 @@ namespace MyGame
         {
             Debug.Log("Character leveled up:  " + charName + " LVL " + level);
             level++;
-            pendingLevelUps++;
+            //pendingLevelUps++;
 
             switch (level)
             {
@@ -188,6 +191,17 @@ namespace MyGame
                 default:
                     break;
             }
+
+            UpgradeStat(StatType.HP, 1);
+
+
+            Color textColor;
+            ColorUtility.TryParseHtmlString("#b4d8f7", out textColor);
+
+            CharacterBody body = Player.instance.GetCharBodyByID(ID);
+            body.PlayLevelUpSound();
+
+            GameplayUI.Instance.AddTextFloatup(body.transform.position, "Level Up!", textColor);
 
             //CharTraits newTrait;
             //List<CharTraits> tempPossibleTraits = new List<CharTraits>(possibleTraits);
@@ -234,7 +248,7 @@ namespace MyGame
         /// <param name="updateBody">Should we trigger an update for the character?</param>
         public bool SetWeapon(WeaponData newWeapon, bool updateBody = false)
         {
-            if (newWeapon.weight > StrStat)
+            if (newWeapon.levelReq > level)
             {
                 return false;
             }

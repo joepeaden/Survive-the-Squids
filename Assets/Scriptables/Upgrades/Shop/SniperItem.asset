@@ -17,8 +17,8 @@ MonoBehaviour:
   cost: 0
   details:
   - Long range, but slow firing.
-  - 'STR Rquired: 3'
   - Low Manuverability
+  - 'LVL Required: 2'
   upgradeType: 0
   associatedData: {fileID: 11400000, guid: a94d25d2fed084349a743bbe707e3cd5, type: 2}
   associatedPrefab: {fileID: 0}

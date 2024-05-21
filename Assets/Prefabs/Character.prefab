@@ -5253,6 +5253,8 @@ MonoBehaviour:
   charSpriteScript: {fileID: 1681464006233582822}
   charName: 
   enemiesInRange: []
+  isInvincible: 0
+  levelUpSound: {fileID: 8300000, guid: b94f4c125367a4214a0da37022b8119d, type: 3}
   rangeTrigger: {fileID: 8147916453871793020}
 --- !u!58 &8147916453871793020
 CircleCollider2D:

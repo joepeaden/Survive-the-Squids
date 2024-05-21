@@ -26,7 +26,7 @@ namespace MyGame
         public string charName;
 
         private Player player;
-        private GameManager gameManager;
+        private GameplayManager gameplayManager;
         private Enemy currentTarget;
         private float attackTimer;
         private WeaponData weaponData;
@@ -39,10 +39,12 @@ namespace MyGame
 
         int ammoInWeapon;
 
+        [SerializeField] AudioClip levelUpSound;
+
         private void Start()
         {
             player = Player.instance;
-            gameManager = GameManager.instance;
+            gameplayManager = GameplayManager.Instance;
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -72,7 +74,7 @@ namespace MyGame
 
             attackTimer -= Time.deltaTime;
 
-            if (!gameManager.inMenu)
+            if (!gameplayManager.inMenu)
             {
                 if (ManualAimEnabled)
                 {
@@ -177,6 +179,13 @@ namespace MyGame
             Vector3 targetDir = GetTargetDirection();
             Quaternion newRotation = Quaternion.LookRotation(Vector3.forward, upwards: targetDir);
             transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * charInfo.ReflexSpeed);
+        }
+
+        public void PlayLevelUpSound()
+        {
+            GameObject audioSource = ObjectPool.instance.GetAudioSource();
+            audioSource.SetActive(true);
+            audioSource.GetComponent<PooledAudioSource>().SetData(levelUpSound, AudioGroups.pickup);
         }
 
         private void Attack()
@@ -336,9 +345,8 @@ namespace MyGame
             isDead = true;
             currentTarget = null;
             SetBodyActive(false);
-            //// I think this can be
-            //player.CheckGameOver();
             player.ActiveCharacters.Remove(this);
+            player.CheckGameOver();
         }
 
         public void Reset()
@@ -347,9 +355,9 @@ namespace MyGame
             SetBodyActive(false);
             charSpriteScript.Reset();
 
-            if (gameManager == null)
+            if (gameplayManager == null)
             {
-                gameManager = GameManager.instance;
+                gameplayManager = GameplayManager.Instance;
             }
         }
 

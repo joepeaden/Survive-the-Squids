@@ -4,20 +4,21 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 namespace MyGame
 {
 
-    public class GameManager : MonoBehaviour
+    public class GameplayManager : MonoBehaviour
     {
         public int BaseSamplesToLevel;
 
         // Singleton
-        public static GameManager instance => _instance;
-        private static GameManager _instance;
+        public static GameplayManager Instance => _instance;
+        private static GameplayManager _instance;
 
         // Events
-        public UnityEvent OnGameStart = new UnityEvent();
+        public static UnityEvent OnGameStart = new UnityEvent();
         public UnityEvent OnNewRound = new UnityEvent();
 
         // Other Stuff
@@ -43,6 +44,15 @@ namespace MyGame
         public GameObject pauseMenu;
         public TMP_Text enemiesKilledText;
         public TMP_Text samplesText;
+        [SerializeField] TMP_Text waveTimerText;
+        [SerializeField] TMP_Text waveNumberText;
+        [SerializeField] TMP_Text waveCompletedText;
+        [SerializeField] TMP_Text playerScoreText;
+        [SerializeField] TMP_Text extractionTimerText;
+        public float extractionTimerBase;
+        float extractionTimer;
+
+        bool gameIsStarted;
 
         private void Awake()
         {
@@ -51,13 +61,14 @@ namespace MyGame
 
         private void Start()
         {
-            startButton.onClick.AddListener(StartGame);
+            //startButton.onClick.AddListener(StartGame);
             //startRoundButton.onClick.AddListener(StartNewRound);
+            StartGame();
         }
 
         private void OnDestroy()
         {
-            startButton.onClick.RemoveListener(StartGame);
+            //startButton.onClick.RemoveListener(StartGame);
             //startRoundButton.onClick.RemoveListener(StartNewRound);
         }
 
@@ -67,6 +78,20 @@ namespace MyGame
             {
                 TogglePauseScreen(!pauseMenu.activeSelf);
             }
+
+            extractionTimer -= Time.deltaTime;
+            extractionTimerText.text = Mathf.CeilToInt(extractionTimer).ToString();
+            if (extractionTimer <= 0)
+            {
+                GameOver();
+            }
+        }
+
+        int playerScore;
+        public void AddPlayerScore(int toAdd)
+        {
+            playerScore += toAdd;
+            playerScoreText.text = playerScore.ToString();
         }
 
         public void TogglePauseScreen(bool isEnabled)
@@ -82,9 +107,10 @@ namespace MyGame
 
         public void GameOver()
         {
-            startUI.SetActive(true);
-            inMenu = true;
-            Time.timeScale = 0;
+            SceneManager.LoadScene("Menu");
+            //startUI.SetActive(true);
+            //inMenu = true;
+            //Time.timeScale = 0;
         }
 
         public void RoundEnd()
@@ -118,6 +144,7 @@ namespace MyGame
 
             UpdateSamples(0, true);
             Time.timeScale = 1;
+            extractionTimer = extractionTimerBase;
         }
 
 

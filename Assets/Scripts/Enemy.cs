@@ -36,10 +36,14 @@ namespace MyGame
         WeaponData lastWeaponThatHit;
         float bleedTimeRemaining;
 
+        private void Awake()
+        {
+            GameplayManager.OnGameStart.AddListener(Reset);
+        }
+
         private void Start()
         {
             pathfinder = GetComponent<AIPath>();
-            GameManager.instance.OnGameStart.AddListener(Reset);
             rb = GetComponent<Rigidbody2D>();
         }
 
@@ -56,7 +60,7 @@ namespace MyGame
             pathfinder.maxSpeed = data.moveSpeed;
 
             EnemiesAlive++;
-            GameManager.instance.enemies.Add(this);
+            GameplayManager.Instance.enemies.Add(this);
         }
 
         private void Update()
@@ -107,7 +111,7 @@ namespace MyGame
 
         private void OnDestroy()
         {
-            GameManager.instance.OnGameStart.RemoveListener(Reset);
+            GameplayManager.OnGameStart.RemoveListener(Reset);
         }
 
         private void Reset()
@@ -219,10 +223,10 @@ namespace MyGame
             spriteController.HandleDeath();
 
             isDead = true;
-            GameManager.instance.EnemyKilled();
+            GameplayManager.Instance.EnemyKilled();
 
             EnemiesAlive--;
-            GameManager.instance.enemies.Remove(this);
+            GameplayManager.Instance.enemies.Remove(this);
 
             transform.parent.gameObject.SetActive(false);
         }

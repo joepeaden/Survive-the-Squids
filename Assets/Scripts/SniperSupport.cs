@@ -18,11 +18,20 @@ namespace MyGame
         [SerializeField] PreferTarget targetPref;
         [SerializeField] bool useLaserSight;
 
+        private void Awake()
+        {
+            GameplayManager.OnGameStart.AddListener(HandleGameStart);
+        }
+
+        private void OnDestroy()
+        {
+            GameplayManager.OnGameStart.RemoveListener(HandleGameStart);
+        }
+
         private void OnEnable()
         {
             ammoInWeapon = weaponData.magSize;
             line.enabled = false;
-            GameManager.instance.OnGameStart.AddListener(HandleGameStart);
         }
 
         void HandleGameStart()
@@ -129,7 +138,7 @@ namespace MyGame
                 case PreferTarget.highestHP:
                     int highestHP = int.MinValue;
                     Enemy strongestEnemy = null;
-                    foreach (Enemy e in GameManager.instance.enemies)
+                    foreach (Enemy e in GameplayManager.Instance.enemies)
                     {
                         // make sure to shoot an enemy in player view
                         bool inCamView = Camera.main.WorldToViewportPoint(e.transform.position).x > 0 && Camera.main.WorldToViewportPoint(e.transform.position).x < 1 && Camera.main.WorldToViewportPoint(e.transform.position).y < 1 && Camera.main.WorldToViewportPoint(e.transform.position).y > 0;
@@ -150,7 +159,7 @@ namespace MyGame
                 case PreferTarget.closest:
                     float closestDist = float.MaxValue;
                     Enemy closestEnemy = null;
-                    foreach (Enemy e in GameManager.instance.enemies)
+                    foreach (Enemy e in GameplayManager.Instance.enemies)
                     {
                         // make sure to shoot an enemy in player view
                         bool inCamView = Camera.main.WorldToViewportPoint(e.transform.position).x > 0 && Camera.main.WorldToViewportPoint(e.transform.position).x < 1 && Camera.main.WorldToViewportPoint(e.transform.position).y < 1 && Camera.main.WorldToViewportPoint(e.transform.position).y > 0;
@@ -169,8 +178,8 @@ namespace MyGame
 
                 default:
                     // pick random target by default
-                    int randomIndex = Random.Range(0, GameManager.instance.enemies.Count);
-                    return GameManager.instance.enemies[randomIndex];
+                    int randomIndex = Random.Range(0, GameplayManager.Instance.enemies.Count);
+                    return GameplayManager.Instance.enemies[randomIndex];
             }
         }
 
