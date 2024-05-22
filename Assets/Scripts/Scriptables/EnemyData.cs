@@ -8,6 +8,9 @@ namespace MyGame
     [CreateAssetMenu(fileName = "EnemyData", menuName = "MyScriptables/EnemyData")]
     public class EnemyData : ScriptableObject
     {
+        public bool vulnToCrits;
+        public float dmgResist;
+        public int spawnGroupSize;
         public int hitPoints;
         public float moveSpeed;
         public float attackInterval;

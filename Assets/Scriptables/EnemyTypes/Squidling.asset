@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 164dd7174b6e14dcf8fd5376672df209, type: 3}
-  m_Name: Fast
+  m_Name: Squidling
   m_EditorClassIdentifier: 
-  hitPoints: 100
-  moveSpeed: 3.5
+  spawnGroupSize: 1
+  hitPoints: 50
+  moveSpeed: 1.5
   attackInterval: 1
   xpReward: 1
   damage: 1

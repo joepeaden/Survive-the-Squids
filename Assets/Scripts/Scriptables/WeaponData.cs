@@ -28,5 +28,6 @@ namespace MyGame
         public List<AudioClip> weaponFireSounds;
         public int levelReq;
         public float rotationSpeedPenalty;
+        public float critChance;
     }
 }

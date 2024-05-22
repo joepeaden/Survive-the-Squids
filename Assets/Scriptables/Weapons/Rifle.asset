@@ -31,4 +31,6 @@ MonoBehaviour:
   weaponSprite: {fileID: 21300000, guid: 46cedee285f514773aecf929634b9919, type: 3}
   weaponFireSounds:
   - {fileID: 8300000, guid: 8ff65121ad4bc42e9bf32f75bf8f6628, type: 3}
-  weight: 1
+  levelReq: 0
+  rotationSpeedPenalty: 0
+  critChance: 0.1

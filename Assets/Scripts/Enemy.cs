@@ -96,6 +96,14 @@ namespace MyGame
                     }
                 }
             }
+
+            // if ever too far away, just respawn a new enemy
+            if ((transform.position - player.transform.position).magnitude > 15f)
+            {
+                EnemiesAlive--;
+                GameplayManager.Instance.enemies.Remove(this);
+                Reset();
+            }
         }
 
         IEnumerator HandleBleed()
@@ -150,7 +158,21 @@ namespace MyGame
         {
             lastWeaponThatHit = hitWeaponData;
 
+            // apply critical hit damage if it's a crit
             int damage = isCrit ? hitWeaponData.damage * 3 : hitWeaponData.damage;
+
+            // if we have a crit weakness and it happens to be one, full damage goes through
+            if (isCrit && data.vulnToCrits)
+            {
+                // lol, I just thought it was easier to read this way
+                ;
+            }
+            // otherwise, reduce by the damage resistance
+            else
+            {
+                damage = Mathf.FloorToInt(damage * (1-data.dmgResist));
+            }
+
             remainingHitPoints -= damage;
 
             float newStunTime = hitWeaponData.stunTime + (isStun ? 2 : 0);

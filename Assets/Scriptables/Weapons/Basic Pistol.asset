@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Basic Pistol
   attackInterval: 0.5
-  damage: 34
-  range: 5
+  damage: 50
+  range: 3
   useProjPhys: 0
   projectileVelocity: 400
   projSpreadAngle: 0
@@ -31,3 +31,6 @@ MonoBehaviour:
   weaponSprite: {fileID: 21300000, guid: eb9db6614057045d69059c629d30926f, type: 3}
   weaponFireSounds:
   - {fileID: 8300000, guid: 5ac03ab446f488d429828f9d5d5e7880, type: 3}
+  levelReq: 0
+  rotationSpeedPenalty: 0
+  critChance: 0

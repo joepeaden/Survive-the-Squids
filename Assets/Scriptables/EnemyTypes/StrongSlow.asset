@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164dd7174b6e14dcf8fd5376672df209, type: 3}
   m_Name: StrongSlow
   m_EditorClassIdentifier: 
+  spawnGroupSize: 1
   hitPoints: 200
   moveSpeed: 1.5
   attackInterval: 1

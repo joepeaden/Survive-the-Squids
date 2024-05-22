@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4744756064868753642}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.09, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -144,7 +144,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5478932183262712609}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.043, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -173,8 +173,6 @@ MonoBehaviour:
   downFace: {fileID: 21300000, guid: 08db588474fad4f5d801f1e01cb93c50, type: 3}
   leftFace: {fileID: 21300000, guid: a4bda1e8d0aac40ddbe7486c4ef34c93, type: 3}
   rightFace: {fileID: 21300000, guid: 570f7223ecf77449aa7cd335c0d8cbb5, type: 3}
-  headHitSprite: {fileID: 21300000, guid: d2365eb2b1e8d4d17ba8fc13fc0dae97, type: 3}
-  bodyHitSprite: {fileID: 21300000, guid: d2365eb2b1e8d4d17ba8fc13fc0dae97, type: 3}
 --- !u!95 &1385403927704874914
 Animator:
   serializedVersion: 5
@@ -534,7 +532,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.4
+  m_Radius: 0.15
 --- !u!114 &1106044375695309918
 MonoBehaviour:
   m_ObjectHideFlags: 0

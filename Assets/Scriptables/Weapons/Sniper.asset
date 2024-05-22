@@ -33,3 +33,4 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 683f43b92ef1f2442a33beb5d10b1233, type: 3}
   levelReq: 2
   rotationSpeedPenalty: 0
+  critChance: 0.75
