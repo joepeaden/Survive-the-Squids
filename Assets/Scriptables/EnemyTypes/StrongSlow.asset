@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164dd7174b6e14dcf8fd5376672df209, type: 3}
   m_Name: StrongSlow
   m_EditorClassIdentifier: 
+  vulnToCrits: 0
+  dmgResist: 0
   spawnGroupSize: 1
   hitPoints: 200
   moveSpeed: 1.5
@@ -25,3 +27,6 @@ MonoBehaviour:
   bodyHitSprite: {fileID: 21300000, guid: 0f96a4f37e4634aefa31132104054e3e, type: 3}
   headCritSprite: {fileID: 21300000, guid: 63ce461eda679472ebbde5f2e2b6034e, type: 3}
   bodyCritSprite: {fileID: 21300000, guid: 09d35249355bd4aa49f473165dcd982e, type: 3}
+  introTime: 0
+  spawnChance: 0
+  maxPop: 1000

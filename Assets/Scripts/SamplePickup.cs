@@ -9,6 +9,8 @@ namespace MyGame
         private Player player;
         private GameplayManager gameManager;
         [SerializeField] AudioClip pickupSound;
+        float disappearTime;
+        public float baseDisappearTime;
 
         private void Awake()
         {
@@ -21,7 +23,20 @@ namespace MyGame
             gameManager = GameplayManager.Instance;
         }
 
-        
+        private void OnEnable()
+        {
+            disappearTime = baseDisappearTime;
+        }
+
+        private void Update()
+        {
+            disappearTime -= Time.deltaTime;
+            if (disappearTime < 0)
+            {
+                Destroy(gameObject);
+            }
+        }
+
         private void OnTriggerEnter2D(Collider2D other)
         {
             // should only happen with player circle pickup zone thing. Cause they re on the pickup physics layer
@@ -46,6 +61,11 @@ namespace MyGame
         {
             GameplayManager.OnGameStart.RemoveListener(RemoveOldSample);
             Destroy(gameObject);
+        }
+
+        private void OnDestroy()
+        {
+            GameplayManager.OnGameStart.RemoveListener(RemoveOldSample);
         }
     }
 }

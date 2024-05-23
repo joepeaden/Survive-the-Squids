@@ -8555,8 +8555,8 @@ MonoBehaviour:
   waveNumberText: {fileID: 0}
   waveCompletedText: {fileID: 0}
   playerScoreText: {fileID: 2130745883}
-  extractionTimerText: {fileID: 680942041}
-  extractionTimerBase: 180
+  gameTimerText: {fileID: 680942041}
+  gameTimerBase: 300
 --- !u!4 &636694746
 Transform:
   m_ObjectHideFlags: 0

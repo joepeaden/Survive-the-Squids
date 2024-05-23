@@ -23,5 +23,17 @@ namespace MyGame
         public Sprite bodyHitSprite;
         public Sprite headCritSprite;
         public Sprite bodyCritSprite;
+        /// <summary>
+        /// What time the enemy is introduced into the game
+        /// </summary>
+        public int introTime;
+        /// <summary>
+        /// Out of 1, what is the spawn chance of this enemy?
+        /// </summary>
+        public float spawnChance = 1;
+        /// <summary>
+        /// Max population of this enemy type
+        /// </summary>
+        public int maxPop = 1000;
     }
 }

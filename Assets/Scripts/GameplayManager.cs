@@ -27,7 +27,6 @@ namespace MyGame
         public int leftBoundary;
         public int rightBoundary;
         public int enemiesKilled;
-        private int enemiesKilledThisRound;
         private int playerLevel = 0;
         private int samplesToLevelUp;
         private int samplesSinceLastLevelUp;
@@ -35,7 +34,6 @@ namespace MyGame
         public int wave = 1;
         public List<WeaponData> weapons = new List<WeaponData>();
         public List<Enemy> enemies = new List<Enemy>();
-        float timeRemainingInRound;
 
         [Header("UI")]
         public GameObject startUI;
@@ -48,9 +46,13 @@ namespace MyGame
         [SerializeField] TMP_Text waveNumberText;
         [SerializeField] TMP_Text waveCompletedText;
         [SerializeField] TMP_Text playerScoreText;
-        [SerializeField] TMP_Text extractionTimerText;
-        public float extractionTimerBase;
-        float extractionTimer;
+        [SerializeField] TMP_Text gameTimerText;
+        public float gameTimerBase;
+        float gameTimer;
+        /// <summary>
+        /// time starting from zero that game has been running
+        /// </summary>
+        public float CurrentGameTime => (gameTimerBase - gameTimer);
 
         bool gameIsStarted;
 
@@ -79,9 +81,9 @@ namespace MyGame
                 TogglePauseScreen(!pauseMenu.activeSelf);
             }
 
-            extractionTimer -= Time.deltaTime;
-            extractionTimerText.text = Mathf.CeilToInt(extractionTimer).ToString();
-            if (extractionTimer <= 0)
+            gameTimer -= Time.deltaTime;
+            gameTimerText.text = Mathf.CeilToInt(gameTimer).ToString();
+            if (gameTimer <= 0)
             {
                 GameOver();
             }
@@ -119,11 +121,12 @@ namespace MyGame
             inMenu = true;
         }
 
+
+
         public void StartNewRound()
         {
             OnNewRound.Invoke();
             shopUI.SetActive(false);
-            enemiesKilledThisRound = 0;
             inMenu = false;
             wave++;
             Time.timeScale = 1;
@@ -134,7 +137,6 @@ namespace MyGame
             OnGameStart.Invoke();
             startUI.SetActive(false);
             enemiesKilled = 0;
-            enemiesKilledThisRound = 0;
             inMenu = false;
             wave = 1;
             playerLevel = 0;
@@ -144,14 +146,13 @@ namespace MyGame
 
             UpdateSamples(0, true);
             Time.timeScale = 1;
-            extractionTimer = extractionTimerBase;
+            gameTimer = gameTimerBase;
         }
 
 
         public void EnemyKilled()
         {
             enemiesKilled++;
-            enemiesKilledThisRound++;
 
             //if (enemiesKilledThisRound >= GetEnemyCountToSpawnThisRound())
             //{

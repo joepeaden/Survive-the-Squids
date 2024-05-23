@@ -9,6 +9,7 @@ namespace MyGame
     public class TextFloatUp : MonoBehaviour
     {
         public float floatSpeed;
+        public float fadeIncrement;
         public float fadeSpeed;
         public TMP_Text textElement;
 
@@ -29,10 +30,10 @@ namespace MyGame
 
         IEnumerator Fade()
         {
-            for (float i = 1; i > 0; i -= fadeSpeed)
+            for (float i = 1; i > 0; i -= fadeIncrement)
             {
                 textElement.alpha = i;
-                yield return null;
+                yield return new WaitForSeconds(fadeSpeed);
             }
 
             Destroy(gameObject);

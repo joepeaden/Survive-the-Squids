@@ -14,11 +14,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1071036046953580884, guid: 83c69df9f76ab47f89299b6e5374ce68, type: 3}
       propertyPath: fadeSpeed
-      value: 0.01
+      value: 0.0001
       objectReference: {fileID: 0}
     - target: {fileID: 1071036046953580884, guid: 83c69df9f76ab47f89299b6e5374ce68, type: 3}
       propertyPath: floatSpeed
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1071036046953580884, guid: 83c69df9f76ab47f89299b6e5374ce68, type: 3}
+      propertyPath: fadeIncrement
+      value: 0.02
       objectReference: {fileID: 0}
     - target: {fileID: 2061563245629598399, guid: 83c69df9f76ab47f89299b6e5374ce68, type: 3}
       propertyPath: m_fontSize

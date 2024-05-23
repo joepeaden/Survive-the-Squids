@@ -93,6 +93,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupSound: {fileID: 8300000, guid: 94da74082194c4a628ff1c9771df5046, type: 3}
+  baseDisappearTime: 15
 --- !u!95 &3498514663164086331
 Animator:
   serializedVersion: 5

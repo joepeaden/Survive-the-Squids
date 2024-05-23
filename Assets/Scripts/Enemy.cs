@@ -10,6 +10,7 @@ namespace MyGame
     public class Enemy : MonoBehaviour
     {
         public static int EnemiesAlive;
+        private static Dictionary<EnemyData, int> enemyTypePop = new Dictionary<EnemyData, int>();
 
         public bool isDead;
         public EnemyData data;
@@ -36,6 +37,8 @@ namespace MyGame
         WeaponData lastWeaponThatHit;
         float bleedTimeRemaining;
 
+        float randomPathfindingUpdateOffset;
+
         private void Awake()
         {
             GameplayManager.OnGameStart.AddListener(Reset);
@@ -60,7 +63,27 @@ namespace MyGame
             pathfinder.maxSpeed = data.moveSpeed;
 
             EnemiesAlive++;
+
+            // add to enemy type population tracking
+            if (!enemyTypePop.ContainsKey(data))
+            {
+                enemyTypePop[data] = 1;
+            }
+            else
+            {
+                enemyTypePop[data]++;
+            }
+
             GameplayManager.Instance.enemies.Add(this);
+        }
+
+        private void OnEnable()
+        {
+            if (!isDead)
+            {
+                randomPathfindingUpdateOffset = Random.Range(0f, 1f);
+                StartCoroutine(PathfindingCoroutine());
+            }
         }
 
         private void Update()
@@ -78,8 +101,6 @@ namespace MyGame
 
                 if (player != null)
                 {
-                    pathfinder.destination = targetCharacter.transform.position;
-
                     float distFromTarget = (transform.position - targetCharacter.transform.position).magnitude;
                     float attackDist = .5f;
                     //float attackDist = targetCharacter.hitCircle.localScale.x/2;
@@ -101,9 +122,84 @@ namespace MyGame
             if ((transform.position - player.transform.position).magnitude > 15f)
             {
                 EnemiesAlive--;
+                enemyTypePop[data]--;
                 GameplayManager.Instance.enemies.Remove(this);
                 Reset();
             }
+        }
+
+        IEnumerator PathfindingCoroutine()
+        {
+            pathfinder.destination = targetCharacter.transform.position;
+
+            // just so they don't all obviously update at the same time
+            yield return new WaitForSeconds(randomPathfindingUpdateOffset);
+
+            float closeToPlayerDist = 3f;
+
+            while (!isDead)
+            {
+                if (targetCharacter != null)
+                {
+                    float distToPlayer = (targetCharacter.transform.position - transform.position).magnitude;
+                    if (distToPlayer > closeToPlayerDist)
+                    {
+                        float radius = 2f;
+                        pathfinder.destination = targetCharacter.transform.position + new Vector3(Random.Range(-radius, radius), 0, Random.Range(-radius, radius));
+                    }
+                    else
+                    {
+                        pathfinder.destination = targetCharacter.transform.position;
+                    }
+
+                    // if close, should update path more often
+                    if (distToPlayer > closeToPlayerDist * 2)
+                    {
+                        yield return new WaitForSeconds(1f);
+                    }
+                    else
+                    {
+                        yield return new WaitForSeconds(.25f);
+                    }
+                }
+
+                yield return null;
+            }
+             //= GetDestination();
+
+        }
+
+        //Vector3 GetDestination()
+        //{
+        //    if ((targetCharacter.transform.position - transform.position).magnitude > 3f)
+        //    {
+        //        float radius = 1.5f;
+        //        return targetCharacter.transform.position + new Vector3(Random.Range(-radius, radius), 0, Random.Range(-radius, radius));
+        //    }
+        //    else
+        //    {
+        //        return targetCharacter.transform.position;
+        //    }
+
+            //    Vector3 playerPosition = player.transform.position;
+            //    Vector3 targetPosition = playerPosition + GetRandomOffset(1.5f); // 1.5f is the spread radius
+            //    seeker.StartPath(transform.position, targetPosition, OnPathComplete);
+        //}
+
+
+        /// <summary>
+        /// Get population of this enemy type
+        /// </summary>
+        /// <param name="theType"></param>
+        /// <returns></returns>
+        public static int GetPopOfEnemyType(EnemyData theType)
+        {
+            if (enemyTypePop.ContainsKey(theType))
+            {
+                return enemyTypePop[theType];
+            }
+
+            return 0;
         }
 
         IEnumerator HandleBleed()
@@ -248,7 +344,10 @@ namespace MyGame
             GameplayManager.Instance.EnemyKilled();
 
             EnemiesAlive--;
+            enemyTypePop[data]--;
             GameplayManager.Instance.enemies.Remove(this);
+
+            StopCoroutine(PathfindingCoroutine());
 
             transform.parent.gameObject.SetActive(false);
         }

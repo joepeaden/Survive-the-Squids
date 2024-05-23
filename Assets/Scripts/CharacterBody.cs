@@ -252,7 +252,7 @@ namespace MyGame
                             float critRoll = Random.Range(0f, 1f);
                             if (critRoll < (charInfo.CritChance + weaponData.critChance))
                             {
-                                damage *= 3;
+                                //damage *= 3;
                                 isCrit = true;
                             }
 

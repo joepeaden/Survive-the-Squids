@@ -27,3 +27,6 @@ MonoBehaviour:
   bodyHitSprite: {fileID: 21300000, guid: 938d41eceb978464eb5cae7b16e1c3ed, type: 3}
   headCritSprite: {fileID: 21300000, guid: 63ce461eda679472ebbde5f2e2b6034e, type: 3}
   bodyCritSprite: {fileID: 21300000, guid: fff9db8e8ae4347129df320e7affcc18, type: 3}
+  introTime: 0
+  spawnChance: 0.1
+  maxPop: 20

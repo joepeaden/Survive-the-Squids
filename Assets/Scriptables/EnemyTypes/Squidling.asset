@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 164dd7174b6e14dcf8fd5376672df209, type: 3}
   m_Name: Squidling
   m_EditorClassIdentifier: 
+  vulnToCrits: 0
+  dmgResist: 0
   spawnGroupSize: 1
   hitPoints: 50
   moveSpeed: 1.5
@@ -25,3 +27,6 @@ MonoBehaviour:
   bodyHitSprite: {fileID: 21300000, guid: dc2cc52dc8b59462fb489d97ffe90246, type: 3}
   headCritSprite: {fileID: 21300000, guid: 63ce461eda679472ebbde5f2e2b6034e, type: 3}
   bodyCritSprite: {fileID: 21300000, guid: 4f86be9679a3340969b0d4bc15a14786, type: 3}
+  introTime: 0
+  spawnChance: 1
+  maxPop: 1000

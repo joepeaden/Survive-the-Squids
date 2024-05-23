@@ -15,7 +15,7 @@ MonoBehaviour:
   weaponName: SMG
   attackInterval: 0.1
   damage: 15
-  range: 5
+  range: 3
   useProjPhys: 0
   projectileVelocity: 400
   projSpreadAngle: 0

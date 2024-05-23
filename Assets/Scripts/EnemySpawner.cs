@@ -36,8 +36,6 @@ namespace MyGame
         float waveStartTime;
         public float waveInterval;
 
-        public int enemiesAlive;
-
         private void Awake()
         {
             GameplayManager.OnGameStart.AddListener(HandleGameStart);
@@ -60,7 +58,6 @@ namespace MyGame
 
         private void LateUpdate()
         {
-            enemiesAlive = Enemy.EnemiesAlive;
             //follow player to stay out of camera so nothing spawns in there
             //transform.position = player.transform.position;
 
@@ -87,16 +84,7 @@ namespace MyGame
 
                     int amountToSpawn = (TargetEnemyCount - Enemy.EnemiesAlive);//spawnedAmmountThisWave;//Random.Range(minToSpawnAtOnce, maxToSpawnAtOnce);
 
-                    List<Transform> possibleSpawnPoints = new List<Transform>();
-                    foreach (Transform spawnPoint in spawnPoints)
-                    {
-                        if (!IsObjectInView(spawnPoint))
-                        {
-                            possibleSpawnPoints.Add(spawnPoint);
-                        }
-                    }
-
-                    possibleSpawnPoints = possibleSpawnPoints.OrderBy(t => Vector3.Distance(t.position, player.transform.position)).Take(10).ToList();
+                    List<Transform> possibleSpawnPoints = GetSpawnPoints();
 
                     for (int i = 0; i < amountToSpawn; i++)// && i < spawnPoints.Count; i++)
                     {
@@ -119,9 +107,15 @@ namespace MyGame
                         //} while (IsObjectInView(spawnPoints[spawnPosIndex]));//!gameplayManager.WithinBounds(spawnPoints[spawnPosIndex].position));
 
 
-                        int enemyTypeIndex = Random.Range(0, enemyTypes.Count);
-                        EnemyData enemyType = enemyTypes[enemyTypeIndex];
+                        EnemyData enemyType = PickEnemyType();
+                        // don't go over the amount we are set to spawn
                         int groupSize = enemyType.spawnGroupSize > amountToSpawn ? amountToSpawn : enemyType.spawnGroupSize;
+                        // make sure not to exceed the max pop of this enemy type
+
+                        if (Enemy.GetPopOfEnemyType(enemyType) + groupSize > enemyType.maxPop)
+                        {
+                            groupSize = enemyType.maxPop - Enemy.GetPopOfEnemyType(enemyType);
+                        }
 
                         for (int j = 0; j < groupSize; j++)
                         {
@@ -149,12 +143,65 @@ namespace MyGame
             }
         }
 
+        List<Transform> GetSpawnPoints()
+        {
+            List<Transform> possibleSpawnPoints = new List<Transform>();
+
+            // only select ones not in the camera view
+            foreach (Transform spawnPoint in spawnPoints)
+            {
+                if (!IsObjectInView(spawnPoint))
+                {
+                    possibleSpawnPoints.Add(spawnPoint);
+                }
+            }
+            
+            // pick the top ten that are closest to the player
+            possibleSpawnPoints = possibleSpawnPoints.OrderBy(t => Vector3.Distance(t.position, player.transform.position)).Take(10).ToList();
+
+            return possibleSpawnPoints;
+        }
+
 
         private void OnDestroy()
         {
             GameplayManager.OnGameStart.RemoveListener(HandleGameStart);
             //gameManager.OnNewRound.RemoveListener(HandleNewRound);
         }
+
+        EnemyData PickEnemyType()
+        {
+            // Calculate the total weight
+            float totalWeight = 0f;
+            foreach (EnemyData enemy in enemyTypes)
+            {
+                if (enemy.introTime <= gameplayManager.CurrentGameTime && Enemy.GetPopOfEnemyType(enemy) < enemy.maxPop)
+                {
+                    totalWeight += enemy.spawnChance;
+                }
+            }
+
+            // Generate a random number between 0 and totalWeight
+            float randomValue = Random.Range(0, totalWeight);
+
+            // Determine which enemy to spawn
+            float cumulativeWeight = 0f;
+            foreach (EnemyData enemy in enemyTypes)
+            {
+                if (enemy.introTime <= gameplayManager.CurrentGameTime && Enemy.GetPopOfEnemyType(enemy) < enemy.maxPop)
+                {
+                    cumulativeWeight += enemy.spawnChance;
+                    if (randomValue < cumulativeWeight)
+                    {
+                        return enemy;
+                    }
+                }
+            }
+
+            // if something doesn't work return first enemy type
+            return enemyTypes[0];
+        }
+    
 
         //private void HandleNewRound()
         //{
