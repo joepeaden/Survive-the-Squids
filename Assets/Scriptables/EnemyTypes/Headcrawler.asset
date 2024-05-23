@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 164dd7174b6e14dcf8fd5376672df209, type: 3}
+  m_Name: Headcrawler
+  m_EditorClassIdentifier: 
+  vulnToCrits: 1
+  dmgResist: 0.5
+  spawnGroupSize: 1
+  hitPoints: 100
+  moveSpeed: 4
+  attackInterval: 1
+  xpReward: 1
+  damage: 3
+  bodySprite: {fileID: 21300000, guid: 50adcb871e16b435fa737a2cdeda89f0, type: 3}
+  headSprite: {fileID: 21300000, guid: d27067b948e8d46618fde83d1354a854, type: 3}
+  faceUSprite: {fileID: 21300000, guid: 44d2fc9d39c784924a7931c5504c703c, type: 3}
+  faceLSprite: {fileID: 21300000, guid: bf465e1c24d13471982cedfbbf915b0c, type: 3}
+  faceRSprite: {fileID: 21300000, guid: 2cc90f6b876d14d13932555bccbb6ac2, type: 3}
+  faceSprite: {fileID: 21300000, guid: 171d3b763755f4abaac8bfc4f8fac10d, type: 3}
+  headHitSprite: {fileID: 21300000, guid: 2bc0b0cef0b8241999cc46e35b7062ae, type: 3}
+  bodyHitSprite: {fileID: 21300000, guid: b852c5bc811ba4114aeff601c63a3204, type: 3}
+  headCritSprite: {fileID: 21300000, guid: 9911bfa0c832b41f18f89ff42a07205f, type: 3}
+  bodyCritSprite: {fileID: 21300000, guid: b304ead40fb1b44c0bae2efbe13b326b, type: 3}
+  deadSprite: {fileID: 21300000, guid: ca60f0fad87914ea8979bc1a1d69cc37, type: 3}
+  introTime: 0
+  spawnChance: 1
+  maxPop: 1000
+  chanceSpawnEnemyOnDeath: 0
+  enemyToSpawnOnDeath: {fileID: 0}

@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 164dd7174b6e14dcf8fd5376672df209, type: 3}
+  m_Name: Incubated
+  m_EditorClassIdentifier: 
+  vulnToCrits: 1
+  dmgResist: 0.5
+  spawnGroupSize: 10
+  hitPoints: 100
+  moveSpeed: 0.5
+  attackInterval: 1
+  xpReward: 1
+  damage: 1
+  bodySprite: {fileID: 21300000, guid: b7615400d87364e178ea2993c5060260, type: 3}
+  headSprite: {fileID: 21300000, guid: 65fda32ee1e734ed6ab9fca798dd9e7a, type: 3}
+  faceUSprite: {fileID: 21300000, guid: 2c2f4062e32254380a6c88a9093cc79a, type: 3}
+  faceLSprite: {fileID: 21300000, guid: 844b4df24cc4e4945967ebcea934daf7, type: 3}
+  faceRSprite: {fileID: 21300000, guid: eeea67dea19cf47dd8e1005323d04033, type: 3}
+  faceSprite: {fileID: 21300000, guid: 16afb1b1a8db34de4ba6edd96defcd16, type: 3}
+  headHitSprite: {fileID: 21300000, guid: 4c1470d3e03a64a1ab699a1a036f89ba, type: 3}
+  bodyHitSprite: {fileID: 21300000, guid: 2d9c1c1a9b44041d4877229708a114a2, type: 3}
+  headCritSprite: {fileID: 21300000, guid: d50cddf3f88074a79a68b0e2dd617edb, type: 3}
+  bodyCritSprite: {fileID: 21300000, guid: 25d4981c0f072493c9ba5186a12f1e92, type: 3}
+  deadSprite: {fileID: 21300000, guid: ca60f0fad87914ea8979bc1a1d69cc37, type: 3}
+  introTime: 0
+  spawnChance: 0.1
+  maxPop: 10
+  chanceSpawnEnemyOnDeath: 0
+  enemyToSpawnOnDeath: {fileID: 0}

@@ -11192,11 +11192,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpawnInterval: 1
   enemyTypes:
+  - {fileID: 11400000, guid: 5bb03dc51b61f4ede92c29ecb783c727, type: 2}
   - {fileID: 11400000, guid: 3fa37d304f3784862a5c5a107fc35c5b, type: 2}
+  - {fileID: 11400000, guid: 9982fcd11c2504a25b478d9794f38e4e, type: 2}
   BaseTargetEnemyCount: 10
   TargetEnemyCount: 0
   waveInterval: 15
-  enemiesAlive: 0
 --- !u!1 &8592588166110344456
 GameObject:
   m_ObjectHideFlags: 0

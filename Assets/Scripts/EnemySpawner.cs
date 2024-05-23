@@ -82,30 +82,13 @@ namespace MyGame
 
                     int spawnPosIndex;
 
-                    int amountToSpawn = (TargetEnemyCount - Enemy.EnemiesAlive);//spawnedAmmountThisWave;//Random.Range(minToSpawnAtOnce, maxToSpawnAtOnce);
-
+                    int amountToSpawn = (TargetEnemyCount - Enemy.EnemiesAlive);
                     List<Transform> possibleSpawnPoints = GetSpawnPoints();
 
-                    for (int i = 0; i < amountToSpawn; i++)// && i < spawnPoints.Count; i++)
+                    for (int i = 0; i < amountToSpawn; i++)
                     {
-
-                        //int iterations = 0;
-
-                        //do
-                        //{
-                        //    iterations++;
-                        //    //    // this isn't performant but whatever hopefully it doesn't freeze
                         spawnPosIndex = Random.Range(0, possibleSpawnPoints.Count);
                         Vector3 spawnPosition = possibleSpawnPoints[spawnPosIndex].position;
-
-                        //    //    //just to stop it from potentially freezing
-                        //    if (iterations > spawnPoints.Count)
-                        //    {
-                        //        break;
-                        //    }
-
-                        //} while (IsObjectInView(spawnPoints[spawnPosIndex]));//!gameplayManager.WithinBounds(spawnPoints[spawnPosIndex].position));
-
 
                         EnemyData enemyType = PickEnemyType();
                         // don't go over the amount we are set to spawn
@@ -119,10 +102,7 @@ namespace MyGame
 
                         for (int j = 0; j < groupSize; j++)
                         {
-                            GameObject enemyGO = ObjectPool.instance.GetEnemy();
-                            enemyGO.GetComponentInChildren<Enemy>().SetData(enemyType);
-                            enemyGO.transform.GetChild(0).position = new Vector3(spawnPosition.x + Random.Range(-2f, 2f), spawnPosition.y + Random.Range(-2f, 2f), spawnPosition.z);
-                            enemyGO.SetActive(true);
+                            SpawnEnemyAtPosition(new Vector3(spawnPosition.x + Random.Range(-2f, 2f), spawnPosition.y + Random.Range(-2f, 2f), spawnPosition.z), enemyType);
                         }
 
                         //  we spawned "groupSize" enemies so advance the counter
@@ -141,6 +121,14 @@ namespace MyGame
                     }
                 }
             }
+        }
+
+        public static void SpawnEnemyAtPosition(Vector3 position, EnemyData enemyType)
+        {
+            GameObject enemyGO = ObjectPool.instance.GetEnemy();
+            enemyGO.GetComponentInChildren<Enemy>().SetData(enemyType);
+            enemyGO.transform.GetChild(0).position = position;
+            enemyGO.SetActive(true);
         }
 
         List<Transform> GetSpawnPoints()

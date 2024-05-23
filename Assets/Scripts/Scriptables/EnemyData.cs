@@ -18,11 +18,15 @@ namespace MyGame
         public int damage;
         public Sprite bodySprite;
         public Sprite headSprite;
+        public Sprite faceUSprite;
+        public Sprite faceLSprite;
+        public Sprite faceRSprite;
         public Sprite faceSprite;
         public Sprite headHitSprite;
         public Sprite bodyHitSprite;
         public Sprite headCritSprite;
         public Sprite bodyCritSprite;
+        public Sprite deadSprite;
         /// <summary>
         /// What time the enemy is introduced into the game
         /// </summary>
@@ -35,5 +39,8 @@ namespace MyGame
         /// Max population of this enemy type
         /// </summary>
         public int maxPop = 1000;
+
+        public float chanceSpawnEnemyOnDeath;
+        public EnemyData enemyToSpawnOnDeath;
     }
 }

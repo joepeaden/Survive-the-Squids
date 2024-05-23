@@ -21,10 +21,15 @@ namespace MyGame
         public GameObject audioSourcePrefab;
         public int audioSourcePoolSize;
 
+        [Header("AudioSources")]
+        public GameObject corpsePrefab;
+        public int corpsePoolSize;
+
         private Transform objectPoolParent;
         private List<GameObject> projectiles;
         private List<GameObject> enemies;
         private List<GameObject> audioSources;
+        private List<GameObject> corpses;
 
         void Awake()
         {
@@ -40,6 +45,7 @@ namespace MyGame
             projectiles = CreatePool(projectilePrefab, projectiles, projectilePoolSize);
             enemies = CreatePool(enemyPrefab, enemies, projectilePoolSize);
             audioSources = CreatePool(audioSourcePrefab, audioSources, audioSourcePoolSize);
+            corpses = CreatePool(corpsePrefab, corpses, corpsePoolSize);
         }
 
         private List<GameObject> CreatePool(GameObject prefab, List<GameObject> listToAssign, int count)
@@ -84,6 +90,11 @@ namespace MyGame
         public GameObject GetAudioSource()
         {
             return GetPooledObject(audioSources, audioSourcePrefab);
+        }
+
+        public GameObject GetCorpse()
+        {
+            return GetPooledObject(corpses, corpsePrefab);
         }
     }
 }

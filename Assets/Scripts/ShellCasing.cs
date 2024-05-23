@@ -28,11 +28,6 @@ namespace MyGame
             {
                 rb.isKinematic = true;
             }
-
-            if (Time.time - spawnTime > 10f)
-            {
-                Destroy(gameObject);
-            }
         }
     }
 }

@@ -325,17 +325,14 @@ namespace MyGame
 
         public void Die()
         {
+            //GameObject audioSource = ObjectPool.instance.GetAudioSource();
+            //audioSource.SetActive(true);
+            //audioSource.GetComponent<PooledAudioSource>().SetData(impactAudio.clip, AudioGroups.death);
 
-            //impactAudio.Play();
-            GameObject audioSource = ObjectPool.instance.GetAudioSource();
-            audioSource.SetActive(true);
-            //audioSource.GetComponent<AudioSource>().clip = weaponData.weaponFireSound;
-            //audioSource.GetComponent<AudioSource>().Play();
-            audioSource.GetComponent<PooledAudioSource>().SetData(impactAudio.clip, AudioGroups.death);
-            //if (player.enemiesInRange.Contains(this))
-            //{
-            //    player.enemiesInRange.Remove(this);
-            //}
+            if (Random.Range(0f, 1f) < data.chanceSpawnEnemyOnDeath)
+            {
+                EnemySpawner.SpawnEnemyAtPosition(transform.position, data.enemyToSpawnOnDeath);
+            }
 
             Instantiate(sampleDrop, transform.position, Quaternion.identity);
             spriteController.HandleDeath();
@@ -348,7 +345,6 @@ namespace MyGame
             GameplayManager.Instance.enemies.Remove(this);
 
             StopCoroutine(PathfindingCoroutine());
-
             transform.parent.gameObject.SetActive(false);
         }
     }

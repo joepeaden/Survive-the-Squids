@@ -15,13 +15,13 @@ namespace MyGame
         public Sprite deadSprite;
 
         [SerializeField]
-        Sprite upFace;
+        Sprite faceUSprite;
         [SerializeField]
-        Sprite downFace;
+        Sprite faceSprite;
         [SerializeField]
-        Sprite leftFace;
+        Sprite faceLSprite;
         [SerializeField]
-        Sprite rightFace;
+        Sprite faceRSprite;
         Sprite headHitSprite;
         Sprite bodyHitSprite;
         Sprite headHitCritSprite;
@@ -42,6 +42,10 @@ namespace MyGame
         {
             bodySpriteRend.sprite = newData.bodySprite;
             faceSpriteRend.sprite = newData.faceSprite;
+            faceLSprite = newData.faceLSprite;
+            faceRSprite = newData.faceRSprite;
+            faceUSprite = newData.faceUSprite;
+            faceSprite = newData.faceSprite;
             headSpriteRend.sprite = newData.headSprite;
             headHitSprite = newData.headHitSprite;
             bodyHitSprite = newData.bodyHitSprite;
@@ -50,6 +54,10 @@ namespace MyGame
 
             oldBodySprite = bodySpriteRend.sprite;
             oldHeadSprite = headSpriteRend.sprite;
+
+            // reset stuff in case it got wonky
+            faceSpriteRend.enabled = true;
+            transform.localScale = new Vector3(1, 1, 1);
         }
 
         private void Update()
@@ -74,10 +82,11 @@ namespace MyGame
             transform.position = enemyScript.transform.position;
 
 
-            headSpriteRend.transform.localPosition = enemyScript.transform.up * .08f;//headFollowTransform.transform.position + bodySprite.transform.localPosition;
+            headSpriteRend.transform.localPosition = enemyScript.transform.up * .05f;//headFollowTransform.transform.position + bodySprite.transform.localPosition;
 
 
             int newFaceSorting = 26;
+            int newHeadSorting = 25;
             // sort body sprites based on facing
             if (enemyScript.transform.rotation.eulerAngles.z > 90 && enemyScript.transform.rotation.eulerAngles.z < 270)
             {
@@ -92,22 +101,24 @@ namespace MyGame
 
             if (enemyScript.transform.rotation.eulerAngles.z >= 45 && enemyScript.transform.rotation.eulerAngles.z < 135)
             {
-                faceSpriteRend.sprite = leftFace;
+                faceSpriteRend.sprite = faceLSprite;
             }
             else if (enemyScript.transform.rotation.eulerAngles.z >= 135 && enemyScript.transform.rotation.eulerAngles.z < 225)
             {
-                faceSpriteRend.sprite = downFace;
+                faceSpriteRend.sprite = faceSprite;
             }
             else if (enemyScript.transform.rotation.eulerAngles.z >= 225 && enemyScript.transform.rotation.eulerAngles.z < 315)
             {
-                faceSpriteRend.sprite = rightFace;
+                faceSpriteRend.sprite = faceRSprite;
             }
             else
             {
-                faceSpriteRend.sprite = upFace;
+                faceSpriteRend.sprite = faceUSprite;
+                newHeadSorting = 23;
                 newFaceSorting = 25;
             }
 
+            headSpriteRend.sortingOrder = newHeadSorting;
             faceSpriteRend.sortingOrder = newFaceSorting;
 
         }
@@ -140,6 +151,10 @@ namespace MyGame
             //animator.enabled = false;
 
             //enabled = false;
+
+            GameObject corpse = ObjectPool.instance.GetCorpse();
+            corpse.transform.position = transform.position;
+            corpse.SetActive(true);
         }
     }
 }
