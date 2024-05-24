@@ -304,10 +304,16 @@ namespace MyGame
                 "Diego",
                 "Jose",
                 "Mary",
-                "Pei-Chin",
+                "Cary",
+                "Kim",
+                "PC",
                 "Emily",
                 "Jenna",
                 "Stephanie",
+                "Steven",
+                "Jeff",
+                "Jimmy",
+                "Hannuar",
                 "Devyn",
                 "Lisa",
                 "Louise"
@@ -335,7 +341,8 @@ namespace MyGame
                 "Campbell",
                 "Parker",
                 "Adams",
-                "Rogers"
+                "Rogers",
+                "Peterson"
             };
 
             string firstName = firstNameOptions[UnityEngine.Random.Range(0, firstNameOptions.Count)];

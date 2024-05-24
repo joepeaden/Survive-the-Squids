@@ -117,14 +117,14 @@ namespace MyGame
 
             List<UpgradeItemData> itemsToInclude = new List<UpgradeItemData>();
             itemsToInclude.AddRange(shopItems);
-            if (PlayerProgression.Instance.HasUnlockedExperimentals)
-            {
+            //if (PlayerProgression.Instance.HasUnlockedExperimentals)
+            //{
                 itemsToInclude.AddRange(experimentalItems);
-            }
-            if (PlayerProgression.Instance.HasUnlockedDrones)
-            {
+            //}
+            //if (PlayerProgression.Instance.HasUnlockedDrones)
+            //{
                 itemsToInclude.AddRange(drones);
-            }
+            //}
 
             items.AddRange(itemsToInclude);
             //if (playerHasRifle)

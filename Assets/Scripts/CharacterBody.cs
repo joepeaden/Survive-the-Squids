@@ -80,58 +80,69 @@ namespace MyGame
                 {
                     UpdateRotation();
 
-                    if (Input.GetMouseButtonDown(0))
+                    if (Input.GetMouseButton(0))
                     {
-                        Attack();
+                        if (attackTimer <= 0)
+                        {
+                            // if we just waited for reload because no bullets left, then reload the weapon
+                            if (ammoInWeapon <= 0 && attackTimer <= 0)
+                            {
+                                ammoInWeapon = weaponData.magSize;
+                            }
+
+                            // just in case - in Attack we're adding to the attack timer not setting it
+                            attackTimer = 0;
+                            Attack();
+                        }
                     }
                 }
                 else
                 {
 
                     if (currentTarget != null && currentTarget.isDead)
-                {
-                    enemiesInRange.Remove(currentTarget);
-                    currentTarget = null;
-                }
-
-
-                //if (currentTarget == null || (currentTarget != null && currentTarget.isDead))
-                //{
-                //    if (currentTarget != null)
-                //    {
-                //        enemiesInRange.Remove(currentTarget);
-                //    }
-
-                Enemy oldTarget = currentTarget;
-                currentTarget = GetEnemy();
-                    //}
-
-                if (oldTarget == null && currentTarget != null)
-                {
-                    // adding random time before firing at first target so that all characters don't fire at once (sound concerns)
-                    attackTimer += Random.Range(0, .2f);
-                }
-
-                UpdateRotation();
-
-
-                // if we just waited for reload because no bullets left, then reload the weapon
-                if (ammoInWeapon <= 0 && attackTimer <= 0)
-                {
-                    ammoInWeapon = weaponData.magSize;
-                }
-
-                if (currentTarget != null)// || weaponData.controlStyle == ControlStyle.moveDirection)
-                {
-                    if (attackTimer <= 0)
                     {
-                        // just in case - in Attack we're adding to the attack timer not setting it
-                        attackTimer = 0;
-
-
-                        Attack();
+                        enemiesInRange.Remove(currentTarget);
+                        currentTarget = null;
                     }
-                }
+
+
+                    //if (currentTarget == null || (currentTarget != null && currentTarget.isDead))
+                    //{
+                    //    if (currentTarget != null)
+                    //    {
+                    //        enemiesInRange.Remove(currentTarget);
+                    //    }
+
+                    Enemy oldTarget = currentTarget;
+                    currentTarget = GetEnemy();
+                        //}
+
+                    if (oldTarget == null && currentTarget != null)
+                    {
+                        // adding random time before firing at first target so that all characters don't fire at once (sound concerns)
+                        attackTimer += Random.Range(0, .2f);
+                    }
+
+                    UpdateRotation();
+
+
+                    // if we just waited for reload because no bullets left, then reload the weapon
+                    if (ammoInWeapon <= 0 && attackTimer <= 0)
+                    {
+                        ammoInWeapon = weaponData.magSize;
+                    }
+
+                    if (currentTarget != null)// || weaponData.controlStyle == ControlStyle.moveDirection)
+                    {
+                        if (attackTimer <= 0)
+                        {
+                            // just in case - in Attack we're adding to the attack timer not setting it
+                            attackTimer = 0;
+
+
+                            Attack();
+                        }
+                    }
                 }
             }
         }

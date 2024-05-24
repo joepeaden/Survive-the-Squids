@@ -12,7 +12,12 @@ namespace MyGame
         [Header("StartScreen")]
         [SerializeField] GameObject startScreen;
         [SerializeField] Button startButton;
+        [SerializeField] Button tutorialButton;
         [SerializeField] Button upgradesButton;
+
+        [Header("tutorial Screen")]
+        [SerializeField] GameObject tutorialScreen;
+        [SerializeField] Button backButton2;
 
         [Header("UpgradeScreen")]
         [SerializeField] GameObject upgradeScreen;
@@ -30,44 +35,48 @@ namespace MyGame
 
         private void Awake()
         {
-            experimentalWeaponsButton.onClick.AddListener(UnlockExperimentals);
-            droneHangarButton.onClick.AddListener(UnlockDrones);
-            trainingHallButton.onClick.AddListener(UnlockTrainingHall);
+            //experimentalWeaponsButton.onClick.AddListener(UnlockExperimentals);
+            //droneHangarButton.onClick.AddListener(UnlockDrones);
+            //trainingHallButton.onClick.AddListener(UnlockTrainingHall);
             startButton.onClick.AddListener(StartGame);
             upgradesButton.onClick.AddListener(ShowUpgradesScreen);
             backButton.onClick.AddListener(ShowStartScreen);
+            tutorialButton.onClick.AddListener(ShowTutorialScreen);
+            backButton2.onClick.AddListener(ShowStartScreen);
         }
 
         private void Start()
         {
-            if (PlayerProgression.Instance.HasUnlockedDrones)
-            {
-                droneHangarCost.text = "Unlocked";
-                droneHangarCost.color = Color.green;
-                droneHangarButton.interactable = false;
-            }
-            if (PlayerProgression.Instance.HasUnlockedExperimentals)
-            {
-                experimentalWeaponsCost.text = "Unlocked";
-                experimentalWeaponsCost.color = Color.green;
-                experimentalWeaponsButton.interactable = false;
-            }
-            if (PlayerProgression.Instance.HasUnlockedTrainingHall)
-            {
-                trainingHallCost.text = "Unlocked";
-                trainingHallCost.color = Color.green;
-                trainingHallButton.interactable = false;
-            }
+            //if (PlayerProgression.Instance.HasUnlockedDrones)
+            //{
+            //    droneHangarCost.text = "Unlocked";
+            //    droneHangarCost.color = Color.green;
+            //    droneHangarButton.interactable = false;
+            //}
+            //if (PlayerProgression.Instance.HasUnlockedExperimentals)
+            //{
+            //    experimentalWeaponsCost.text = "Unlocked";
+            //    experimentalWeaponsCost.color = Color.green;
+            //    experimentalWeaponsButton.interactable = false;
+            //}
+            //if (PlayerProgression.Instance.HasUnlockedTrainingHall)
+            //{
+            //    trainingHallCost.text = "Unlocked";
+            //    trainingHallCost.color = Color.green;
+            //    trainingHallButton.interactable = false;
+            //}
         }
 
         private void OnDestroy()
         {
-            experimentalWeaponsButton.onClick.RemoveListener(UnlockExperimentals);
-            droneHangarButton.onClick.RemoveListener(UnlockDrones);
-            trainingHallButton.onClick.RemoveListener(UnlockTrainingHall);
+            //experimentalWeaponsButton.onClick.RemoveListener(UnlockExperimentals);
+            //droneHangarButton.onClick.RemoveListener(UnlockDrones);
+            //trainingHallButton.onClick.RemoveListener(UnlockTrainingHall);
             startButton.onClick.RemoveListener(StartGame);
             upgradesButton.onClick.RemoveListener(ShowUpgradesScreen);
             backButton.onClick.RemoveListener(ShowStartScreen);
+            tutorialButton.onClick.RemoveListener(ShowTutorialScreen);
+            backButton2.onClick.RemoveListener(ShowStartScreen);
         }
 
         void StartGame()
@@ -79,6 +88,13 @@ namespace MyGame
         {
             startScreen.SetActive(true);
             upgradeScreen.SetActive(false);
+            tutorialScreen.SetActive(false);
+        }
+        
+        void ShowTutorialScreen()
+        {
+            startScreen.SetActive(false);
+            tutorialScreen.SetActive(true);
         }
 
         void ShowUpgradesScreen()
@@ -87,28 +103,28 @@ namespace MyGame
             upgradeScreen.SetActive(true);
         }
 
-        void UnlockExperimentals()
-        {
-            PlayerProgression.Instance.UnlockExperimentals();
-            experimentalWeaponsCost.text = "Unlocked";
-            experimentalWeaponsCost.color = Color.green;
-            experimentalWeaponsButton.interactable = false;
-        }
+        //void UnlockExperimentals()
+        //{
+        //    PlayerProgression.Instance.UnlockExperimentals();
+        //    experimentalWeaponsCost.text = "Unlocked";
+        //    experimentalWeaponsCost.color = Color.green;
+        //    experimentalWeaponsButton.interactable = false;
+        //}
 
-        void UnlockDrones()
-        {
-            PlayerProgression.Instance.UnlockDrones();
-            droneHangarCost.text = "Unlocked";
-            droneHangarCost.color = Color.green;
-            droneHangarButton.interactable = false;
-        }
+        //void UnlockDrones()
+        //{
+        //    PlayerProgression.Instance.UnlockDrones();
+        //    droneHangarCost.text = "Unlocked";
+        //    droneHangarCost.color = Color.green;
+        //    droneHangarButton.interactable = false;
+        //}
 
-        void UnlockTrainingHall()
-        {
-            PlayerProgression.Instance.UnlockTrainingHall();
-            trainingHallCost.text = "Unlocked";
-            trainingHallCost.color = Color.green;
-            trainingHallButton.interactable = false;
-        }
+        //void UnlockTrainingHall()
+        //{
+        //    PlayerProgression.Instance.UnlockTrainingHall();
+        //    trainingHallCost.text = "Unlocked";
+        //    trainingHallCost.color = Color.green;
+        //    trainingHallButton.interactable = false;
+        //}
     }
 }

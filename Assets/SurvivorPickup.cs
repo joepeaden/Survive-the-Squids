@@ -25,31 +25,32 @@ namespace MyGame
         }
 
         // should only be colliding with the pickup trigger on the player
-        private void OnTriggerStay2D(Collider2D other)
+        private void OnTriggerEnter2D(Collider2D other)
         {
+
+            //if (other.GetComponent<CharacterBody>())
+            //{
             if (other.tag == "PickupCollider")
             {
-                pickupTimer -= Time.deltaTime;
-                if (pickupTimer <= 0)
-                {
+                //pickupTimer -= Time.deltaTime;
+                //if (pickupTimer <= 0)
+                //{
                     RescueSurvivor();
-                }
+                //    }
             }
         }
 
         void RescueSurvivor()
         {
-            //if (other.GetComponent<CharacterBody>())
-            //{
-            player.RescueSurvivor();// AddCharacter();//PickupWeapon(weapon);
+            player.AddCharacter();//PickupWeapon(weapon);
 
-            //GameObject audioSource = ObjectPool.instance.GetAudioSource();
-            //audioSource.SetActive(true);
-            //audioSource.GetComponent<PooledAudioSource>().SetData(sound, AudioGroups.pickup);
+            GameObject audioSource = ObjectPool.instance.GetAudioSource();
+            audioSource.SetActive(true);
+            audioSource.GetComponent<PooledAudioSource>().SetData(sound, AudioGroups.pickup);
 
             // maybe no need for object pooling cause it's not like there's gonna be a lot
             Destroy(transform.parent.gameObject);
-            //}
+            
         }
     }
 }

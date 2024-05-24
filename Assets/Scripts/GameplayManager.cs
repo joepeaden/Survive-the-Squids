@@ -40,6 +40,9 @@ namespace MyGame
         public Button startButton;
         public GameObject shopUI;
         public GameObject pauseMenu;
+        public GameObject pauseMenuItems;
+        public GameObject tutorial;
+
         public TMP_Text enemiesKilledText;
         public TMP_Text samplesText;
         [SerializeField] TMP_Text waveTimerText;
@@ -100,6 +103,18 @@ namespace MyGame
         {
             pauseMenu.SetActive(isEnabled);
             Time.timeScale = isEnabled ? 0 : 1;
+        }
+
+        public void RevertToPauseMenu()
+        {
+            pauseMenuItems.SetActive(true);
+            tutorial.SetActive(false);
+        }
+
+        public void ShowTutorial()
+        {
+            pauseMenuItems.SetActive(false);
+            tutorial.SetActive(true);
         }
 
         public void QuitGame()
