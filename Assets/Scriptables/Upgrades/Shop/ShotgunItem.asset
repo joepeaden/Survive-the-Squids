@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62a3b6825c12a415cb81c887e9a0450f, type: 3}
   m_Name: ShotgunItem
   m_EditorClassIdentifier: 
-  itemName: Shotugn
+  itemName: Shotgun
   image: {fileID: 21300000, guid: 74e89b1ece8a9458fa87ab616f5f8cf6, type: 3}
   cost: 0
   details:

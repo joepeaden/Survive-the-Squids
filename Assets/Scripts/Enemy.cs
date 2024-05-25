@@ -130,6 +130,11 @@ namespace MyGame
 
         IEnumerator PathfindingCoroutine()
         {
+            if (targetCharacter == null)
+            {
+                yield return null;
+            }
+
             pathfinder.destination = targetCharacter.transform.position;
 
             // just so they don't all obviously update at the same time

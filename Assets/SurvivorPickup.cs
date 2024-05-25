@@ -16,12 +16,14 @@ namespace MyGame
         private void Start()
         {
             player = Player.instance;
-            gameplayManager = GameplayManager.Instance;
+            //gameplayManager = GameplayManager.Instance;
         }
 
         private void OnEnable()
         {
             pickupTimer = initialPickupTimer;
+
+            GameplayManager.Instance.AddObjMarker(transform);
         }
 
         // should only be colliding with the pickup trigger on the player

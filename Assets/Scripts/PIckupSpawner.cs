@@ -24,7 +24,6 @@ namespace MyGame
         public float survivorSpawnTime6;
         public float survivorSpawnTime7;
 
-        int currentCharacterSpawn;
 
         int lastCharacterCount;
         float spawnTimer;
@@ -43,19 +42,20 @@ namespace MyGame
         {
             gameplayManager = GameplayManager.Instance;
             //gameManager.OnNewRound.AddListener(SpawnPickup);
-            player = Player.instance;
+            //player = Player.instance;
 
             for (int i = 0; i < transform.childCount; i++)
             {
                 spawnPoints.Add(transform.GetChild(i));
             }
+
+            //gameStarted = true;
         }
 
         private void Reset()
         {
-            currentCharacterSpawn = 1;
             spawnTimer = GetSpawnTime();
-            gameStarted = true;
+            //gameStarted = true;
         }
 
         private void OnDestroy()
@@ -66,7 +66,7 @@ namespace MyGame
 
         float GetSpawnTime()
         {
-            switch (currentCharacterSpawn)//player.ActiveCharacters.Count)
+            switch (Player.instance.ActiveCharacters.Count)
             {
                 case 1:
                     return survivorSpawnTime1;
@@ -89,7 +89,7 @@ namespace MyGame
 
         private void Update()
         {
-            if (gameStarted && player.ActiveCharacters.Count < Player.MAX_CHARACTERS)
+            if (Player.instance.ActiveCharacters.Count < Player.MAX_CHARACTERS)
             {
                 // maybe if we add the possibility of losing characters 
                 //if (lastCharacterCount != player.ActiveCharacters.Count)
@@ -102,7 +102,6 @@ namespace MyGame
                 if (spawnTimer <= 0)
                 {
                     SpawnPickup();
-                    currentCharacterSpawn++;
                     spawnTimer = GetSpawnTime();
                 }
 

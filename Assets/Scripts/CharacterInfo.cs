@@ -248,10 +248,11 @@ namespace MyGame
         /// <param name="updateBody">Should we trigger an update for the character?</param>
         public bool SetWeapon(WeaponData newWeapon, bool updateBody = false)
         {
-            if (newWeapon.levelReq > level)
-            {
-                return false;
-            }
+            // no level requirement for now
+            //if (newWeapon.levelReq > level)
+            //{
+            //    return false;
+            //}
 
             weaponData = newWeapon;
             if (updateBody)

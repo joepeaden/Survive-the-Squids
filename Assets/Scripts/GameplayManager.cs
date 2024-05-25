@@ -59,6 +59,12 @@ namespace MyGame
 
         bool gameIsStarted;
 
+        [SerializeField] TMP_Text finalScoreText;
+        [SerializeField] GameObject gameOverScreen;
+        [SerializeField] GameObject gameplayUI;
+
+        [SerializeField] GameObject objMarker;
+
         private void Awake()
         {
             _instance = this;
@@ -84,12 +90,18 @@ namespace MyGame
                 TogglePauseScreen(!pauseMenu.activeSelf);
             }
 
-            gameTimer -= Time.deltaTime;
-            gameTimerText.text = Mathf.CeilToInt(gameTimer).ToString();
-            if (gameTimer <= 0)
-            {
-                GameOver();
-            }
+            //gameTimer -= Time.deltaTime;
+            //gameTimerText.text = Mathf.CeilToInt(gameTimer).ToString();
+            //if (gameTimer <= 0)
+            //{
+            //    GameOver();
+            //}
+        }
+
+        public void AddObjMarker(Transform t)
+        {
+            GameObject marker = Instantiate(objMarker, gameplayUI.transform);
+            marker.GetComponent<ObjectiveMarker>().SetData(t, "Survivor");
         }
 
         int playerScore;
@@ -124,14 +136,23 @@ namespace MyGame
 
         public void GameOver()
         {
-            SceneManager.LoadScene("Menu");
+            Time.timeScale = 0;
+            finalScoreText.text = "Final Score: " + playerScore;
+            gameOverScreen.SetActive(true);
+
             //startUI.SetActive(true);
             //inMenu = true;
             //Time.timeScale = 0;
         }
 
+        public void ReturnToMenu()
+        {
+            SceneManager.LoadScene("Menu");
+        }
+
         public void RoundEnd()
         {
+            gameplayUI.SetActive(false);
             shopUI.SetActive(true);
             inMenu = true;
         }
@@ -141,16 +162,21 @@ namespace MyGame
         public void StartNewRound()
         {
             OnNewRound.Invoke();
+            gameplayUI.SetActive(true);
             shopUI.SetActive(false);
             inMenu = false;
             wave++;
             Time.timeScale = 1;
         }
 
+
+
         public void StartGame()
         {
             OnGameStart.Invoke();
+            gameOverScreen.SetActive(false);
             startUI.SetActive(false);
+            gameplayUI.SetActive(true);
             enemiesKilled = 0;
             inMenu = false;
             wave = 1;
@@ -193,6 +219,7 @@ namespace MyGame
                         samplesToLevelUp = 10 * playerLevel;
                         Time.timeScale = 0;
                         shopUI.SetActive(true);
+                        gameplayUI.SetActive(false);
                     }
                 }
 

@@ -103,34 +103,34 @@ namespace MyGame
             }
         }
 
-        public void GetHit(int damage)
-        {
-            HitPoints--;
+        //public void GetHit(int damage)
+        //{
+            //HitPoints--;
 
-            if (HitPoints <= 0)
-            {
-                gameplayManager.GameOver();
+            //if (HitPoints <= 0)
+            //{
+            //    gameplayManager.GameOver();
 
-                GameObject audioSource = ObjectPool.instance.GetAudioSource();
-                audioSource.SetActive(true);
-                AudioClip hitClip = deathClips[Random.Range(0, deathClips.Count)];
-                audioSource.GetComponent<PooledAudioSource>().SetData(hitClip, AudioGroups.pickup);
-            }
-            else
-            {
-                foreach (CharacterBody b in ActiveCharacters)
-                {
-                    b.GetHit(damage);
-                }
+            //    GameObject audioSource = ObjectPool.instance.GetAudioSource();
+            //    audioSource.SetActive(true);
+            //    AudioClip hitClip = deathClips[Random.Range(0, deathClips.Count)];
+            //    audioSource.GetComponent<PooledAudioSource>().SetData(hitClip, AudioGroups.pickup);
+            //}
+            //else
+            //{
+            //    foreach (CharacterBody b in ActiveCharacters)
+            //    {
+            //        b.GetHit(damage);
+            //    }
 
-                GameObject audioSource = ObjectPool.instance.GetAudioSource();
-                audioSource.SetActive(true);
-                AudioClip hitClip = hitClips[Random.Range(0, hitClips.Count)];
-                audioSource.GetComponent<PooledAudioSource>().SetData(hitClip, AudioGroups.pickup);
-            }
+            //    GameObject audioSource = ObjectPool.instance.GetAudioSource();
+            //    audioSource.SetActive(true);
+            //    AudioClip hitClip = hitClips[Random.Range(0, hitClips.Count)];
+            //    audioSource.GetComponent<PooledAudioSource>().SetData(hitClip, AudioGroups.pickup);
+            //}
 
-            PlayerBar.Instance.HandleHit();
-        }
+            //PlayerBar.Instance.HandleHit();
+        //}
 
         public void UpdateSamples(int num)
         {

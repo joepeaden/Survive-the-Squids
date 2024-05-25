@@ -61,7 +61,7 @@ namespace MyGame
 
         private void OnDisable()
         {
-            if (source.outputAudioMixerGroup == projectilesGroup)
+            if (source.clip != null && projSources.ContainsKey(source.clip) && source.outputAudioMixerGroup == projectilesGroup)
             {
                 projSources[source.clip]--;
             }

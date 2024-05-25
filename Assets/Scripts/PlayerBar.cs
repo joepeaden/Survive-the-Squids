@@ -69,7 +69,7 @@ namespace MyGame
 
             if (xpCount != 0)
             {
-                xpParent.GetChild(xpCount - 1).GetComponent<Image>().color = Color.yellow;
+                xpParent.GetChild(xpCount - 1).GetComponent<Image>().color = Color.cyan;
             }
             //for (int i = xpCount; i < xpParent.childCount; i++)
             //{

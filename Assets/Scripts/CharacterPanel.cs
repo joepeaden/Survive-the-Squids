@@ -225,15 +225,17 @@ namespace MyGame
                 //    }
                 audioSource.Play();
 
-                StartCoroutine(ExitLevelScreen());
+                //StartCoroutine(ExitLevelScreen());
+
+                GameplayManager.Instance.StartNewRound();
             }
         }
 
-        IEnumerator ExitLevelScreen()
-        {
-            yield return new WaitForSecondsRealtime(1f);
-            GameplayManager.Instance.StartNewRound();
-        }
+        //IEnumerator ExitLevelScreen()
+        //{
+        //    yield return new WaitForSecondsRealtime(1f);
+        //    GameplayManager.Instance.StartNewRound();
+        //}
 
         public void SetButtonHighlights(bool enabled)
         {

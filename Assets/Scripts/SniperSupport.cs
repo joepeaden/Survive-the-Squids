@@ -88,7 +88,7 @@ namespace MyGame
         {
             line.enabled = true;
             Ray2D ray = new Ray2D(transform.position, transform.up);
-            int layerMask = ~LayerMask.GetMask("Projectiles", "Boundary", "Characters", "Pickups");
+            int layerMask = ~LayerMask.GetMask("Projectiles", "Boundary", "Characters", "Pickups", "Obstacles", "CharacterTargetDetector");
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, int.MaxValue, layerMask);
 
             if (hit)

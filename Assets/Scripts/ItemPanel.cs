@@ -64,7 +64,7 @@ namespace MyGame
         public void RefreshPuchaseButton ()
         {
             purchaseButton.interactable = Player.instance.playerSamples >= TheUpgradeItem.cost;
-            purchaseButton.GetComponentInChildren<TMP_Text>().color = purchaseButton.interactable ? Color.green : Color.red;
+            //purchaseButton.GetComponentInChildren<TMP_Text>().color = purchaseButton.interactable ? Color.green : Color.red;
         }
 
         void AttemptPurchaseItem()
@@ -134,17 +134,19 @@ namespace MyGame
                         break;
                 }
 
-                StartCoroutine(ExitLevelScreen());
+                //StartCoroutine(ExitLevelScreen());
+
+                GameplayManager.Instance.StartNewRound();
             }
         }
 
 
 
-        IEnumerator ExitLevelScreen()
-        {
-            yield return new WaitForSecondsRealtime(1f);
-            GameplayManager.Instance.StartNewRound();
-        }
+        //IEnumerator ExitLevelScreen()
+        //{
+        //    yield return new WaitForSecondsRealtime(1f);
+        //    GameplayManager.Instance.StartNewRound();
+        //}
 
         private void OnDisable()
         {

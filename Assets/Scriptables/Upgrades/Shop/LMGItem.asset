@@ -17,8 +17,6 @@ MonoBehaviour:
   cost: 0
   details:
   - Heavy damage & fast firing, slow reload.
-  - Low Manuverability
-  - 'LVL Required: 3'
   upgradeType: 0
   associatedData: {fileID: 11400000, guid: f95687866e2b34f46a6ed60b6bc1277f, type: 2}
   associatedPrefab: {fileID: 0}
