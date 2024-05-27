@@ -41,7 +41,7 @@ namespace MyGame
 
         private void Awake()
         {
-            GameplayManager.OnGameStart.AddListener(Reset);
+            GameplayManager.OnGameStart.AddListener(HandleGameStart);
         }
 
         private void Start()
@@ -220,13 +220,21 @@ namespace MyGame
 
         private void OnDestroy()
         {
-            GameplayManager.OnGameStart.RemoveListener(Reset);
+            GameplayManager.OnGameStart.RemoveListener(HandleGameStart);
+        }
+
+        void HandleGameStart()
+        {
+            EnemiesAlive = 0;
+            enemyTypePop.Clear();
+            Reset();
         }
 
         private void Reset()
         {
             transform.parent.gameObject.SetActive(false);
             remainingHitPoints = data.hitPoints;
+
         }
 
         public void SetData(EnemyData newData)

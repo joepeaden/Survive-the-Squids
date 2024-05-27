@@ -105,6 +105,8 @@ namespace MyGame
 
         public int pendingLevelUps;
 
+        public CharacterBody currentBody;
+
         
         public CharacterInfo(CharacterStatsData newStatsData)
         {
@@ -198,10 +200,10 @@ namespace MyGame
             Color textColor;
             ColorUtility.TryParseHtmlString("#b4d8f7", out textColor);
 
-            CharacterBody body = Player.instance.GetCharBodyByID(ID);
-            body.PlayLevelUpSound();
+            //currentBody = Player.instance.GetCharBodyByID(ID);
+            currentBody.PlayLevelUpSound();
 
-            GameplayUI.Instance.AddTextFloatup(body.transform.position, "Level Up!", textColor);
+            GameplayUI.Instance.AddTextFloatup(currentBody.transform.position, "Level Up!", textColor);
 
             //CharTraits newTrait;
             //List<CharTraits> tempPossibleTraits = new List<CharTraits>(possibleTraits);
@@ -265,7 +267,8 @@ namespace MyGame
 
         public void UpdateBody()
         {
-            Player.instance.UpdateCharBody(ID);
+            currentBody.RefreshCharacter();
+            //Player.instance.UpdateCharBody(ID);
         }
 
         // HITCHYAHITCHYAHITCHYA WITDA HARDPUNK TACTIX! KYUH!

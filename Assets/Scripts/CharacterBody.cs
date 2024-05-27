@@ -348,7 +348,7 @@ namespace MyGame
             isDead = false;
             currentTarget = null;
             SetBodyActive(false);
-            player.ActiveCharacters.Remove(this);
+            //player.ActiveCharacters.Remove(this);
         }
 
         public void Die()
@@ -356,7 +356,7 @@ namespace MyGame
             isDead = true;
             currentTarget = null;
             SetBodyActive(false);
-            player.ActiveCharacters.Remove(this);
+            player.RemoveCharacter(charInfo);
             player.CheckGameOver();
         }
 
@@ -382,6 +382,7 @@ namespace MyGame
         public void SetCharacter(CharacterInfo info)
         {
             charInfo = info;
+            info.currentBody = this;
             RefreshCharacter();
         }
 

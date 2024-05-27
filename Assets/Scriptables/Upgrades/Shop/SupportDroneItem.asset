@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SupportDroneItem
   m_EditorClassIdentifier: 
   itemName: Pistol Drone
-  image: {fileID: 21300000, guid: eb9db6614057045d69059c629d30926f, type: 3}
+  image: {fileID: 21300000, guid: 9d3aeb85b0c8b41b2b6cd933c95f3872, type: 3}
   cost: 0
   details:
   - A drone circles your squad and fires at enemies
@@ -22,3 +22,5 @@ MonoBehaviour:
   upgradeType: 7
   associatedData: {fileID: 0}
   associatedPrefab: {fileID: 3694720786066441239, guid: c700f2911f45043e086bed7efdef129c, type: 3}
+  imageSizeX: 300
+  imageSizeY: 300

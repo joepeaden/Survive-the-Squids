@@ -90,7 +90,7 @@ namespace MyGame
                 TogglePauseScreen(!pauseMenu.activeSelf);
             }
 
-            //gameTimer -= Time.deltaTime;
+            gameTimer -= Time.deltaTime;
             //gameTimerText.text = Mathf.CeilToInt(gameTimer).ToString();
             //if (gameTimer <= 0)
             //{
@@ -184,6 +184,9 @@ namespace MyGame
             samplesToLevelUp = BaseSamplesToLevel;
             enemiesKilledText.text = enemiesKilled.ToString();
             Enemy.EnemiesAlive = 0;
+            playerScore = 0;
+            playerScoreText.text = playerScore.ToString();
+            samplesSinceLastLevelUp = 0;
 
             UpdateSamples(0, true);
             Time.timeScale = 1;

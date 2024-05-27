@@ -71,7 +71,7 @@ namespace MyGame
 
             itemMouseFollowPlaceholder.SetActive(false);
 
-            nextCharLvlUpButton.onClick.AddListener(CycleLevelUpChar);
+            //nextCharLvlUpButton.onClick.AddListener(CycleLevelUpChar);
         }
 
         private void Start()
@@ -84,32 +84,32 @@ namespace MyGame
 
         private void OnDestroy()
         {
-            nextCharLvlUpButton.onClick.RemoveListener(CycleLevelUpChar);
+            //nextCharLvlUpButton.onClick.RemoveListener(CycleLevelUpChar);
         }
 
-        void CycleLevelUpChar()
-        {
+        //void CycleLevelUpChar()
+        //{
 
-            bool isLevelingUp = false;
+        //    bool isLevelingUp = false;
 
-            for (int i = 0; i < player.ActiveCharacters.Count; i++)
-            {
-                CharacterBody charBody = player.ActiveCharacters[i];
-                if (charBody.isActiveAndEnabled && charBody.CharInfo.pendingLevelUps > 0)
-                {
-                    charLvlUpPanel.SetCharacter(charBody.CharInfo);
-                    isLevelingUp = true;
-                    break;
-                }
-            }
+        //    for (int i = 0; i < player.ActiveCharacters.Count; i++)
+        //    {
+        //        CharacterBody charBody = player.ActiveCharacters[i];
+        //        if (charBody.isActiveAndEnabled && charBody.CharInfo.pendingLevelUps > 0)
+        //        {
+        //            charLvlUpPanel.SetCharacter(charBody.CharInfo);
+        //            isLevelingUp = true;
+        //            break;
+        //        }
+        //    }
 
-            charLvlUpStuff.SetActive(isLevelingUp);
-            shopStuff.SetActive(!isLevelingUp);
-            if (!isLevelingUp)
-            {
-                SetupShopScreen();
-            }
-        }
+        //    charLvlUpStuff.SetActive(isLevelingUp);
+        //    shopStuff.SetActive(!isLevelingUp);
+        //    if (!isLevelingUp)
+        //    {
+        //        SetupShopScreen();
+        //    }
+        //}
 
         void SetupShopScreen()
         {
@@ -172,6 +172,11 @@ namespace MyGame
 
         public void UpdateCharPanels()
         {
+            for (int i = 0; i < charPanels.Count; i++)
+            {
+                charPanels[i].Reset();
+            }    
+
             int charPanelIndex = 0;
             for (int i = 0; i < player.ActiveCharacters.Count; i++)
             {

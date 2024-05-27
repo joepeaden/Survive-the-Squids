@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SupportSniperItem
   m_EditorClassIdentifier: 
   itemName: Sniper Support
-  image: {fileID: 21300000, guid: 0d2a5862b108b499b8091d5908c304f4, type: 3}
+  image: {fileID: 21300000, guid: 519f78e16bd17473f91b7ff236b503d1, type: 3}
   cost: 0
   details:
   - An off-site sniper supports you from a distance
@@ -23,3 +23,5 @@ MonoBehaviour:
   upgradeType: 7
   associatedData: {fileID: 0}
   associatedPrefab: {fileID: 5181692447298332329, guid: 58097172bce5549c292f45f6a1ba8601, type: 3}
+  imageSizeX: 200
+  imageSizeY: 200

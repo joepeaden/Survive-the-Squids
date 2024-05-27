@@ -31,7 +31,7 @@ namespace MyGame
         /// Characters actually being played in the game (not inactive bodies)
         /// </summary>
         public List<CharacterBody> ActiveCharacters;
-        private Dictionary<string, int> activeCharactersIndex = new Dictionary<string, int>();
+        //private Dictionary<string, int> activeCharactersIndex = new Dictionary<string, int>();
 
         private Rigidbody2D rb;
         private GameplayManager gameplayManager;
@@ -161,62 +161,71 @@ namespace MyGame
 
         //pu
 
-        public CharacterBody ReplaceCharacter(CharacterInfo charInfo)
-        {
-            if (activeCharactersIndex.ContainsKey(charInfo.ID))
-            {
-                int index = activeCharactersIndex[charInfo.ID];
-                RemoveCharacter(charInfo);
-                return AddCharacter(index);
-            }
+        //public CharacterBody ReplaceCharacter(CharacterInfo charInfo)
+        //{
+        //    if (activeCharactersIndex.ContainsKey(charInfo.ID))
+        //    {
+        //        int index = activeCharactersIndex[charInfo.ID];
+        //        RemoveCharacter(charInfo);
+        //        return AddCharacter(index);
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
 
-        public void UpdateCharBody(string ID)
-        {
-            if (activeCharactersIndex.ContainsKey(ID))
-            {
-                int index = activeCharactersIndex[ID];
-                CharacterBody body = ActiveCharacters[index];
-                body.RefreshCharacter();
-            }
-            else
-            {
-                Debug.Log("Trying to update char body that isn't found");
-            }
-        }
+        //public void UpdateCharBody(string ID)
+        //{
+        //    if (activeCharactersIndex.ContainsKey(ID))
+        //    {
+        //        int index = activeCharactersIndex[ID];
+        //        CharacterBody body = ActiveCharacters[index];
+        //        body.RefreshCharacter();
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("Trying to update char body that isn't found");
+        //    }
+        //}
 
-        public CharacterBody GetCharBodyByID(string ID)
-        {
-            if(activeCharactersIndex.ContainsKey(ID))
-            {
-                int index = activeCharactersIndex[ID];
-                return ActiveCharacters[index];
-            }
-            else
-            {
-                Debug.Log("Trying to get char body that isn't found");
-                return null;
-            }
-        }
+        //public CharacterBody GetCharBodyByID(string ID)
+        //{
+        //    if(activeCharactersIndex.ContainsKey(ID))
+        //    {
+        //        int index = activeCharactersIndex[ID];
+        //        return ActiveCharacters[index];
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("Trying to get char body that isn't found");
+        //        return null;
+        //    }
+        //}
 
         public void RemoveCharacter(CharacterInfo charInfo)
         {
-            int index = 0;
-            if (activeCharactersIndex.ContainsKey(charInfo.ID))
-            {
-                index = activeCharactersIndex[charInfo.ID];
-            }
-            else
-            {
-                Debug.LogWarning("Character with ID " + charInfo.ID + " not found!");
-                return;
-            }
+            //int index = 0;
+            //if (activeCharactersIndex.ContainsKey(charInfo.ID))
+            //{
+            //    index = activeCharactersIndex[charInfo.ID];
+            //}
+            //else
+            //{
+            //    Debug.LogWarning("Character with ID " + charInfo.ID + " not found!");
+            //    return;
+            //}
 
-            ActiveCharacters[index].Disable();
-            ActiveCharacters.Remove(ActiveCharacters[index]);
-            activeCharactersIndex.Remove(charInfo.ID);
+            charInfo.currentBody.Disable();
+            ActiveCharacters.Remove(charInfo.currentBody);
+            //activeCharactersIndex.Remove(charInfo.ID);
+
+            // looks like this just made things worse
+
+            //activeCharactersIndex.Clear();
+            //for (int i = 0; i < ActiveCharacters.Count; i++)
+            //{
+            //    CharacterBody body = ActiveCharacters[i];
+            //    activeCharactersIndex[body.CharInfo.ID] = i; 
+            //}
 
             SetPositions();
         }
@@ -232,7 +241,7 @@ namespace MyGame
                 charBody.SetCharacter(charInfo);
                 charBody.SetBodyActive(true);
                 ActiveCharacters.Insert(repIndex, charBody);
-                activeCharactersIndex.Add(charInfo.ID, repIndex);
+                //activeCharactersIndex.Add(charInfo.ID, repIndex);
 
                 // gonna change this
 
@@ -251,7 +260,7 @@ namespace MyGame
                         charBody.SetBodyActive(true);
 
                         ActiveCharacters.Add(charBody);
-                        activeCharactersIndex.Add(charInfo.ID, index);
+                        //activeCharactersIndex.Add(charInfo.ID, index);
 
                         // gonna change this
 
@@ -423,7 +432,7 @@ namespace MyGame
             characterBodies[0].SetCharacter(charInfo);
             characterBodies[0].SetBodyActive(true);
             ActiveCharacters.Add(characterBodies[0]);
-            activeCharactersIndex.Add(charInfo.ID, 0);
+            //activeCharactersIndex.Add(charInfo.ID, 0);
             SetPositions();
 
             playerSamples = 0;

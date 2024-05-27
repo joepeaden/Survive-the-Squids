@@ -36,6 +36,8 @@ namespace MyGame
         float waveStartTime;
         public float waveInterval;
 
+        public float enemyCountMultiplier;
+
         private void Awake()
         {
             GameplayManager.OnGameStart.AddListener(HandleGameStart);
@@ -70,7 +72,8 @@ namespace MyGame
                 if (timeSinceLastWave > waveInterval)
                 {
                     wave++;
-                    TargetEnemyCount = (int)Mathf.Ceil(wave * 1.5f) * BaseTargetEnemyCount;
+                    TargetEnemyCount = (int)Mathf.Ceil(wave * enemyCountMultiplier) * BaseTargetEnemyCount;
+                    Debug.Log("New Target Enemy Count: " + TargetEnemyCount);
                     waveStartTime = Time.time;
                 }
 
@@ -95,9 +98,15 @@ namespace MyGame
                         int groupSize = enemyType.spawnGroupSize > amountToSpawn ? amountToSpawn : enemyType.spawnGroupSize;
                         // make sure not to exceed the max pop of this enemy type
 
-                        if (Enemy.GetPopOfEnemyType(enemyType) + groupSize > enemyType.maxPop)
+                        int enemyPopLimit = enemyType.maxPop;
+                        if (wave > 0)
                         {
-                            groupSize = enemyType.maxPop - Enemy.GetPopOfEnemyType(enemyType);
+                            enemyPopLimit *= (int)Mathf.Ceil(wave * enemyCountMultiplier);
+                        }
+
+                        if (Enemy.GetPopOfEnemyType(enemyType) + groupSize > enemyPopLimit)
+                        {
+                            groupSize = enemyPopLimit - Enemy.GetPopOfEnemyType(enemyType);
                         }
 
                         for (int j = 0; j < groupSize; j++)

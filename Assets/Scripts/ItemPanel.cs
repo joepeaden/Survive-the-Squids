@@ -47,6 +47,7 @@ namespace MyGame
 
             title.text = TheUpgradeItem.itemName;
             image.sprite = TheUpgradeItem.image;
+            image.rectTransform.sizeDelta = new Vector2(TheUpgradeItem.imageSizeX, TheUpgradeItem.imageSizeY);
             //cost.text = TheUpgradeItem.cost + " samples";
 
             defaultTextItem.gameObject.SetActive(false);

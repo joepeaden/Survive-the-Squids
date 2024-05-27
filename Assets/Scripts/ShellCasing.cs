@@ -15,6 +15,18 @@ namespace MyGame
             spawnTime = Time.time;
             rend = GetComponent<SpriteRenderer>();
             rb = GetComponent<Rigidbody2D>();
+
+            GameplayManager.OnGameStart.AddListener(Reset);
+        }
+
+        private void OnDestroy()
+        {
+            GameplayManager.OnGameStart.RemoveListener(Reset);
+        }
+
+        private void Reset()
+        {
+            Destroy(gameObject);
         }
 
         private void Update()

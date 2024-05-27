@@ -20,3 +20,5 @@ MonoBehaviour:
   upgradeType: 3
   associatedData: {fileID: 11400000, guid: f95687866e2b34f46a6ed60b6bc1277f, type: 2}
   associatedPrefab: {fileID: 0}
+  imageSizeX: 600
+  imageSizeY: 600

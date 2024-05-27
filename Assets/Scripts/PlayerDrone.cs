@@ -15,6 +15,17 @@ namespace MyGame
         private void Start()
         {
             playerT = Player.instance.transform;
+            GameplayManager.OnGameStart.AddListener(Reset);
+        }
+
+        void Reset()
+        {
+            Destroy(gameObject);
+        }
+
+        private void OnDestroy()
+        {
+            GameplayManager.OnGameStart.RemoveListener(Reset);
         }
 
         void Update()

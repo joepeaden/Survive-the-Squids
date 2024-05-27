@@ -1498,7 +1498,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3016042785191376945, guid: 4de424780037c4e4c9c525a9c9547896, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -16.725
+      value: -17.174
       objectReference: {fileID: 0}
     - target: {fileID: 3016042785191376945, guid: 4de424780037c4e4c9c525a9c9547896, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1535,6 +1535,10 @@ PrefabInstance:
     - target: {fileID: 7875402868567385691, guid: 4de424780037c4e4c9c525a9c9547896, type: 3}
       propertyPath: m_Name
       value: VertFenceTopCap (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7875402868567385691, guid: 4de424780037c4e4c9c525a9c9547896, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -31785,6 +31789,10 @@ PrefabInstance:
     - target: {fileID: 1379073893482039012, guid: e88e0a8b1026643078bed71d3176ecf1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7172964997961953532, guid: e88e0a8b1026643078bed71d3176ecf1, type: 3}
+      propertyPath: enemyCountMultiplier
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 8516792182428395397, guid: e88e0a8b1026643078bed71d3176ecf1, type: 3}
       propertyPath: m_Name

@@ -18,6 +18,8 @@ namespace MyGame
         [SerializeField] PreferTarget targetPref;
         [SerializeField] bool useLaserSight;
 
+        [SerializeField] WeaponSprite weaponSprite;
+
         private void Awake()
         {
             GameplayManager.OnGameStart.AddListener(HandleGameStart);
@@ -31,7 +33,10 @@ namespace MyGame
         private void OnEnable()
         {
             ammoInWeapon = weaponData.magSize;
-            line.enabled = false;
+            if (line != null)
+            {
+                line.enabled = false;
+            }
         }
 
         void HandleGameStart()
@@ -88,7 +93,7 @@ namespace MyGame
         {
             line.enabled = true;
             Ray2D ray = new Ray2D(transform.position, transform.up);
-            int layerMask = ~LayerMask.GetMask("Projectiles", "Boundary", "Characters", "Pickups", "Obstacles", "CharacterTargetDetector");
+            int layerMask = ~LayerMask.GetMask("Projectiles", "Boundary", "Characters", "Pickups", "Obstacles", "CharacterTargetDetector", "ObstaclesNoBlockLOS");
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, int.MaxValue, layerMask);
 
             if (hit)
@@ -200,6 +205,11 @@ namespace MyGame
                 projectile.firedFromPlayer = true;
                 projectile.lifeSpan = 10f;
                 projectile.SetData(weaponData);
+
+                if (weaponSprite != null)
+                {
+                    weaponSprite.PlayFireAnim();
+                }
 
                 // only use one audio source for something like a shotgun w/ multiple proj per shot
                 if (i == 0)

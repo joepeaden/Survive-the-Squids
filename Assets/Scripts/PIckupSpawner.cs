@@ -41,8 +41,6 @@ namespace MyGame
         public void Start()
         {
             gameplayManager = GameplayManager.Instance;
-            //gameManager.OnNewRound.AddListener(SpawnPickup);
-            //player = Player.instance;
 
             for (int i = 0; i < transform.childCount; i++)
             {
@@ -60,7 +58,7 @@ namespace MyGame
 
         private void OnDestroy()
         {
-            GameplayManager.OnGameStart.RemoveListener(SpawnPickup);
+            GameplayManager.OnGameStart.RemoveListener(Reset);
             //gameManager.OnNewRound.RemoveListener(SpawnPickup);
         }
 

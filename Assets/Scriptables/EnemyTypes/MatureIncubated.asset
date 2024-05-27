@@ -32,7 +32,7 @@ MonoBehaviour:
   bodyCritSprite: {fileID: 21300000, guid: 25d4981c0f072493c9ba5186a12f1e92, type: 3}
   deadSprite: {fileID: 21300000, guid: ca60f0fad87914ea8979bc1a1d69cc37, type: 3}
   introTime: 60
-  spawnChance: 0.1
-  maxPop: 5
+  spawnChance: 0.5
+  maxPop: 20
   chanceSpawnEnemyOnDeath: 0.7
   enemyToSpawnOnDeath: {fileID: 11400000, guid: 7e3034ca91521415ca3b03b7152a99a1, type: 2}

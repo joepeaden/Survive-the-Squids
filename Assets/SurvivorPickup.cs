@@ -17,6 +17,7 @@ namespace MyGame
         {
             player = Player.instance;
             //gameplayManager = GameplayManager.Instance;
+            
         }
 
         private void OnEnable()
@@ -24,6 +25,19 @@ namespace MyGame
             pickupTimer = initialPickupTimer;
 
             GameplayManager.Instance.AddObjMarker(transform);
+
+            GameplayManager.OnGameStart.AddListener(Reset);
+        }
+
+        private void OnDisable()
+        {
+
+            GameplayManager.OnGameStart.RemoveListener(Reset);
+        }
+
+        private void Reset()
+        {
+            Destroy(gameObject);
         }
 
         // should only be colliding with the pickup trigger on the player

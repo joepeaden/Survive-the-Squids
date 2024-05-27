@@ -15,6 +15,8 @@ namespace MyGame
         public UpgradeType upgradeType;
         public ScriptableObject associatedData;
         public GameObject associatedPrefab;
+        public float imageSizeX;
+        public float imageSizeY;
     }
 
     public enum UpgradeType { weapon, armor, support, recruit, companyBuff, characterBuff, weaponUpgrade, supportWeapon };

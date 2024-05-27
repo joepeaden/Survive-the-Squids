@@ -52,6 +52,7 @@ namespace MyGame
         [SerializeField] GameObject statsGO;
         [SerializeField] GameObject miniStatsGO;
 
+        [SerializeField] Sprite weaponPlaceholder;
         public bool showStats;
 
         public void UpdateXP(int xpCount, int xpToLevel)
@@ -129,13 +130,25 @@ namespace MyGame
             addAimBtn.onClick.RemoveListener(AddCrd);
         }
 
+        public void Reset()
+        {
+            thisCharInfo = null;
+            charName.text = "Empty Slot";
+            weaponImage.color = Color.black;
+            charImage.color = Color.black;
+            killsText.text = "";
+            rankText.text = "";
+            weaponImage.sprite = weaponPlaceholder;
+            hasCharacter = false;
+            SetButtonHighlights(false);
+        }
+
         public void SetCharacter(CharacterInfo charInfo)
         {
             thisCharInfo = charInfo;
             charName.text = charInfo.charName;
             weaponImage.color = Color.white;
             charImage.color = Color.white;
-            charName.color = Color.white;
             // + "  (LVL " + charInfo.level.ToString() + ")";
             //weaponName.text = charInfo.weaponData.weaponName;
             //reflexSpeed.text = "Reflex Speed: " + charInfo.ReflexSpeed.ToString();
