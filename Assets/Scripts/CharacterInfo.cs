@@ -175,7 +175,7 @@ namespace MyGame
 
         public void LevelUp()
         {
-            Debug.Log("Character leveled up:  " + charName + " LVL " + level);
+            //Debug.Log("Character leveled up:  " + charName + " LVL " + level);
             level++;
             //pendingLevelUps++;
 

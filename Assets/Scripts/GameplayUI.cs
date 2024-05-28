@@ -28,7 +28,15 @@ namespace MyGame
 
         public void AddTextFloatup(Vector3 position, string text, Color color)
         {
-            GameObject floater = Instantiate(floatUpPrefab, worldSpaceCanvas);
+
+
+
+            GameObject floater = ObjectPool.instance.GetTextFloatUp();
+            floater.transform.parent = worldSpaceCanvas;
+            //floater.transform.position = transform.position;
+            floater.SetActive(true);
+
+            //GameObject floater = Instantiate(floatUpPrefab, );
             floater.GetComponent<TextFloatUp>().SetData(position, text, color);
         }
     }

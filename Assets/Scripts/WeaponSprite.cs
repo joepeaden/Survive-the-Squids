@@ -82,7 +82,11 @@ namespace MyGame
 
         void PlayShellCasingAnim()
         {
-            GameObject casing = Instantiate(shellCasing, transform.position, transform.rotation);
+            GameObject casing = ObjectPool.instance.GetShell();
+            casing.SetActive(true);
+            casing.transform.position = transform.position;
+
+            //GameObject casing = Instantiate(shellCasing, transform.position, transform.rotation);
             casing.GetComponent<Rigidbody2D>().AddForce(-transform.parent.up * Random.Range(200f, 500f));
             if (isFacingLeft)
             {

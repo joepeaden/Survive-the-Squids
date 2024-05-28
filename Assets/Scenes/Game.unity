@@ -30776,13 +30776,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 7875955600784401986, guid: 5f07348b7404a467f952430ad11978ad, type: 3}
-  projectilePoolSize: 100
+  projectilePoolSize: 200
   enemyPrefab: {fileID: 4744756064868753642, guid: a80a666aabe8e4b1d9e4b8d8d33f974b, type: 3}
-  enemyPoolSize: 200
+  enemyPoolSize: 400
   audioSourcePrefab: {fileID: 3580832467331655323, guid: 6b36a207e1eee419a89d5cbc7e001725, type: 3}
-  audioSourcePoolSize: 30
+  audioSourcePoolSize: 100
   corpsePrefab: {fileID: 7607054155959405562, guid: 95ea9a062737d44f68a01eeb493a81e8, type: 3}
-  corpsePoolSize: 50
+  corpsePoolSize: 200
+  textFloatUpPrefab: {fileID: 5021879320442858651, guid: e2566f0f27bc54586b3fc8b35533c55b, type: 3}
+  textFloatUpPoolSize: 200
+  shellPrefab: {fileID: 985649568063755930, guid: 622c8443f398a4ecdaa309785f0be338, type: 3}
+  shellPoolSize: 100
+  samplePrefab: {fileID: 3695210530958462488, guid: 6b39f1f2904124795a3abf95adb30326, type: 3}
+  samplePoolSize: 100
 --- !u!4 &2081804689
 Transform:
   m_ObjectHideFlags: 0
@@ -31789,6 +31795,14 @@ PrefabInstance:
     - target: {fileID: 1379073893482039012, guid: e88e0a8b1026643078bed71d3176ecf1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7172964997961953532, guid: e88e0a8b1026643078bed71d3176ecf1, type: 3}
+      propertyPath: waveInterval
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7172964997961953532, guid: e88e0a8b1026643078bed71d3176ecf1, type: 3}
+      propertyPath: BaseTargetEnemyCount
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7172964997961953532, guid: e88e0a8b1026643078bed71d3176ecf1, type: 3}
       propertyPath: enemyCountMultiplier

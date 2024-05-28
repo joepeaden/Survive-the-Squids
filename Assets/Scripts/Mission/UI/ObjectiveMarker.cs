@@ -21,10 +21,12 @@ public class ObjectiveMarker : MonoBehaviour
     public Transform objectiveTransform;
     private RectTransform rectTrans;
 
+    Camera mainCamera;
 
     private void Awake()
     {
         rectTrans = GetComponent<RectTransform>();
+        mainCamera = Camera.main;
     }
 
     public void SetData(Transform objectToMark, string newLabel)
@@ -38,7 +40,7 @@ public class ObjectiveMarker : MonoBehaviour
     {
         if (objectiveTransform != null)
         {
-            Vector3 objScreenPos = Camera.main.WorldToScreenPoint(objectiveTransform.position);
+            Vector3 objScreenPos = mainCamera.WorldToScreenPoint(objectiveTransform.position);
             objScreenPos.y += heightOffset;
 
            

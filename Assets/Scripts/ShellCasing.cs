@@ -26,7 +26,7 @@ namespace MyGame
 
         private void Reset()
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
 
         private void Update()

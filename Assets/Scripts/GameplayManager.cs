@@ -206,14 +206,14 @@ namespace MyGame
             enemiesKilledText.text = enemiesKilled.ToString();
         }
 
-        public void UpdateSamples(int samples, bool initializing = false)
+        public void UpdateSamples(int playerTotalSamples, bool initializing = false, int newSamples = 0)
         {
             /// right now there's no content past level 7
             //if (playerLevel < 7)
             //{
                 if (!initializing)
                 {
-                    samplesSinceLastLevelUp++;
+                    samplesSinceLastLevelUp += newSamples;
                     // level the player up if necessary
                     if (samplesSinceLastLevelUp >= samplesToLevelUp)
                     {
@@ -229,7 +229,7 @@ namespace MyGame
                 PlayerBar.Instance.HandleXP(samplesSinceLastLevelUp, samplesToLevelUp);
             //}
 
-            samplesText.text = samples.ToString();
+            samplesText.text = playerTotalSamples.ToString();
         }
 
 

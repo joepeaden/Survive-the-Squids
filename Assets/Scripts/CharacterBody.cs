@@ -41,10 +41,13 @@ namespace MyGame
 
         [SerializeField] AudioClip levelUpSound;
 
+        Camera mainCamera;
+
         private void Start()
         {
             player = Player.instance;
             gameplayManager = GameplayManager.Instance;
+            mainCamera = Camera.main;
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -65,7 +68,7 @@ namespace MyGame
 
         private void Update()
         {
-            Debug.Log(charName + " HP: " + hitPoints);
+            //Debug.Log(charName + " HP: " + hitPoints);
 
             if (weaponData == null)
             {
@@ -307,7 +310,7 @@ namespace MyGame
         {
             if (ManualAimEnabled)
             {
-                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
                 return (mousePos - transform.position).normalized;
             }
             else

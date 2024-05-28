@@ -135,13 +135,13 @@ namespace MyGame
         public void UpdateSamples(int num)
         {
             playerSamples += num;
-            gameplayManager.UpdateSamples(playerSamples);
-            gameplayManager.AddPlayerScore(5);
+            gameplayManager.UpdateSamples(playerSamples, newSamples: num);
+            gameplayManager.AddPlayerScore(5 * num);
         }
 
         public void RescueSurvivor()
         {
-            Debug.Log("Survivor Rescued");
+            //Debug.Log("Survivor Rescued");
             gameplayManager.AddPlayerScore(50);
         }
 

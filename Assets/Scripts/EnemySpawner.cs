@@ -14,6 +14,8 @@ namespace MyGame
 
     public class EnemySpawner : MonoBehaviour
     {
+        static int MAX_ENEMY_COUNT = 200;
+
         public float SpawnInterval;
         //public float spawnRateIncreaseInterval;
         //public float currentSpawnInterval;
@@ -37,10 +39,12 @@ namespace MyGame
         public float waveInterval;
 
         public float enemyCountMultiplier;
+        Camera mainCamera;
 
         private void Awake()
         {
             GameplayManager.OnGameStart.AddListener(HandleGameStart);
+            mainCamera = Camera.main;
         }
 
         private void Start()
@@ -73,13 +77,13 @@ namespace MyGame
                 {
                     wave++;
                     TargetEnemyCount = (int)Mathf.Ceil(wave * enemyCountMultiplier) * BaseTargetEnemyCount;
-                    Debug.Log("New Target Enemy Count: " + TargetEnemyCount);
+                    //Debug.Log("New Target Enemy Count: " + TargetEnemyCount);
                     waveStartTime = Time.time;
                 }
 
 
                 spawnTimer -= Time.deltaTime;
-                if (spawnTimer <= 0)
+                if (spawnTimer <= 0 && Enemy.EnemiesAlive < MAX_ENEMY_COUNT)
                 {
                     spawnTimer = SpawnInterval;
 
@@ -210,7 +214,7 @@ namespace MyGame
         bool IsObjectInView(Transform objTransform)
         {
             // Convert world position to viewport position
-            Vector3 viewportPoint = Camera.main.WorldToViewportPoint(objTransform.position);
+            Vector3 viewportPoint = mainCamera.WorldToViewportPoint(objTransform.position);
 
             // Check if within the viewport range
             bool isInCameraView = (viewportPoint.x >= 0 && viewportPoint.x <= 1) &&

@@ -9,6 +9,8 @@ namespace MyGame
 
     public class Enemy : MonoBehaviour
     {
+        public int maxPickups;
+
         public static int EnemiesAlive;
         private static Dictionary<EnemyData, int> enemyTypePop = new Dictionary<EnemyData, int>();
 
@@ -347,7 +349,31 @@ namespace MyGame
                 EnemySpawner.SpawnEnemyAtPosition(transform.position, data.enemyToSpawnOnDeath);
             }
 
-            Instantiate(sampleDrop, transform.position, Quaternion.identity);
+            //Instantiate(sampleDrop, transform.position, Quaternion.identity);
+
+            if (SamplePickup.existingPickups < maxPickups)
+            {
+                GameObject sample = ObjectPool.instance.GetSample();
+                sample.transform.position = transform.position;
+                sample.SetActive(true);
+                sample.GetComponent<SamplePickup>().Setup(false);
+            }
+            else
+            {
+                if (SamplePickup.megaSample == null)
+                {
+                    GameObject sample = ObjectPool.instance.GetSample();
+                    sample.transform.position = transform.position;
+                    sample.SetActive(true);
+                    sample.GetComponent<SamplePickup>().Setup(true);
+                }
+                else
+                {
+                    SamplePickup.megaSample.XPValue++;
+                }
+            }
+            //sample.GetComponent<PooledAudioSource>().SetData(levelUpSound, AudioGroups.pickup);
+
             spriteController.HandleDeath();
 
             isDead = true;

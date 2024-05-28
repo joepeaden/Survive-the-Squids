@@ -169,10 +169,10 @@ MonoBehaviour:
   bodySpriteRend: {fileID: 6830306493421109731}
   faceSpriteRend: {fileID: 8313616946843071016}
   deadSprite: {fileID: 21300000, guid: 92c787c89cba54202a71cf868a0f65ba, type: 3}
-  upFace: {fileID: 21300000, guid: 562788ecfd3dc4fdaa83893d4d88c5f7, type: 3}
-  downFace: {fileID: 21300000, guid: 08db588474fad4f5d801f1e01cb93c50, type: 3}
-  leftFace: {fileID: 21300000, guid: a4bda1e8d0aac40ddbe7486c4ef34c93, type: 3}
-  rightFace: {fileID: 21300000, guid: 570f7223ecf77449aa7cd335c0d8cbb5, type: 3}
+  faceUSprite: {fileID: 0}
+  faceSprite: {fileID: 0}
+  faceLSprite: {fileID: 0}
+  faceRSprite: {fileID: 0}
 --- !u!95 &1385403927704874914
 Animator:
   serializedVersion: 5
@@ -545,6 +545,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 022ea99cdfd564b4abec992e1339f29d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxPickups: 75
   isDead: 0
   data: {fileID: 11400000, guid: 3fa37d304f3784862a5c5a107fc35c5b, type: 2}
   sampleDrop: {fileID: 3695210530958462488, guid: 6b39f1f2904124795a3abf95adb30326, type: 3}

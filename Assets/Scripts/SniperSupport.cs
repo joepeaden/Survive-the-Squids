@@ -20,9 +20,12 @@ namespace MyGame
 
         [SerializeField] WeaponSprite weaponSprite;
 
+        Camera mainCamera;
+
         private void Awake()
         {
             GameplayManager.OnGameStart.AddListener(HandleGameStart);
+            mainCamera = Camera.main;
         }
 
         private void OnDestroy()
@@ -84,7 +87,10 @@ namespace MyGame
                     // just in case - in Attack we're adding to the attack timer not setting it
                     attackTimer = 0;
                     Attack();
-                    line.enabled = false;
+                    if (line != null)
+                    {
+                        line.enabled = false;
+                    }
                 }
             }
         }
@@ -146,7 +152,7 @@ namespace MyGame
                     foreach (Enemy e in GameplayManager.Instance.enemies)
                     {
                         // make sure to shoot an enemy in player view
-                        bool inCamView = Camera.main.WorldToViewportPoint(e.transform.position).x > 0 && Camera.main.WorldToViewportPoint(e.transform.position).x < 1 && Camera.main.WorldToViewportPoint(e.transform.position).y < 1 && Camera.main.WorldToViewportPoint(e.transform.position).y > 0;
+                        bool inCamView = mainCamera.WorldToViewportPoint(e.transform.position).x > 0 && mainCamera.WorldToViewportPoint(e.transform.position).x < 1 && mainCamera.WorldToViewportPoint(e.transform.position).y < 1 && mainCamera.WorldToViewportPoint(e.transform.position).y > 0;
                         // make sure it's in range
                         bool inRange = (e.transform.position - transform.position).magnitude <= weaponData.range;
 
@@ -167,7 +173,7 @@ namespace MyGame
                     foreach (Enemy e in GameplayManager.Instance.enemies)
                     {
                         // make sure to shoot an enemy in player view
-                        bool inCamView = Camera.main.WorldToViewportPoint(e.transform.position).x > 0 && Camera.main.WorldToViewportPoint(e.transform.position).x < 1 && Camera.main.WorldToViewportPoint(e.transform.position).y < 1 && Camera.main.WorldToViewportPoint(e.transform.position).y > 0;
+                        bool inCamView = mainCamera.WorldToViewportPoint(e.transform.position).x > 0 && mainCamera.WorldToViewportPoint(e.transform.position).x < 1 && mainCamera.WorldToViewportPoint(e.transform.position).y < 1 && mainCamera.WorldToViewportPoint(e.transform.position).y > 0;
 
                         // make sure it's in range
                         float distToEnemy = (transform.position - e.transform.position).magnitude;
@@ -277,7 +283,7 @@ namespace MyGame
         {
             //if (ManualAimEnabled)
             //{
-            //    Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //    Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
             //    return (mousePos - transform.position).normalized;
             //}
             //else

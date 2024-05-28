@@ -21,15 +21,30 @@ namespace MyGame
         public GameObject audioSourcePrefab;
         public int audioSourcePoolSize;
 
-        [Header("AudioSources")]
+        [Header("corpses")]
         public GameObject corpsePrefab;
         public int corpsePoolSize;
+
+        [Header("TextFloatUp")]
+        public GameObject textFloatUpPrefab;
+        public int textFloatUpPoolSize;
+
+        [Header("ShellCasings")]
+        public GameObject shellPrefab;
+        public int shellPoolSize;
+
+        [Header("Smaples")]
+        public GameObject samplePrefab;
+        public int samplePoolSize;
 
         private Transform objectPoolParent;
         private List<GameObject> projectiles;
         private List<GameObject> enemies;
         private List<GameObject> audioSources;
         private List<GameObject> corpses;
+        private List<GameObject> textFloatUps;
+        private List<GameObject> samples;
+        private List<GameObject> shells;
 
         void Awake()
         {
@@ -43,9 +58,12 @@ namespace MyGame
             objectPoolParent.name = "ObjectPool";
 
             projectiles = CreatePool(projectilePrefab, projectiles, projectilePoolSize);
-            enemies = CreatePool(enemyPrefab, enemies, projectilePoolSize);
+            enemies = CreatePool(enemyPrefab, enemies, enemyPoolSize);
             audioSources = CreatePool(audioSourcePrefab, audioSources, audioSourcePoolSize);
             corpses = CreatePool(corpsePrefab, corpses, corpsePoolSize);
+            textFloatUps = CreatePool(textFloatUpPrefab, textFloatUps, textFloatUpPoolSize);
+            samples = CreatePool(samplePrefab, samples, samplePoolSize);
+            shells = CreatePool(shellPrefab, shells, shellPoolSize);
         }
 
         private List<GameObject> CreatePool(GameObject prefab, List<GameObject> listToAssign, int count)
@@ -95,6 +113,21 @@ namespace MyGame
         public GameObject GetCorpse()
         {
             return GetPooledObject(corpses, corpsePrefab);
+        }
+
+        public GameObject GetTextFloatUp()
+        {
+            return GetPooledObject(textFloatUps, textFloatUpPrefab);
+        }
+
+        public GameObject GetShell()
+        {
+            return GetPooledObject(shells, shellPrefab);
+        }
+
+        public GameObject GetSample()
+        {
+            return GetPooledObject(samples, samplePrefab);
         }
     }
 }

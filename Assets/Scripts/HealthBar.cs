@@ -12,6 +12,13 @@ namespace MyGame
         public float heightOffset;
         Enemy theEnemy;
 
+        Camera mainCamera;
+
+        private void Awake()
+        {
+            mainCamera = Camera.main;
+        }
+
         public void SetupHealthBar(Enemy e)
         {
             for (int i = 0; i < e.HitPoints; i++)
@@ -53,7 +60,7 @@ namespace MyGame
         {
             if (FollowTransform.gameObject.activeInHierarchy)
             {
-                Vector3 objScreenPos = Camera.main.WorldToScreenPoint(FollowTransform.position);
+                Vector3 objScreenPos = mainCamera.WorldToScreenPoint(FollowTransform.position);
                 objScreenPos.y += heightOffset;
 
                 //if (!(this as EntityMarker))

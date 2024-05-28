@@ -37,7 +37,7 @@ namespace MyGame
 
         private void Reset()
         {
-            Destroy(gameObject);
+            Destroy(transform.parent.gameObject);
         }
 
         // should only be colliding with the pickup trigger on the player
