@@ -10,27 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2794bd9a678304bf4bb8b44a08efb237, type: 3}
-  m_Name: Shotgun
+  m_Name: DronePistol
   m_EditorClassIdentifier: 
-  weaponName: Shotgun
-  attackInterval: 1
-  damage: 20
-  range: 4
-  useProjPhys: 1
+  weaponName: Basic Pistol
+  attackInterval: 0.5
+  damage: 50
+  range: 3
+  useProjPhys: 0
   projectileVelocity: 50
-  projSpreadAngle: 30
-  projPerShot: 20
-  stunTime: 1
-  knockBack: 30
+  projSpreadAngle: 0
+  projPerShot: 1
+  stunTime: 0.5
+  knockBack: 10
   causesBleed: 0
   bleedDamage: 0
   bleedTime: 0
-  reloadTime: 2
-  magSize: 8
-  projSprite: {fileID: 21300000, guid: a6b43c69cc25249db9bc17c4c88c8448, type: 3}
-  weaponSprite: {fileID: 21300000, guid: 74e89b1ece8a9458fa87ab616f5f8cf6, type: 3}
+  reloadTime: 1
+  magSize: 5
+  projSprite: {fileID: 21300000, guid: afcd298875dfc4ecb979504ca1fe1582, type: 3}
+  weaponSprite: {fileID: 21300000, guid: eb9db6614057045d69059c629d30926f, type: 3}
   weaponFireSounds:
-  - {fileID: 8300000, guid: 7f4cc086c4677754a9e31ba81a7d811b, type: 3}
-  levelReq: 2
+  - {fileID: 8300000, guid: 5ac03ab446f488d429828f9d5d5e7880, type: 3}
+  levelReq: 0
   rotationSpeedPenalty: 0
   critChance: 0

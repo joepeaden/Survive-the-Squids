@@ -211,6 +211,7 @@ namespace MyGame
                 projectile.firedFromPlayer = true;
                 projectile.lifeSpan = 10f;
                 projectile.SetData(weaponData, null);
+                projectile.startLocation = transform.position;
 
                 if (weaponSprite != null)
                 {

@@ -9,6 +9,8 @@ namespace MyGame
 
     public class Enemy : MonoBehaviour
     {
+        static int DEFAULT_BLEED_DAMAGE = 20;
+
         public int maxPickups;
 
         public static int EnemiesAlive;
@@ -213,8 +215,8 @@ namespace MyGame
         {
             do
             {
-                remainingHitPoints -= lastWeaponThatHit.bleedDamage;
-                HandleDamge(lastWeaponThatHit.bleedDamage, isBleed: true);
+                remainingHitPoints -= DEFAULT_BLEED_DAMAGE;//lastWeaponThatHit.bleedDamage;
+                HandleDamge(DEFAULT_BLEED_DAMAGE, isBleed: true);
                 yield return new WaitForSeconds(1f);
                 bleedTimeRemaining -= 1f;
             } while (bleedTimeRemaining > 0f);
@@ -236,7 +238,6 @@ namespace MyGame
         {
             transform.parent.gameObject.SetActive(false);
             remainingHitPoints = data.hitPoints;
-
         }
 
         public void SetData(EnemyData newData)
@@ -244,6 +245,7 @@ namespace MyGame
             data = newData;
             spriteController.SetData(newData);
             Initialize();
+            spriteController.transform.position = transform.position;
         }
 
         private void PickTarget()
@@ -263,6 +265,58 @@ namespace MyGame
                     targetCharacter = player.ActiveCharacters[i];
                 }
             }
+        }
+
+        public void GetHit(CharacterInfo charInfo, Vector2 forceDirection)
+        {
+            lastWeaponThatHit = charInfo.weaponData;
+
+            int damageWithBuff = charInfo.weaponData.damage + Mathf.CeilToInt(charInfo.weaponData.damage * charInfo.DamageBuff);
+
+
+            bool isCrit = false;
+            // roll for crit, if so then 3x damage
+            float critRoll = Random.Range(0f, 1f);
+            if (critRoll < (charInfo.CritChance + charInfo.weaponData.critChance))
+            {
+                //damage *= 3;
+                isCrit = true;
+            }
+
+            // apply critical hit damage if it's a crit
+            int damage = isCrit ? damageWithBuff * 3 : damageWithBuff;
+
+            // if we have a crit weakness and it happens to be one, full damage goes through
+            if (isCrit && data.vulnToCrits)
+            {
+                // lol, I just thought it was easier to read this way
+                ;
+            }
+            // otherwise, reduce by the damage resistance
+            else
+            {
+                damage = Mathf.FloorToInt(damage * (1 - data.dmgResist));
+            }
+
+            remainingHitPoints -= damage;
+
+            float newStunTime = charInfo.weaponData.stunTime + charInfo.stunBuff;
+            // set stunTime, but only change it if the new value is greater than the old.
+            if (stunTime < newStunTime)
+            {
+                stunTime = newStunTime;
+            }
+
+            if (charInfo.weaponData.causesBleed || charInfo.BleedTime > 0)
+            {
+                bleedTimeRemaining += (charInfo.weaponData.bleedTime + charInfo.BleedTime);
+                StartCoroutine(HandleBleed());
+            }
+
+            // apply knockback
+            rb.AddForce(forceDirection.normalized * (charInfo.weaponData.knockBack + charInfo.knockbackBuff));
+
+            HandleDamge(damage, isCrit);
         }
 
         public void GetHit(WeaponData hitWeaponData, Vector2 forceDirection, bool isSlam, bool isStun, bool isCrit, float damageBuff)
@@ -309,37 +363,39 @@ namespace MyGame
 
         void HandleDamge(int damage, bool isCrit = false, bool isBleed = false)
         {
-            OnGetHit.Invoke();
-
             if (!isDead)
             {
+                OnGetHit.Invoke();
+
                 spriteController.HandleHit(isCrit);
-            }
+            
 
-            // should probably move all this into the TextFloatUp script or whatever. just pass in enum for damage type.
-            string floatText = "0";
-            Color textColor = Color.white;
-            if (isCrit)
-            {
-                ColorUtility.TryParseHtmlString("#ffffff", out textColor);
-                floatText = "CRIT!";
-            }
-            else if (isBleed)
-            {
-                ColorUtility.TryParseHtmlString("#ff0100", out textColor);
-                floatText = "BLEED!";
-            }
-            else
-            {
-                ColorUtility.TryParseHtmlString("#b4d8f7", out textColor);
-                floatText = damage.ToString();
-            }
+                // should probably move all this into the TextFloatUp script or whatever. just pass in enum for damage type.
+                string floatText = "0";
+                Color textColor = Color.white;
+                if (isCrit)
+                {
+                    ColorUtility.TryParseHtmlString("#ffffff", out textColor);
+                    floatText = "CRIT!";
+                }
+                else if (isBleed)
+                {
+                    ColorUtility.TryParseHtmlString("#ff0100", out textColor);
+                    floatText = "BLEED!";
+                }
+                else
+                {
+                    ColorUtility.TryParseHtmlString("#b4d8f7", out textColor);
+                    floatText = damage.ToString();
+                }
 
-            GameplayUI.Instance.AddTextFloatup(transform.position, floatText, textColor);
+                GameplayUI.Instance.AddTextFloatup(transform.position, floatText, textColor);
 
-            if (remainingHitPoints <= 0)
-            {
-                Die();
+                if (remainingHitPoints <= 0)
+                {
+                    Die();
+
+                }
             }
         }
 

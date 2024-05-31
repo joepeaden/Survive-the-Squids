@@ -90,7 +90,7 @@ namespace MyGame
                             // if we just waited for reload because no bullets left, then reload the weapon
                             if (ammoInWeapon <= 0 && attackTimer <= 0)
                             {
-                                ammoInWeapon = weaponData.magSize;
+                                ammoInWeapon = weaponData.magSize * (charInfo.IsChainFed ? 4 : 1);
                             }
 
                             // just in case - in Attack we're adding to the attack timer not setting it
@@ -132,7 +132,7 @@ namespace MyGame
                     // if we just waited for reload because no bullets left, then reload the weapon
                     if (ammoInWeapon <= 0 && attackTimer <= 0)
                     {
-                        ammoInWeapon = weaponData.magSize;
+                        ammoInWeapon = weaponData.magSize * (charInfo.IsChainFed ? 4 : 1);
                     }
 
                     if (currentTarget != null)// || weaponData.controlStyle == ControlStyle.moveDirection)
@@ -219,6 +219,7 @@ namespace MyGame
                 projectile.firedFromPlayer = true;
                 projectile.lifeSpan = 10f;
                 projectile.SetData(weaponData, charInfo);
+                projectile.startLocation = transform.position;
 
                 // only use one audio source for something like a shotgun w/ multiple proj per shot
                 if (i == 0)
@@ -234,55 +235,57 @@ namespace MyGame
                 // projectile doesn't account for it, it's only implemented for Raycast for now!
                 //projectile.penetration = charInfo.hasPenetratorRounds ? 1 : 0;
 
-                if (charInfo.hasPenetratorRounds)
-                {
-                    projectile.spriteRenderer.color = Color.red;
-                }
-                else if (charInfo.hasStunRounds)
-                {
-                    projectile.spriteRenderer.color = Color.blue;
-                }
-                else if (charInfo.hasSlamRounds)
-                {
-                    projectile.spriteRenderer.color = Color.green;
-                }
+                //if (charInfo.hasPenetratorRounds)
+                //{
+                //    projectile.spriteRenderer.color = Color.red;
+                //}
+                //else if (charInfo.hasStunRounds)
+                //{
+                //    projectile.spriteRenderer.color = Color.blue;
+                //}
+                //else if (charInfo.hasSlamRounds)
+                //{
+                //    projectile.spriteRenderer.color = Color.green;
+                //}
 
 
                 if (!weaponData.useProjPhys)
                 {
-                    int enemiesHit = 0;
-                    RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, projectile.transform.up, 100f, ~LayerMask.GetMask("Projectiles", "Boundary", "Characters"));
-                    foreach (RaycastHit2D hit in hits)
-                    {
-                        if (hit && hit.transform.GetComponent<Enemy>() != null)
-                        {
-                            Enemy enemy = hit.transform.GetComponent<Enemy>();
+                    //int enemiesHit = 0;
+                    //RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, projectile.transform.up, 100f, ~LayerMask.GetMask("Projectiles", "Boundary", "Characters"));
+                    //foreach (RaycastHit2D hit in hits)
+                    //{
+                    //    if (hit && hit.transform.GetComponent<Enemy>() != null)
+                    //    {
+                    //        Enemy enemy = hit.transform.GetComponent<Enemy>();
 
-                            bool isCrit = false;
-                            // roll for crit, if so then 3x damage
-                            float critRoll = Random.Range(0f, 1f);
-                            if (critRoll < (charInfo.CritChance + weaponData.critChance))
-                            {
-                                //damage *= 3;
-                                isCrit = true;
-                            }
+                    //        bool isCrit = false;
+                    //        // roll for crit, if so then 3x damage
+                    //        float critRoll = Random.Range(0f, 1f);
+                    //        if (critRoll < (charInfo.CritChance + weaponData.critChance))
+                    //        {
+                    //            //damage *= 3;
+                    //            isCrit = true;
+                    //        }
 
-                            enemy.GetHit(weaponData, (enemy.transform.position - transform.position).normalized, charInfo.hasSlamRounds, charInfo.hasStunRounds, isCrit, charInfo.DamageBuff);
-                            enemiesHit++;
+                    //        enemy.GetHit(charInfo, (enemy.transform.position - transform.position).normalized);//, charInfo.hasSlamRounds, charInfo.hasStunRounds, isCrit, charInfo.DamageBuff);
+                    //        enemiesHit++;
 
-                            if (enemy.isDead)
-                            {
-                                charInfo.TallyKill(enemy.data);
-                            }
+                    //        if (enemy.isDead)
+                    //        {
+                    //            charInfo.TallyKill(enemy.data);
+                    //        }
+
+                            // for now not using hitscan so just skip the penetration implementation
 
                             // If penetrator rounds then can hit multiple targets. Otherwise exit here.
-                            if (!charInfo.hasPenetratorRounds || enemiesHit > 1)
-                            {
-                                projectile.lifeSpan = Mathf.Abs((transform.position - hit.transform.position).magnitude) / projectile.projectileVelocity;
-                                break;
-                            }
-                        }
-                    }
+                            //if (!charInfo.penetrationBuff  || enemiesHit > 1)
+                            //{
+                            //    projectile.lifeSpan = Mathf.Abs((transform.position - hit.transform.position).magnitude) / projectile.projectileVelocity;
+                            //    break;
+                            //}
+                    //    }
+                    //}
                 }
 
                 angle += (weaponData.projSpreadAngle + charInfo.ProjSpreadMod) / (weaponData.projPerShot + CharInfo.ProjNumBuff);
@@ -291,6 +294,7 @@ namespace MyGame
             weaponSpriteScript.PlayFireAnim();
 
             ammoInWeapon--;
+
             // if still ammo, wait standard time between shots; if no ammo, then wait for reload
             if (ammoInWeapon > 0)
             {
@@ -298,7 +302,8 @@ namespace MyGame
             }
             else
             {
-                attackTimer += weaponData.reloadTime - (weaponData.reloadTime * charInfo.ReloadTimeReduction);
+                float weaponReloadTime = weaponData.reloadTime * (charInfo.IsChainFed ? 2 : 1);
+                attackTimer += weaponReloadTime - (weaponReloadTime * charInfo.ReloadTimeReduction);
             }
             
         }

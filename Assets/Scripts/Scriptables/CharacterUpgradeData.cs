@@ -19,6 +19,11 @@ namespace MyGame
         FireRate,
         ReloadSpeed,
         Range,
-        ShotgunRounds
+        ShotgunRounds,
+        Penetration,
+        Knockback,
+        Stun,
+        Bleed,
+        ChainFed
     }
 }

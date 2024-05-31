@@ -65,6 +65,12 @@ namespace MyGame
             }
         }
 
+        public bool IsChainFed => isChainFed;
+        bool isChainFed;
+
+        float bleedTime;
+        public float BleedTime => bleedTime;
+
         float projNumBuff;
         public float ProjNumBuff => projNumBuff;
 
@@ -107,9 +113,9 @@ namespace MyGame
         }
         private int baseHitPoints;
 
-        public bool hasPenetratorRounds;
-        public bool hasStunRounds;
-        public bool hasSlamRounds;
+        public int penetrationBuff;
+        public float stunBuff;
+        public float knockbackBuff;
 
         public int HpStat;
         public int StrStat;
@@ -278,6 +284,21 @@ namespace MyGame
                     projNumBuff += upgrade.value;
                     projSpreadMod = 15;
                     break;
+                case CharacterUpgrade.Penetration:
+                    penetrationBuff += (int)upgrade.value;
+                    break;
+                case CharacterUpgrade.Knockback:
+                    knockbackBuff += upgrade.value;
+                    break;
+                case CharacterUpgrade.Stun:
+                    stunBuff += upgrade.value;
+                    break;
+                case CharacterUpgrade.ChainFed:
+                    isChainFed = true;
+                    break;
+                case CharacterUpgrade.Bleed:
+                    bleedTime += upgrade.value;
+                    break;
             }
 
             upgrades.Add(upgrade.upgradeType);
@@ -313,21 +334,21 @@ namespace MyGame
 
         // HITCHYAHITCHYAHITCHYA WITDA HARDPUNK TACTIX! KYUH!
 
-        public void AddWeaponUpgrade(WeaponUpgradeData weaponUpgrade)
-        {
-            if (weaponUpgrade.id == "penetrator")
-            {
-                hasPenetratorRounds = true;
-            }
-            else if (weaponUpgrade.id == "stun")
-            {
-                hasStunRounds = true;
-            }
-            else if (weaponUpgrade.id == "slam")
-            {
-                hasSlamRounds = true;
-            }
-        }
+        //public void AddWeaponUpgrade(WeaponUpgradeData weaponUpgrade)
+        //{
+        //    if (weaponUpgrade.id == "penetrator")
+        //    {
+        //        hasPenetratorRounds = true;
+        //    }
+        //    else if (weaponUpgrade.id == "stun")
+        //    {
+        //        hasStunRounds = true;
+        //    }
+        //    else if (weaponUpgrade.id == "slam")
+        //    {
+        //        hasSlamRounds = true;
+        //    }
+        //}
 
         private void AssignRandomName()
         {

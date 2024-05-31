@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62a3b6825c12a415cb81c887e9a0450f, type: 3}
   m_Name: ReloadSpeedUpgradeItem
   m_EditorClassIdentifier: 
-  itemName: ReloadSpeed
+  itemName: Reload Speed
   image: {fileID: 21300000, guid: 5973ba1f188df47bf8795333f2f11722, type: 3}
   cost: 0
   details:

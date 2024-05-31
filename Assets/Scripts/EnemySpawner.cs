@@ -139,8 +139,8 @@ namespace MyGame
         public static void SpawnEnemyAtPosition(Vector3 position, EnemyData enemyType)
         {
             GameObject enemyGO = ObjectPool.instance.GetEnemy();
-            enemyGO.GetComponentInChildren<Enemy>().SetData(enemyType);
             enemyGO.transform.GetChild(0).position = position;
+            enemyGO.GetComponentInChildren<Enemy>().SetData(enemyType);
             enemyGO.SetActive(true);
         }
 

@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98dd9ed0205ba49f78abf33eb5741c18, type: 3}
-  m_Name: SlamRounds
+  m_Script: {fileID: 11500000, guid: c09cd43a8093241ca828a4b1424bf960, type: 3}
+  m_Name: KnockbackBuff
   m_EditorClassIdentifier: 
-  id: slam
-  levelEffects:
-  - 1
-  - 2
-  - 3
-  associatedWeapon: {fileID: 11400000, guid: bf5321317bf30420ab796e8514e13778, type: 2}
+  upgradeType: 6
+  value: 20
+  isLimited: 0

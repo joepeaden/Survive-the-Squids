@@ -10,15 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62a3b6825c12a415cb81c887e9a0450f, type: 3}
-  m_Name: RecruitItem
+  m_Name: PenUpgradeItem
   m_EditorClassIdentifier: 
-  itemName: Recruit
-  image: {fileID: 21300000, guid: 46b478973393d430d9d8cedfd8e82b3b, type: 3}
+  itemName: Increased Penetration
+  image: {fileID: 21300000, guid: 5973ba1f188df47bf8795333f2f11722, type: 3}
   cost: 0
   details:
-  - Recruit a new soldier
-  upgradeType: 3
-  associatedData: {fileID: 11400000, guid: f95687866e2b34f46a6ed60b6bc1277f, type: 2}
+  - Increase this weapon's penetration
+  upgradeType: 5
+  associatedData: {fileID: 11400000, guid: d5a75ad330d2b4aa087b2a57cbc6ee6f, type: 2}
   associatedPrefab: {fileID: 0}
-  imageSizeX: 600
-  imageSizeY: 600
+  imageSizeX: 200
+  imageSizeY: 200
+  isTextImage: 0
+  textImageText: 

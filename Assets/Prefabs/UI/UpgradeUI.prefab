@@ -113,6 +113,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 510f5281a68dd4a158ccd708037f9fc9, type: 2}
   - {fileID: 11400000, guid: 188bca40a8b7c4d34ace5a5a659b795d, type: 2}
   - {fileID: 11400000, guid: 56311824f364040b597a1c1e93fdb3cd, type: 2}
+  - {fileID: 11400000, guid: 5c9fe3ea6f23c47a08583135fe99d556, type: 2}
+  - {fileID: 11400000, guid: ee4ca84cb1e4646f6948275a2410aedc, type: 2}
+  - {fileID: 11400000, guid: 38350fc2126c342d4a5c77a112bb4403, type: 2}
+  - {fileID: 11400000, guid: 1f4eabfd0d87945d2869616689e03723, type: 2}
   characterStartItems:
   - {fileID: 11400000, guid: 2d0e09d1cb0254873af8548dda8a4a4e, type: 2}
   - {fileID: 11400000, guid: 42068d51b8338454da2a466f48cb622f, type: 2}
@@ -120,8 +124,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ebf45b3a5f00d44a682cdef212b22085, type: 2}
   - {fileID: 11400000, guid: 066605e0868b74bae8c4911cc9e7c306, type: 2}
   - {fileID: 11400000, guid: a2e63bd35da784ad0bdccaba846649c7, type: 2}
-  - {fileID: 11400000, guid: ae9683d80662f4ee49ff53233fe933c9, type: 2}
-  - {fileID: 11400000, guid: 71148ed0b70bb4decbe87616f0e43bc3, type: 2}
   charLvlUpPanel: {fileID: 0}
   itemMouseFollowPlaceholder: {fileID: 2534982217664519896}
   blackoutPanel: {fileID: 0}

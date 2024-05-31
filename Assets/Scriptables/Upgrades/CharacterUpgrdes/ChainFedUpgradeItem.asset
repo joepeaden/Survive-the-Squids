@@ -10,16 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62a3b6825c12a415cb81c887e9a0450f, type: 3}
-  m_Name: SlamRoundsItem
+  m_Name: ChainFedUpgradeItem
   m_EditorClassIdentifier: 
-  itemName: Slam Rounds
-  image: {fileID: 21300000, guid: 5d067c9ec6ed54f6488041068c67d699, type: 3}
+  itemName: Chain Ammo Feed
+  image: {fileID: 21300000, guid: 5973ba1f188df47bf8795333f2f11722, type: 3}
   cost: 0
   details:
-  - Rounds push enemies back further
-  - Rifle Only
-  upgradeType: 6
-  associatedData: {fileID: 11400000, guid: 5a8b055b91de94e51bc4c7ea73536632, type: 2}
+  - Greatly increased magazine size
+  - Moderaly increased reload time
+  upgradeType: 5
+  associatedData: {fileID: 11400000, guid: 5a1fb92f55f7e44bab02b022a8b0fea3, type: 2}
   associatedPrefab: {fileID: 0}
-  imageSizeX: 600
-  imageSizeY: 600
+  imageSizeX: 200
+  imageSizeY: 200
+  isTextImage: 0
+  textImageText: 

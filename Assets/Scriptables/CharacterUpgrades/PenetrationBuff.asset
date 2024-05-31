@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98dd9ed0205ba49f78abf33eb5741c18, type: 3}
-  m_Name: StunRounds
+  m_Script: {fileID: 11500000, guid: c09cd43a8093241ca828a4b1424bf960, type: 3}
+  m_Name: PenetrationBuff
   m_EditorClassIdentifier: 
-  id: stun
-  levelEffects:
-  - 1
-  - 2
-  - 3
-  associatedWeapon: {fileID: 11400000, guid: bf5321317bf30420ab796e8514e13778, type: 2}
+  upgradeType: 5
+  value: 1
+  isLimited: 0

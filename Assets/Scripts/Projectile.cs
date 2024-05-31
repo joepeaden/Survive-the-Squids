@@ -46,6 +46,15 @@ namespace MyGame
 
         void FixedUpdate()
         {
+            if (_charInfo != null)
+            {
+                float distTravelled = (transform.position - startLocation).magnitude;
+                if (distTravelled > (_charInfo.weaponData.range + _charInfo.RangeBuff))
+                {
+                    gameObject.SetActive(false);
+                }
+            }
+
             if (!_data.useProjPhys && (Time.time - spawnTime) > lifeSpan)
             {
                 gameObject.SetActive(false);
@@ -54,9 +63,9 @@ namespace MyGame
             rb.velocity = _data.projectileVelocity * transform.up;
         }
 
+        public Vector3 startLocation;
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            // doesn't account for penetrator rounds - just keep it in mind.
 
             if (_data.useProjPhys)
             {
@@ -66,18 +75,9 @@ namespace MyGame
                 }
                 else if (collision.tag == "Enemy" && firedFromPlayer)
                 {
-                    bool isCrit = false;
-                    // roll for crit, if so then 3x damage
-                    float critRoll = Random.Range(0f, 1f);
-                    if (critRoll < (_charInfo.CritChance + _data.critChance))
-                    {
-                        //damage *= 3;
-                        isCrit = true;
-                    }
-
                     Enemy enemy = collision.GetComponent<Enemy>();
 
-                    enemy.GetHit(_data, (enemy.transform.position - transform.position).normalized, _charInfo.hasSlamRounds, _charInfo.hasStunRounds, isCrit, _charInfo.DamageBuff); ;
+                    enemy.GetHit(_charInfo, (enemy.transform.position - transform.position).normalized); ;
 
                     if (enemy.isDead)
                     {
@@ -91,6 +91,10 @@ namespace MyGame
                         gameObject.SetActive(false);
                     }
                 }
+                else if (collision.tag == "Boundary")
+                {
+                    gameObject.SetActive(false);
+                }
             }
         }
 
@@ -98,6 +102,11 @@ namespace MyGame
         {
             _data = data;
             _charInfo = charInfo;
+
+            if (charInfo != null)
+            {
+                penetration = _charInfo.penetrationBuff;
+            }
 
             spriteRenderer.sprite = data.projSprite;
 
