@@ -311,7 +311,10 @@ namespace MyGame
         {
             OnGetHit.Invoke();
 
-            spriteController.HandleHit(isCrit);
+            if (!isDead)
+            {
+                spriteController.HandleHit(isCrit);
+            }
 
             // should probably move all this into the TextFloatUp script or whatever. just pass in enum for damage type.
             string floatText = "0";

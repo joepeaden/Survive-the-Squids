@@ -36,7 +36,6 @@ namespace MyGame
         public List<Enemy> enemies = new List<Enemy>();
 
         [Header("UI")]
-        public GameObject startUI;
         public Button startButton;
         public GameObject shopUI;
         public GameObject pauseMenu;
@@ -146,7 +145,6 @@ namespace MyGame
             finalScoreText.text = "Final Score: " + playerScore;
             gameOverScreen.SetActive(true);
 
-            //startUI.SetActive(true);
             //inMenu = true;
             //Time.timeScale = 0;
         }
@@ -181,7 +179,6 @@ namespace MyGame
         {
             OnGameStart.Invoke();
             gameOverScreen.SetActive(false);
-            startUI.SetActive(false);
             gameplayUI.SetActive(true);
             enemiesKilled = 0;
             inMenu = false;

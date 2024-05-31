@@ -83,6 +83,13 @@ namespace MyGame
                     {
                         _charInfo.TallyKill(enemy.data);
                     }
+
+                    penetration--;
+
+                    if (penetration < 0)
+                    {
+                        gameObject.SetActive(false);
+                    }
                 }
             }
         }

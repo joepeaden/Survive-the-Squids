@@ -68,6 +68,9 @@ namespace MyGame
         float projNumBuff;
         public float ProjNumBuff => projNumBuff;
 
+        float projSpreadMod;
+        public float ProjSpreadMod => projSpreadMod;
+
         float rangeBuff;
         public float RangeBuff => rangeBuff;
 
@@ -116,6 +119,8 @@ namespace MyGame
         public int pendingLevelUps;
 
         public CharacterBody currentBody;
+
+        public HashSet<CharacterUpgrade> upgrades = new();
 
         
         public CharacterInfo(CharacterStatsData newStatsData)
@@ -271,8 +276,11 @@ namespace MyGame
                     break;
                 case CharacterUpgrade.ShotgunRounds:
                     projNumBuff += upgrade.value;
+                    projSpreadMod = 15;
                     break;
             }
+
+            upgrades.Add(upgrade.upgradeType);
         }
 
         /// <summary>

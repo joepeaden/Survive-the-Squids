@@ -204,7 +204,7 @@ namespace MyGame
 
         private void Attack()
         {
-            float angle = -weaponData.projSpreadAngle / 2;
+            float angle = -(weaponData.projSpreadAngle+charInfo.ProjSpreadMod) / 2;
             
             for (int i = 0; i < (weaponData.projPerShot + CharInfo.ProjNumBuff); i++)
             {
@@ -285,7 +285,7 @@ namespace MyGame
                     }
                 }
 
-                angle += weaponData.projSpreadAngle / weaponData.projPerShot;
+                angle += (weaponData.projSpreadAngle + charInfo.ProjSpreadMod) / (weaponData.projPerShot + CharInfo.ProjNumBuff);
             }
 
             weaponSpriteScript.PlayFireAnim();

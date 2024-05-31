@@ -16,8 +16,8 @@ MonoBehaviour:
   attackInterval: 0.2
   damage: 30
   range: 6.5
-  useProjPhys: 0
-  projectileVelocity: 400
+  useProjPhys: 1
+  projectileVelocity: 50
   projSpreadAngle: 0
   projPerShot: 1
   stunTime: 0.5
@@ -27,7 +27,7 @@ MonoBehaviour:
   bleedTime: 0
   reloadTime: 1.5
   magSize: 10
-  projSprite: {fileID: 21300000, guid: f94d820aea89a4e2db0884911af4a295, type: 3}
+  projSprite: {fileID: 21300000, guid: afcd298875dfc4ecb979504ca1fe1582, type: 3}
   weaponSprite: {fileID: 21300000, guid: 46cedee285f514773aecf929634b9919, type: 3}
   weaponFireSounds:
   - {fileID: 8300000, guid: 8ff65121ad4bc42e9bf32f75bf8f6628, type: 3}

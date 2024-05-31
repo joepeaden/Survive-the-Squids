@@ -37,7 +37,7 @@ namespace MyGame
             purchaseButton.onClick.AddListener(AttemptPurchaseItem);//ShopScreen.Instance.SetCurrentUpgradeItem(TheUpgradeItem));
         }
 
-        public void SetItem(UpgradeItemData theItem)
+        public bool SetItem(UpgradeItemData theItem)
         {
             for (int i = 0; i < detailParent.childCount; i++)
             {
@@ -53,6 +53,14 @@ namespace MyGame
             if (theItem.upgradeType == UpgradeType.characterUpgrade)
             {
                 CharacterInfo randomCharacter = Player.instance.ActiveCharacters[Random.Range(0, Player.instance.ActiveCharacters.Count)].CharInfo;
+                CharacterUpgradeData charUpgrade = (CharacterUpgradeData)theItem.associatedData;
+
+                // don't let the player pick the same upgrade twice
+                if (charUpgrade.isLimited && randomCharacter.upgrades.Contains(charUpgrade.upgradeType))
+                {
+                    return false;
+                }
+
                 affectedCharacter = randomCharacter;
 
                 title.text = affectedCharacter.charName + ": " + TheUpgradeItem.itemName + " Upgrade";
@@ -90,6 +98,8 @@ namespace MyGame
             }
 
             RefreshPuchaseButton();
+
+            return true;
         }
 
         public void RefreshPuchaseButton ()

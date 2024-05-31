@@ -137,8 +137,16 @@ namespace MyGame
             for (int i = 0; i < itemPanels.Count; i++)
             {
                 int randomIndex = Random.Range(0, items.Count);
-                itemPanels[i].SetItem(items[randomIndex]);
-                itemPanels[i].gameObject.SetActive(true);
+                bool validUpgrade = itemPanels[i].SetItem(items[randomIndex]);
+                if (validUpgrade)
+                {
+                    itemPanels[i].gameObject.SetActive(true);
+                }
+                else
+                {
+                    // if it's not a valid upgrade try setting the upgrade again
+                    i--;
+                }
             }
 
             UpdateCharPanels();

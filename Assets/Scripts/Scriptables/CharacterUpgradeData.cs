@@ -10,6 +10,7 @@ namespace MyGame
     {
         public CharacterUpgrade upgradeType;
         public float value;
+        public bool isLimited;
     }
 
     public enum CharacterUpgrade
