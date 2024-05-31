@@ -27,6 +27,11 @@ namespace MyGame
 
         [SerializeField] AudioSource characterAudioSource;
 
+        [SerializeField] GameObject textImageObject;
+        [SerializeField] TMP_Text textImageText;
+
+        CharacterInfo affectedCharacter;
+
         void Start()
         {
             purchaseButton.onClick.AddListener(AttemptPurchaseItem);//ShopScreen.Instance.SetCurrentUpgradeItem(TheUpgradeItem));
@@ -45,8 +50,33 @@ namespace MyGame
 
             TheUpgradeItem = theItem;
 
-            title.text = TheUpgradeItem.itemName;
-            image.sprite = TheUpgradeItem.image;
+            if (theItem.upgradeType == UpgradeType.characterUpgrade)
+            {
+                CharacterInfo randomCharacter = Player.instance.ActiveCharacters[Random.Range(0, Player.instance.ActiveCharacters.Count)].CharInfo;
+                affectedCharacter = randomCharacter;
+
+                title.text = affectedCharacter.charName + ": " + TheUpgradeItem.itemName + " Upgrade";
+            }
+            else
+            {
+                title.text = TheUpgradeItem.itemName;
+
+            }
+
+            // textImages are stuff like the +speed, etc. Icons.
+            if (TheUpgradeItem.isTextImage)
+            {
+                textImageObject.SetActive(true);
+                image.gameObject.SetActive(false);
+                textImageText.text = TheUpgradeItem.textImageText;
+            }
+            else
+            {
+                image.gameObject.SetActive(true);
+                textImageObject.SetActive(false);
+                image.sprite = TheUpgradeItem.image;
+            }
+
             image.rectTransform.sizeDelta = new Vector2(TheUpgradeItem.imageSizeX, TheUpgradeItem.imageSizeY);
             //cost.text = TheUpgradeItem.cost + " samples";
 
@@ -70,21 +100,21 @@ namespace MyGame
 
         void AttemptPurchaseItem()
         {
-            if (TheUpgradeItem.upgradeType == UpgradeType.weapon)// && Player.instance.ActiveCharacters.Count >= Player.MAX_CHARACTERS)
-            {
-                // get yo drag on gurl
-                EnableDrag();
-            }
-            else
-            {
+            //if (TheUpgradeItem.upgradeType == UpgradeType.weapon)// && Player.instance.ActiveCharacters.Count >= Player.MAX_CHARACTERS)
+            //{
+            //    // get yo drag on gurl
+            //    EnableDrag();
+            //}
+            //else
+            //{
                 PurchaseItem();
-            }
+            //}
         }
 
-        void EnableDrag()
-        {
-            UpgradeScreen.Instance.SetCurrentUpgradeItem(TheUpgradeItem);
-        }
+        //void EnableDrag()
+        //{
+        //    UpgradeScreen.Instance.SetCurrentUpgradeItem(TheUpgradeItem);
+        //}
 
         void PurchaseItem()
         {
@@ -97,8 +127,8 @@ namespace MyGame
                     case UpgradeType.weapon:
                         //thisCharInfo.SetWeapon((WeaponData)TheUpgradeItem.associatedData, true);
                         //weaponImage.sprite = theUpgradeItem.image;
-                        //CharacterBody c = Player.instance.AddCharacter();
-                        //c.CharInfo.SetWeapon((WeaponData)TheUpgradeItem.associatedData, true);
+                        CharacterBody c = Player.instance.AddCharacter();
+                        c.CharInfo.SetWeapon((WeaponData)TheUpgradeItem.associatedData, true);
 
                         ////Player.instance.UpdateSamples(-TheUpgradeItem.cost);
                         ////ShopScreen.Instance.SetCurrentUpgradeItem(null);
@@ -118,6 +148,18 @@ namespace MyGame
                         //Player.instance.UpdateSamples(-theItem.cost);
                         //ShopScreen.Instance.SetCurrentUpgradeItem(null);
                         break;
+
+
+                    case UpgradeType.companyBuff:
+                        Player.instance.AddCompanyBuff((CompanyBuffData) TheUpgradeItem.associatedData);
+                        break;
+
+                    case UpgradeType.characterUpgrade:
+                        CharacterUpgradeData upData = ((CharacterUpgradeData)TheUpgradeItem.associatedData);
+                        affectedCharacter.AddCharacterUpgrade(upData);
+                        //AddCompanyBuff((CompanyBuffData)TheUpgradeItem.associatedData);
+                        break;
+
                     case UpgradeType.supportWeapon:
                         if (TheUpgradeItem.associatedPrefab == null)
                         {

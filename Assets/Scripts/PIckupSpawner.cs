@@ -72,14 +72,14 @@ namespace MyGame
                     return survivorSpawnTime2;
                 case 3:
                     return survivorSpawnTime3;
-                case 4:
-                    return survivorSpawnTime4;
-                case 5:
-                    return survivorSpawnTime5;
-                case 6:
-                    return survivorSpawnTime6;
-                case 7:
-                    return survivorSpawnTime7;
+                //case 4:
+                //    return survivorSpawnTime4;
+                //case 5:
+                //    return survivorSpawnTime5;
+                //case 6:
+                //    return survivorSpawnTime6;
+                //case 7:
+                //    return survivorSpawnTime7;
                 default:
                     return float.MaxValue;
             }

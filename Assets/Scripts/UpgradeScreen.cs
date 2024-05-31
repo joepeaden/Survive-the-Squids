@@ -28,8 +28,7 @@ namespace MyGame
         public UpgradeItemData stunUpgrade;
         
         public List<UpgradeItemData> shopItems = new List<UpgradeItemData>();
-        public List<UpgradeItemData> experimentalItems = new List<UpgradeItemData>();
-        public List<UpgradeItemData> drones = new List<UpgradeItemData>();
+        public List<UpgradeItemData> characterStartItems = new List<UpgradeItemData>();
 
         public UpgradeItemData CurrentUpgradeItem => currentUpgradeItem;
         UpgradeItemData currentUpgradeItem;
@@ -111,20 +110,21 @@ namespace MyGame
         //    }
         //}
 
-        void SetupShopScreen()
+        public void SetupShopScreen(bool pickingUpCharacter)
         {
             List<UpgradeItemData> items = new List<UpgradeItemData>();
 
             List<UpgradeItemData> itemsToInclude = new List<UpgradeItemData>();
-            itemsToInclude.AddRange(shopItems);
-            //if (PlayerProgression.Instance.HasUnlockedExperimentals)
-            //{
-                itemsToInclude.AddRange(experimentalItems);
-            //}
-            //if (PlayerProgression.Instance.HasUnlockedDrones)
-            //{
-                itemsToInclude.AddRange(drones);
-            //}
+            if (pickingUpCharacter)
+            {
+                itemsToInclude.AddRange(characterStartItems);
+                charParent.gameObject.SetActive(false);
+            }
+            else
+            {
+                itemsToInclude.AddRange(shopItems);
+                charParent.gameObject.SetActive(true);
+            }
 
             items.AddRange(itemsToInclude);
             //if (playerHasRifle)
@@ -162,7 +162,6 @@ namespace MyGame
                 player = Player.instance;
             }
             //CycleLevelUpChar();
-            SetupShopScreen();
             audioSource.Play();
 
 

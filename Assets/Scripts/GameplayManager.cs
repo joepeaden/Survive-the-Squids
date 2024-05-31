@@ -104,6 +104,12 @@ namespace MyGame
             marker.GetComponent<ObjectiveMarker>().SetData(t, "Survivor");
         }
 
+        public void ShowAddCharacterScreen()
+        {
+            shopUI.SetActive(true);
+            shopUI.GetComponent<UpgradeScreen>().SetupShopScreen(true);
+        }
+
         int playerScore;
         public void AddPlayerScore(int toAdd)
         {
@@ -150,12 +156,12 @@ namespace MyGame
             SceneManager.LoadScene("Menu");
         }
 
-        public void RoundEnd()
-        {
-            gameplayUI.SetActive(false);
-            shopUI.SetActive(true);
-            inMenu = true;
-        }
+        //public void RoundEnd()
+        //{
+        //    gameplayUI.SetActive(false);
+        //    shopUI.SetActive(true);
+        //    inMenu = true;
+        //}
 
 
 
@@ -222,6 +228,7 @@ namespace MyGame
                         samplesToLevelUp = 10 * playerLevel;
                         Time.timeScale = 0;
                         shopUI.SetActive(true);
+                        shopUI.GetComponent<UpgradeScreen>().SetupShopScreen(false);
                         gameplayUI.SetActive(false);
                     }
                 }

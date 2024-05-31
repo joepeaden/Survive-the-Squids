@@ -210,7 +210,7 @@ namespace MyGame
                 Projectile projectile = projectileGO.GetComponent<Projectile>();
                 projectile.firedFromPlayer = true;
                 projectile.lifeSpan = 10f;
-                projectile.SetData(weaponData);
+                projectile.SetData(weaponData, null);
 
                 if (weaponSprite != null)
                 {
@@ -246,7 +246,7 @@ namespace MyGame
                             //    damage *= 3;
                             //}
 
-                            enemy.GetHit(weaponData, (enemy.transform.position - transform.position).normalized, false, false, false);
+                            enemy.GetHit(weaponData, (enemy.transform.position - transform.position).normalized, false, false, false, 0);
                             enemiesHit++;
 
                             //if (enemy.isDead)

@@ -6,7 +6,7 @@ namespace MyGame
 {
     public class Player : MonoBehaviour
     {
-        public const int MAX_CHARACTERS = 8;
+        public const int MAX_CHARACTERS = 4;
 
         public static Player instance;
         public float moveForce;
@@ -42,7 +42,7 @@ namespace MyGame
         public Vector2 MoveDirection => moveDirection;
         Vector2 moveDirection;
 
-        public Transform hitCircle;
+        //public Transform hitCircle;
 
         public List<Vector2> positions2Chars = new List<Vector2>();
         public List<Vector2> positions3Chars = new List<Vector2>();
@@ -56,6 +56,12 @@ namespace MyGame
 
         public int BaseHitPoints = 10;
         public int HitPoints = 10;
+
+        float speedBuff = 0;
+        float xpBuff = 0;
+        public float originalPickupRadius;
+
+        [SerializeField] CircleCollider2D pickupCol;
 
         private void Awake()
         {
@@ -103,6 +109,22 @@ namespace MyGame
             }
         }
 
+        public void AddCompanyBuff(CompanyBuffData data)
+        {
+            switch (data.buffType)
+            {
+                case CompanyBuffTypes.Speed:
+                    speedBuff += data.value;
+                    break;
+                case CompanyBuffTypes.PickupRadius:
+                    pickupCol.radius += pickupCol.radius * data.value;
+                    break;
+                case CompanyBuffTypes.XPBoost:
+                    xpBuff += data.value;
+                    break;
+            }
+        }
+
         //public void GetHit(int damage)
         //{
             //HitPoints--;
@@ -134,9 +156,10 @@ namespace MyGame
 
         public void UpdateSamples(int num)
         {
-            playerSamples += num;
-            gameplayManager.UpdateSamples(playerSamples, newSamples: num);
-            gameplayManager.AddPlayerScore(5 * num);
+            int multipliedNum = (int)Mathf.Ceil(num + (num * xpBuff));
+            playerSamples += multipliedNum;
+            gameplayManager.UpdateSamples(playerSamples, newSamples: multipliedNum);
+            gameplayManager.AddPlayerScore(5 * multipliedNum);
         }
 
         public void RescueSurvivor()
@@ -230,27 +253,25 @@ namespace MyGame
             SetPositions();
         }
 
-        public CharacterBody AddCharacter(int repIndex = -1)
+        public CharacterBody AddCharacter()//int repIndex = -1)
         {
             CharacterInfo charInfo = new CharacterInfo(statsData);
+            //if (repIndex != -1)
+            //{
+            //    CharacterBody charBody = characterBodies[repIndex]; 
+            //    charBody.SetCharacter(charInfo);
+            //    charBody.SetBodyActive(true);
+            //    ActiveCharacters.Insert(repIndex, charBody);
+            //    //activeCharactersIndex.Add(charInfo.ID, repIndex);
 
+            //    // gonna change this
 
-            if (repIndex != -1)
-            {
-                CharacterBody charBody = characterBodies[repIndex]; 
-                charBody.SetCharacter(charInfo);
-                charBody.SetBodyActive(true);
-                ActiveCharacters.Insert(repIndex, charBody);
-                //activeCharactersIndex.Add(charInfo.ID, repIndex);
+            //    SetPositions();
 
-                // gonna change this
-
-                SetPositions();
-
-                return charBody;
-            }
-            else
-            {
+            //    return charBody;
+            //}
+            //else
+            //{
                 int index = 0;
                 foreach (CharacterBody charBody in characterBodies)
                 {
@@ -275,12 +296,13 @@ namespace MyGame
 
                         //RegeneratePositions();
 
+
                         return charBody;
                     }
 
                     index++;
                 }
-            }
+            //}
 
             Debug.LogWarning("No characters left to add!");
 
@@ -294,26 +316,26 @@ namespace MyGame
             {
                 case 2:
                     characterPositions = positions2Chars;
-                    hitCircle.transform.localScale = new Vector3(1.2f, 1.2f);
+                    //hitCircle.transform.localScale = new Vector3(1.2f, 1.2f);
                     break;
                 case 3:
                     characterPositions = positions3Chars;
-                    hitCircle.transform.localScale = new Vector3(1.5f, 1.5f);
+                    //hitCircle.transform.localScale = new Vector3(1.5f, 1.5f);
                     break;
                 case 4:
                     characterPositions = positions4Chars;
-                    hitCircle.transform.localScale = new Vector3(1.8f, 1.8f);
+                    //hitCircle.transform.localScale = new Vector3(1.8f, 1.8f);
                     break;
                 case 5:
                     characterPositions = positions5Chars;
-                    hitCircle.transform.localScale = new Vector3(2f, 2f);
+                    //hitCircle.transform.localScale = new Vector3(2f, 2f);
                     break;
                 case 6:
                     characterPositions = positions6Chars;
                     break;
                 case 7:
                     characterPositions = positions7Chars;
-                    hitCircle.transform.localScale = new Vector3(2.2f, 2.2f);
+                    //hitCircle.transform.localScale = new Vector3(2.2f, 2.2f);
                     break;
                 case 8:
                     characterPositions = positions8Chars;
@@ -438,11 +460,15 @@ namespace MyGame
             playerSamples = 0;
 
             transform.position = Vector2.zero;
-            hitCircle.transform.localScale = new Vector3(1f, 1f);
+            //hitCircle.transform.localScale = new Vector3(1f, 1f);
 
             HitPoints = BaseHitPoints;
             PlayerBar.Instance.InitializeHP();
             PlayerBar.Instance.HandleXP(0, GameplayManager.Instance.BaseSamplesToLevel);
+
+            speedBuff = 0;
+            pickupCol.radius = originalPickupRadius;
+            xpBuff = 0;
         }
 
         private void UpdateMovement()
@@ -470,7 +496,7 @@ namespace MyGame
 
             //rb.AddForce(newMoveDirection * moveForce);
 
-            rb.velocity = newMoveDirection * moveForce;
+            rb.velocity = newMoveDirection * (moveForce + (moveForce * speedBuff));
 
             if (newMoveDirection != Vector2.zero)
             {

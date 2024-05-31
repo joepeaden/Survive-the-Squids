@@ -32,6 +32,8 @@ namespace MyGame
 
         public int penetration = 0;
 
+        private CharacterInfo _charInfo;
+
         private void Start()
         {
             rb = GetComponent<Rigidbody2D>();
@@ -58,20 +60,37 @@ namespace MyGame
 
             if (_data.useProjPhys)
             {
-                //if (collision.tag == "Player" && !firedFromPlayer)
-                //{
-                //    Debug.Log("Hit a Player character");
-                //}
-                //else if (collision.tag == "Enemy" && firedFromPlayer)
-                //{
-                //    collision.GetComponent<Enemy>().GetHit(_data, (collision.transform.position - transform.position).normalized);
-                //}
+                if (collision.tag == "Player" && !firedFromPlayer)
+                {
+                    Debug.Log("Hit a Player character");
+                }
+                else if (collision.tag == "Enemy" && firedFromPlayer)
+                {
+                    bool isCrit = false;
+                    // roll for crit, if so then 3x damage
+                    float critRoll = Random.Range(0f, 1f);
+                    if (critRoll < (_charInfo.CritChance + _data.critChance))
+                    {
+                        //damage *= 3;
+                        isCrit = true;
+                    }
+
+                    Enemy enemy = collision.GetComponent<Enemy>();
+
+                    enemy.GetHit(_data, (enemy.transform.position - transform.position).normalized, _charInfo.hasSlamRounds, _charInfo.hasStunRounds, isCrit, _charInfo.DamageBuff); ;
+
+                    if (enemy.isDead)
+                    {
+                        _charInfo.TallyKill(enemy.data);
+                    }
+                }
             }
         }
 
-        public void SetData(WeaponData data)
+        public void SetData(WeaponData data, CharacterInfo charInfo)
         {
             _data = data;
+            _charInfo = charInfo;
 
             spriteRenderer.sprite = data.projSprite;
 

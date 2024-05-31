@@ -229,6 +229,7 @@ namespace MyGame
             shouldSpawn = true;
             waveStartTime = Time.time;
             TargetEnemyCount = BaseTargetEnemyCount;
+            wave = 0;
         //currentSpawnInterval = baseSpawnInterval;
         }
 

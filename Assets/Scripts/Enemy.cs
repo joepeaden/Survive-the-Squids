@@ -265,12 +265,14 @@ namespace MyGame
             }
         }
 
-        public void GetHit(WeaponData hitWeaponData, Vector2 forceDirection, bool isSlam, bool isStun, bool isCrit)
+        public void GetHit(WeaponData hitWeaponData, Vector2 forceDirection, bool isSlam, bool isStun, bool isCrit, float damageBuff)
         {
             lastWeaponThatHit = hitWeaponData;
 
+            int damageWithBuff = hitWeaponData.damage + Mathf.CeilToInt(hitWeaponData.damage * damageBuff);
+
             // apply critical hit damage if it's a crit
-            int damage = isCrit ? hitWeaponData.damage * 3 : hitWeaponData.damage;
+            int damage = isCrit ? damageWithBuff * 3 : damageWithBuff;
 
             // if we have a crit weakness and it happens to be one, full damage goes through
             if (isCrit && data.vulnToCrits)

@@ -206,7 +206,7 @@ namespace MyGame
         {
             float angle = -weaponData.projSpreadAngle / 2;
             
-            for (int i = 0; i < weaponData.projPerShot; i++)
+            for (int i = 0; i < (weaponData.projPerShot + CharInfo.ProjNumBuff); i++)
             {
                 Quaternion projectileRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z + angle);
 
@@ -218,7 +218,7 @@ namespace MyGame
                 Projectile projectile = projectileGO.GetComponent<Projectile>();
                 projectile.firedFromPlayer = true;
                 projectile.lifeSpan = 10f;
-                projectile.SetData(weaponData);
+                projectile.SetData(weaponData, charInfo);
 
                 // only use one audio source for something like a shotgun w/ multiple proj per shot
                 if (i == 0)
@@ -258,9 +258,6 @@ namespace MyGame
                         {
                             Enemy enemy = hit.transform.GetComponent<Enemy>();
 
-                            // add proj damage and character damage buff (from trait)
-                            int damage = projectile.damage + charInfo.DamageBuff;
-
                             bool isCrit = false;
                             // roll for crit, if so then 3x damage
                             float critRoll = Random.Range(0f, 1f);
@@ -270,7 +267,7 @@ namespace MyGame
                                 isCrit = true;
                             }
 
-                            enemy.GetHit(weaponData, (enemy.transform.position - transform.position).normalized, charInfo.hasSlamRounds, charInfo.hasStunRounds, isCrit);
+                            enemy.GetHit(weaponData, (enemy.transform.position - transform.position).normalized, charInfo.hasSlamRounds, charInfo.hasStunRounds, isCrit, charInfo.DamageBuff);
                             enemiesHit++;
 
                             if (enemy.isDead)
@@ -297,7 +294,7 @@ namespace MyGame
             // if still ammo, wait standard time between shots; if no ammo, then wait for reload
             if (ammoInWeapon > 0)
             {
-                attackTimer += weaponData.attackInterval;
+                attackTimer += weaponData.attackInterval - (weaponData.attackInterval * charInfo.FireRateBuff);
             }
             else
             {
@@ -394,7 +391,7 @@ namespace MyGame
         {
             weaponData = newWeapon;
             weaponSpriteScript.SetWeapon(newWeapon);
-            rangeTrigger.radius = newWeapon.range;
+            rangeTrigger.radius = newWeapon.range + (newWeapon.range * CharInfo.RangeBuff);
             ammoInWeapon = newWeapon.magSize;
         }
     }

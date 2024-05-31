@@ -56,16 +56,26 @@ namespace MyGame
         private float reflexSpeed;
         //private float reflexSpeedBuff;
 
+        float reloadBuff;
         public float ReloadTimeReduction
         {
             get
             {
-                return CrdStat * .1f;
+                return reloadBuff;//CrdStat * .1f;
             }
         }
 
-        public int DamageBuff => damageBuff;
-        private int damageBuff;
+        float projNumBuff;
+        public float ProjNumBuff => projNumBuff;
+
+        float rangeBuff;
+        public float RangeBuff => rangeBuff;
+
+        float fireRateBuff;
+        public float FireRateBuff => fireRateBuff;
+
+        public float DamageBuff => damageBuff;
+        private float damageBuff;
 
         private float xpGainMultiplier = 1;
 
@@ -146,7 +156,7 @@ namespace MyGame
             xp += (int)(xpAmount * xpGainMultiplier);
             if (xp > currentXPThreshold)
             {
-                LevelUp();
+                //LevelUp();
                 xp = 0;
             }
         }
@@ -241,6 +251,28 @@ namespace MyGame
             //}
 
             UpdateBody();
+        }
+
+        public void AddCharacterUpgrade(CharacterUpgradeData upgrade)
+        {
+            switch (upgrade.upgradeType)
+            {
+                case CharacterUpgrade.Damage:
+                    damageBuff += upgrade.value;
+                    break;
+                case CharacterUpgrade.FireRate:
+                    fireRateBuff += upgrade.value;
+                    break;
+                case CharacterUpgrade.Range:
+                    rangeBuff += upgrade.value;
+                    break;
+                case CharacterUpgrade.ReloadSpeed:
+                    reloadBuff += upgrade.value;
+                    break;
+                case CharacterUpgrade.ShotgunRounds:
+                    projNumBuff += upgrade.value;
+                    break;
+            }
         }
 
         /// <summary>

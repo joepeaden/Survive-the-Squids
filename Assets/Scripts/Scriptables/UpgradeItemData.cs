@@ -17,7 +17,12 @@ namespace MyGame
         public GameObject associatedPrefab;
         public float imageSizeX;
         public float imageSizeY;
+        /// <summary>
+        /// If there's a text/image combo this is true
+        /// </summary>
+        public bool isTextImage;
+        public string textImageText;
     }
 
-    public enum UpgradeType { weapon, armor, support, recruit, companyBuff, characterBuff, weaponUpgrade, supportWeapon };
+    public enum UpgradeType { weapon, armor, support, recruit, companyBuff, characterUpgrade, weaponUpgrade, supportWeapon };
 }

@@ -58,15 +58,21 @@ namespace MyGame
 
         void RescueSurvivor()
         {
-            player.AddCharacter();//PickupWeapon(weapon);
+            if (player.ActiveCharacters.Count < Player.MAX_CHARACTERS)
+            {
+                //player.AddCharacter();//PickupWeapon(weapon);
 
-            GameObject audioSource = ObjectPool.instance.GetAudioSource();
-            audioSource.SetActive(true);
-            audioSource.GetComponent<PooledAudioSource>().SetData(sound, AudioGroups.pickup);
+                Time.timeScale = 0;
+                GameplayManager.Instance.ShowAddCharacterScreen();
+                
+                GameObject audioSource = ObjectPool.instance.GetAudioSource();
+                audioSource.SetActive(true);
+                audioSource.GetComponent<PooledAudioSource>().SetData(sound, AudioGroups.pickup);
 
-            // maybe no need for object pooling cause it's not like there's gonna be a lot
+                // maybe no need for object pooling cause it's not like there's gonna be a lot
+            }
+
             Destroy(transform.parent.gameObject);
-            
         }
     }
 }
