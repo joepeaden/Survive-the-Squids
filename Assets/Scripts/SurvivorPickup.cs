@@ -67,7 +67,7 @@ namespace MyGame
                 
                 GameObject audioSource = ObjectPool.instance.GetAudioSource();
                 audioSource.SetActive(true);
-                audioSource.GetComponent<PooledAudioSource>().SetData(sound, AudioGroups.pickup);
+                audioSource.GetComponent<PooledAudioSource>().SetDataAndPlay(sound, AudioGroups.pickup);
 
                 // maybe no need for object pooling cause it's not like there's gonna be a lot
             }

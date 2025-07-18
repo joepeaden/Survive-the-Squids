@@ -33,6 +33,9 @@ namespace MyGame
         [SerializeField]
         EnemySprite spriteController;
 
+        [SerializeField]
+        private float chanceSpawnMagnet;
+
         [HideInInspector]
         public UnityEvent OnGetHit = new UnityEvent();
 
@@ -410,30 +413,19 @@ namespace MyGame
                 EnemySpawner.SpawnEnemyAtPosition(transform.position, data.enemyToSpawnOnDeath);
             }
 
-            //Instantiate(sampleDrop, transform.position, Quaternion.identity);
 
-            if (SamplePickup.existingPickups < maxPickups)
+            if (Random.Range(0f, 1f) < chanceSpawnMagnet)
+            {
+                GameObject magnet = MagnetPickup.Instance.gameObject;
+                magnet.transform.position = transform.position;
+                magnet.SetActive(true);
+            }
+            else
             {
                 GameObject sample = ObjectPool.instance.GetSample();
                 sample.transform.position = transform.position;
                 sample.SetActive(true);
-                sample.GetComponent<SamplePickup>().Setup(false);
             }
-            else
-            {
-                if (SamplePickup.megaSample == null)
-                {
-                    GameObject sample = ObjectPool.instance.GetSample();
-                    sample.transform.position = transform.position;
-                    sample.SetActive(true);
-                    sample.GetComponent<SamplePickup>().Setup(true);
-                }
-                else
-                {
-                    SamplePickup.megaSample.XPValue++;
-                }
-            }
-            //sample.GetComponent<PooledAudioSource>().SetData(levelUpSound, AudioGroups.pickup);
 
             spriteController.HandleDeath();
 

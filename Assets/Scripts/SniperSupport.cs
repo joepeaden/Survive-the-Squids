@@ -226,7 +226,7 @@ namespace MyGame
                     //audioSource.GetComponent<AudioSource>().clip = weaponData.weaponFireSound;
                     //audioSource.GetComponent<AudioSource>().Play();
                     AudioClip fireSound = weaponData.weaponFireSounds[Random.Range(0, weaponData.weaponFireSounds.Count)];
-                    audioSource.GetComponent<PooledAudioSource>().SetData(fireSound, AudioGroups.projectiles);
+                    audioSource.GetComponent<PooledAudioSource>().SetDataAndPlay(fireSound, AudioGroups.projectiles);
                 }
 
                 if (!weaponData.useProjPhys)

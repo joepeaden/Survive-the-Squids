@@ -199,7 +199,7 @@ namespace MyGame
         {
             GameObject audioSource = ObjectPool.instance.GetAudioSource();
             audioSource.SetActive(true);
-            audioSource.GetComponent<PooledAudioSource>().SetData(levelUpSound, AudioGroups.pickup);
+            audioSource.GetComponent<PooledAudioSource>().SetDataAndPlay(levelUpSound, AudioGroups.pickup);
         }
 
         private void Attack()
@@ -229,7 +229,7 @@ namespace MyGame
                     //audioSource.GetComponent<AudioSource>().clip = weaponData.weaponFireSound;
                     //audioSource.GetComponent<AudioSource>().Play();
                     AudioClip fireSound = weaponData.weaponFireSounds[Random.Range(0, weaponData.weaponFireSounds.Count)];
-                    audioSource.GetComponent<PooledAudioSource>().SetData(fireSound, AudioGroups.projectiles);
+                    audioSource.GetComponent<PooledAudioSource>().SetDataAndPlay(fireSound, AudioGroups.projectiles);
                 }
 
                 // projectile doesn't account for it, it's only implemented for Raycast for now!

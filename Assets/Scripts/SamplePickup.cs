@@ -4,103 +4,83 @@ using UnityEngine;
 
 namespace MyGame
 {
-    public class SamplePickup : MonoBehaviour
+    public class SamplePickup : Pickup
     {
-        public static int existingPickups;
+        public static List<SamplePickup> AllSamples = new List<SamplePickup>();
 
-        public static SamplePickup megaSample;
+        private static float startDelay = 0;
 
-        bool isMegaSample;
-
-        private Player player;
-        private GameplayManager gameManager;
-        [SerializeField] AudioClip pickupSound;
-
-        public Sprite megaSprite;
-        public Sprite normalSprite;
-
-        public int XPValue;
-
-        [SerializeField] SpriteRenderer rend;
-
-        //float disappearTime;
-        //public float baseDisappearTime;
-
-        private void Awake()
+        /// <summary>
+        /// If true, will move towards the player.
+        /// </summary>
+        public bool IsMagnetized
         {
-            GameplayManager.OnGameStart.AddListener(RemoveOldSample);
-
-        }
-
-        private void Start()
-        {
-            player = Player.instance;
-            gameManager = GameplayManager.Instance;
-        }
-
-        private void OnEnable()
-        {
-            //disappearTime = baseDisappearTime;
-            existingPickups++;
-        }
-
-        private void Update()
-        {
-            //disappearTime -= Time.deltaTime;
-            //if (disappearTime < 0)
-            //{
-            //    gameObject.SetActive(false);
-            //}
-        }
-
-        public void Setup(bool isMegaSample)
-        {
-            rend.sprite = isMegaSample ? megaSprite : normalSprite;
-            XPValue = 1;
-            this.isMegaSample = isMegaSample;
-
-            if (isMegaSample)
+            get
             {
-                megaSample = this;
+                return _isMagnetized;
             }
-        } 
-
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            // should only happen with player circle pickup zone thing. Cause they re on the pickup physics layer
-
-            //if (other.GetComponent<CharacterBody>())
-            //{
-
-            GameObject audioSource = ObjectPool.instance.GetAudioSource();
-            audioSource.SetActive(true);
-            //audioSource.GetComponent<AudioSource>().clip = weaponData.weaponFireSound;
-            //audioSource.GetComponent<AudioSource>().Play();
-            audioSource.GetComponent<PooledAudioSource>().SetData(pickupSound, AudioGroups.pickup);
-
-            player.UpdateSamples(XPValue);
-
-            gameObject.SetActive(false);
-            //}
-        }
-
-        private void RemoveOldSample()
-        {
-            gameObject.SetActive(false);
-        }
-
-        private void OnDisable()
-        {
-            existingPickups--;
-            if (isMegaSample)
+            set
             {
-                megaSample = null;
+                _isMagnetized = value;
+                if (_isMagnetized)
+                {
+                    if (!_magnetCoroutineActive)
+                    {
+                        _magnetCoroutineActive = true;
+                        StartCoroutine(MagnetCoroutine());
+                    }
+                }
+                else if (_magnetCoroutineActive)
+                {
+                    StopCoroutine(MagnetCoroutine());
+                    _magnetCoroutineActive = false;
+                }
             }
         }
 
-        private void OnDestroy()
+        private bool _isMagnetized;
+        private bool _magnetCoroutineActive;
+
+        /// <summary>
+        /// Reset the delay that makes samples come in over time rather than all at once. Used when starting a new magnet pull
+        /// </summary>
+        public static void ResetStartDelay()
         {
-            GameplayManager.OnGameStart.RemoveListener(RemoveOldSample);
+            startDelay = 0;
+        }
+
+        private IEnumerator MagnetCoroutine()
+        {
+            startDelay += .1f;
+            yield return new WaitForSeconds(startDelay);
+
+            while (_isMagnetized)
+            {
+                gameObject.transform.Translate((player.transform.position - transform.position) * data.magnetSpeed);
+                yield return null;
+            }
+        }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            AllSamples.Add(this);
+            IsMagnetized = false;
+        }
+
+        protected override void OnTriggerEnter2D(Collider2D other)
+        {
+            AllSamples.Remove(this);
+            player.UpdateSamples(data.XPValue);
+            StopCoroutine(MagnetCoroutine());
+            _magnetCoroutineActive = false;
+            base.OnTriggerEnter2D(other);
+        }
+
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            AllSamples.Remove(this);
         }
     }
 }

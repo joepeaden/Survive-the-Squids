@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6087325483835690097}
   - component: {fileID: 3818112403540208759}
-  - component: {fileID: 5719805801566343440}
   - component: {fileID: 3498514663164086331}
+  - component: {fileID: 8425148151491942924}
   m_Layer: 8
-  m_Name: SamplePickup
+  m_Name: MagnetPickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80,20 +80,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.3, y: 0.37}
   m_EdgeRadius: 0
---- !u!114 &5719805801566343440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3695210530958462488}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2c3f0aefb11e450c9e1a92046e19cb6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: bfa1b59102ee4bb449e2325a0887c2b0, type: 2}
-  _rend: {fileID: 7011979779731352220}
 --- !u!95 &3498514663164086331
 Animator:
   serializedVersion: 5
@@ -115,6 +101,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8425148151491942924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3695210530958462488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba6b612049bd54c4eaf646d052049e27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 7061bf45dd9da9f478e332428426a0b7, type: 2}
+  _rend: {fileID: 7011979779731352220}
 --- !u!1 &8338789224149457443
 GameObject:
   m_ObjectHideFlags: 0

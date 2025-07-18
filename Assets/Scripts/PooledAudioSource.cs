@@ -17,7 +17,7 @@ namespace MyGame
 
 
         // Start is called before the first frame update
-        public void SetData(AudioClip clip, AudioGroups group)
+        public void SetDataAndPlay(AudioClip clip, AudioGroups group)
         {
             source.clip = clip;
 
