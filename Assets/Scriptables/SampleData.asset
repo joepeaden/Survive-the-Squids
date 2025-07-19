@@ -15,4 +15,4 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 761b0aa361fb948c19b756351e9c7540, type: 3}
   pickupSound: {fileID: 8300000, guid: 94da74082194c4a628ff1c9771df5046, type: 3}
   XPValue: 1
-  magnetSpeed: 0.2
+  magnetSpeed: 0.05

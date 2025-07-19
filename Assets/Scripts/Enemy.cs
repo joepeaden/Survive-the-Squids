@@ -413,8 +413,7 @@ namespace MyGame
                 EnemySpawner.SpawnEnemyAtPosition(transform.position, data.enemyToSpawnOnDeath);
             }
 
-
-            if (Random.Range(0f, 1f) < chanceSpawnMagnet)
+            if (Random.Range(0f, 1f) < chanceSpawnMagnet && !MagnetPickup.Instance.activeInHierarchy)
             {
                 GameObject magnet = MagnetPickup.Instance.gameObject;
                 magnet.transform.position = transform.position;

@@ -6,7 +6,7 @@ namespace MyGame
 {
     public class SamplePickup : Pickup
     {
-        public static List<SamplePickup> AllSamples = new List<SamplePickup>();
+        public static List<SamplePickup> AllActiveSamples = new List<SamplePickup>();
 
         private static float startDelay = 0;
 
@@ -64,13 +64,18 @@ namespace MyGame
         protected override void OnEnable()
         {
             base.OnEnable();
-            AllSamples.Add(this);
+            AllActiveSamples.Add(this);
             IsMagnetized = false;
+        }
+        
+        protected override void OnDisable()
+        {
+            AllActiveSamples.Remove(this);
         }
 
         protected override void OnTriggerEnter2D(Collider2D other)
         {
-            AllSamples.Remove(this);
+            AllActiveSamples.Remove(this);
             player.UpdateSamples(data.XPValue);
             StopCoroutine(MagnetCoroutine());
             _magnetCoroutineActive = false;
@@ -80,7 +85,7 @@ namespace MyGame
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            AllSamples.Remove(this);
+            AllActiveSamples.Remove(this);
         }
     }
 }

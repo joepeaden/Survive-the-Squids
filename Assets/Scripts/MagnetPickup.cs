@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -11,8 +12,6 @@ namespace MyGame
         public static GameObject Instance => _instance;
         private static GameObject _instance;
 
-        // don't forget to set data objects.
-
         private void Awake()
         {
             if (_instance == null) 
@@ -24,15 +23,36 @@ namespace MyGame
                 Debug.Log("Too many magnet pickups, deleting one! (singleton)");
                 Destroy(gameObject);
             }
+        }
 
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            StartCoroutine(Timeout());
+        }
+
+        private IEnumerator Timeout()
+        {
+            float timeToDespawn = 30;
+
+            while (timeToDespawn > 0)
+            {
+                timeToDespawn -= Time.deltaTime;
+                yield return null;
+            }
+
+            gameObject.SetActive(false);
         }
 
         protected override void OnTriggerEnter2D(Collider2D other)
         {
             SamplePickup.ResetStartDelay();
-            foreach (SamplePickup sampleObject in SamplePickup.AllSamples)
+            foreach (SamplePickup sampleObject in SamplePickup.AllActiveSamples)
             {
-                sampleObject.IsMagnetized = true;
+                if (sampleObject.gameObject.activeInHierarchy)
+                {
+                    sampleObject.IsMagnetized = true;
+                }
             }
 
             base.OnTriggerEnter2D(other);

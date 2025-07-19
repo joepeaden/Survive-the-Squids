@@ -66,7 +66,6 @@ namespace MyGame
         public Vector3 startLocation;
         private void OnTriggerEnter2D(Collider2D collision)
         {
-
             if (_data.useProjPhys)
             {
                 if (collision.tag == "Player" && !firedFromPlayer)
@@ -76,6 +75,11 @@ namespace MyGame
                 else if (collision.tag == "Enemy" && firedFromPlayer)
                 {
                     Enemy enemy = collision.GetComponent<Enemy>();
+
+                    if (!enemy.isActiveAndEnabled)
+                    {
+                        return;
+                    }
 
                     enemy.GetHit(_charInfo, (enemy.transform.position - transform.position).normalized); ;
 

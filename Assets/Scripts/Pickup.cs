@@ -17,8 +17,6 @@ namespace MyGame
         protected virtual void Awake()
         {
             GameplayManager.OnGameStart.AddListener(RemovePickup);
-
-
         }
 
         private void Start()
@@ -46,7 +44,7 @@ namespace MyGame
             gameObject.SetActive(false);
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             existingPickups--;
         }
