@@ -550,7 +550,7 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: 3fa37d304f3784862a5c5a107fc35c5b, type: 2}
   sampleDrop: {fileID: 3695210530958462488, guid: 6b39f1f2904124795a3abf95adb30326, type: 3}
   spriteController: {fileID: 2891013362540244044}
-  chanceSpawnMagnet: 0.5
+  chanceSpawnMagnet: 0.02
   OnGetHit:
     m_PersistentCalls:
       m_Calls: []
